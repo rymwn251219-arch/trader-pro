@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trader Pro — أداة المتداول الاحترافية</title>
-    <link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0f1a'/%3E%3Crect x='20' y='40' width='10' height='40' fill='%234a9d7e' rx='2'/%3E%3Crect x='35' y='25' width='10' height='55' fill='%234a9d7e' rx='2'/%3E%3Crect x='50' y='35' width='10' height='45' fill='%23c96b6b' rx='2'/%3E%3Crect x='65' y='20' width='10' height='60' fill='%236b9bd1' rx='2'/%3E%3Cpath d='M20 30 L45 20 L60 25 L80 10' stroke='%23e0b876' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0f1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Trader Pro">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0f1a'/%3E%3Crect x='20' y='40' width='10' height='40' fill='%234a9d7e' rx='2'/%3E%3Crect x='35' y='25' width='10' height='55' fill='%234a9d7e' rx='2'/%3E%3Crect x='50' y='35' width='10' height='45' fill='%23c96b6b' rx='2'/%3E%3Crect x='65' y='20' width='10' height='60' fill='%236b9bd1' rx='2'/%3E%3Cpath d='M20 30 L45 20 L60 25 L80 10' stroke='%23e0b876' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -36,7 +36,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
 ::-webkit-scrollbar-thumb:hover{background:var(--calm)}
 
-/* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;min-height:var(--top);background:rgba(15,22,38,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;gap:1rem;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
 .brand-mark{width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(107,155,209,.15),rgba(74,157,126,.15),rgba(224,184,118,.1));border:1px solid var(--line2);border-radius:13px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.3)}
@@ -59,14 +58,12 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .icon-btn.active{color:var(--calm);border-color:var(--calm);background:var(--calmS)}
 .icon-btn svg{width:16px;height:16px}
 
-/* MAIN */
 .main{margin-top:var(--top);padding:1.5rem;max-width:1400px;margin:0 auto}
 .greeting{margin-bottom:1.5rem;padding:.6rem 0}
 .greeting-line{font-size:1.8rem;font-weight:300;line-height:1.4}
 .greeting-line strong{font-weight:800;color:var(--calm);font-size:2.1rem}
 .greeting-sub{margin-top:.5rem;font-size:.95rem;color:var(--mute)}
 
-/* SESSIONS */
 .sessions{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem}
 .session{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;position:relative;overflow:hidden;transition:.4s}
 .session.open{border-color:rgba(74,157,126,.35);background:linear-gradient(155deg,var(--card),rgba(74,157,126,.05))}
@@ -92,7 +89,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .session:not(.open) .session-progress-fill{background:linear-gradient(90deg,var(--line2),var(--line))}
 .session-pairs{font-size:.62rem;color:var(--mute)}
 
-/* TABS */
 .tabs{display:flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:1;padding:.7rem 1rem;background:transparent;border:none;border-radius:8px;color:var(--soft);font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;min-width:100px}
@@ -102,13 +98,11 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .panel.active{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* CARDS */
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;margin-bottom:1.2rem}
 .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
 .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .card-sub{font-size:.72rem;color:var(--mute);margin-top:.15rem}
 
-/* BUTTONS */
 .btn{padding:.7rem 1.4rem;border-radius:10px;border:none;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;display:inline-flex;align-items:center;gap:6px}
 .btn-p{background:linear-gradient(135deg,var(--calm),#4a7bb8);color:#fff;box-shadow:0 4px 15px rgba(107,155,209,.25)}
 .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(107,155,209,.4)}
@@ -117,7 +111,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .btn-d{background:linear-gradient(135deg,#c96b6b,#a04d4d);color:#fff}
 .btn-sm{padding:.4rem .8rem;font-size:.78rem}
 
-/* FORMS */
 .form-group{margin-bottom:1rem}
 .form-label{display:block;font-size:.78rem;color:var(--soft);font-weight:500;margin-bottom:.35rem}
 .form-input{width:100%;padding:.7rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:inherit;font-size:.9rem;transition:.3s}
@@ -126,14 +119,12 @@ textarea.form-input{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 
-/* PAIR SELECTOR */
 .pair-quick-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;padding:.5rem;background:var(--bg2);border-radius:10px;border:1px solid var(--line);max-height:110px;overflow-y:auto}
 .pair-chip{padding:.3rem .65rem;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--soft);font-family:inherit;font-size:.7rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
 .pair-chip:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS);transform:translateY(-1px)}
 .pair-chip.cat-title{background:transparent;border:none;color:var(--mute);cursor:default;font-size:.65rem;padding:.3rem .4rem;width:100%;text-align:right;margin-top:.3rem}
 .pair-chip.cat-title:hover{transform:none;color:var(--mute);background:transparent}
 
-/* BALANCE */
 .balance-hero{background:linear-gradient(155deg,var(--card),var(--calmS));border:1px solid var(--calmS);border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;text-align:center}
 .balance-label{font-size:.72rem;color:var(--mute);text-transform:uppercase;letter-spacing:1px}
 .balance-value{font-size:2.3rem;font-weight:800;color:var(--calm);margin:.3rem 0;font-variant-numeric:tabular-nums}
@@ -141,7 +132,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .balance-change{font-size:1rem;font-weight:600;color:var(--soft)}
 .balance-change.pos{color:var(--ok)}.balance-change.neg{color:var(--bad)}
 
-/* STATUS */
 .status-box{border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;transition:.3s}
 .status-box.excellent{background:linear-gradient(155deg,var(--goldS),transparent);border:1px solid rgba(224,184,118,.3)}
 .status-box.good{background:linear-gradient(155deg,var(--okS),transparent);border:1px solid rgba(74,157,126,.3)}
@@ -156,7 +146,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .status-box.bad .status-name{color:var(--bad)}
 .status-text{font-size:.8rem;color:var(--soft);line-height:1.5}
 
-/* STATS */
 .dash{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem;text-align:center}
 .stat-v{font-size:1.25rem;font-weight:800;color:var(--calm);font-variant-numeric:tabular-nums}
@@ -165,7 +154,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 
 .chart-wrap{position:relative;height:200px;margin-top:1rem}
 
-/* TRADES */
 .trade-list{max-height:500px;overflow-y:auto}
 .trade{display:flex;justify-content:space-between;align-items:center;padding:.9rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s;gap:.5rem}
 .trade:hover{border-color:var(--line2)}
@@ -185,7 +173,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .icon-mini:hover{border-color:var(--calm);color:var(--calm)}
 .icon-mini.del:hover{border-color:var(--bad);color:var(--bad)}
 
-/* ANALYSIS */
 .analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
 .analysis-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem}
 .analysis-title{font-size:.85rem;font-weight:700;color:var(--calm);margin-bottom:.7rem;display:flex;align-items:center;gap:6px}
@@ -195,7 +182,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .analysis-row.pos span:last-child{color:var(--ok)}
 .analysis-row.neg span:last-child{color:var(--bad)}
 
-/* STRATEGIES */
 .strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
 .strat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem}
 .strat-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem;gap:.5rem}
@@ -215,7 +201,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .strat-actions{display:flex;gap:.4rem}
 .strat-actions .btn{flex:1;justify-content:center;font-size:.75rem;padding:.45rem}
 
-/* AI CHAT */
 .ai-chat{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .ai-body{max-height:500px;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.7rem}
 .msg{padding:.75rem 1rem;border-radius:12px;font-size:.86rem;line-height:1.75;max-width:90%}
@@ -237,7 +222,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .chip-btn{padding:.35rem .75rem;background:var(--card2);border:1px solid var(--line);border-radius:15px;color:var(--soft);font-family:inherit;font-size:.7rem;cursor:pointer;transition:.2s}
 .chip-btn:hover{border-color:var(--calm);color:var(--calm)}
 
-/* MARKET */
 .market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s}
 .market-price:hover{border-color:var(--line2)}
 .market-symbol{font-size:.9rem;font-weight:700}
@@ -246,7 +230,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .market-change.pos{color:var(--ok);background:var(--okS)}
 .market-change.neg{color:var(--bad);background:var(--badS)}
 
-/* SETTINGS */
 .setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem;transition:.3s}
 .setting-group:hover{border-color:var(--line2)}
 .setting-header{display:flex;align-items:center;gap:.9rem;padding:.9rem 1rem;cursor:pointer;user-select:none}
@@ -304,7 +287,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .sound-test{width:100%;padding:.6rem;background:linear-gradient(135deg,var(--warnS),transparent);border:1px solid rgba(212,165,87,.4);border-radius:10px;color:var(--warn);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:.3s;margin-top:.5rem}
 .sound-test:hover{transform:translateY(-2px)}
 
-/* MODAL */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,15,26,.85);backdrop-filter:blur(8px);z-index:500;padding:1rem;overflow-y:auto}
 .modal-bg.show{display:block}
 .modal{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;max-width:520px;margin:2rem auto}
@@ -314,11 +296,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .modal-actions{display:flex;gap:.5rem;margin-top:1rem}
 .modal-actions .btn{flex:1;justify-content:center}
 
-/* EMPTY */
 .empty{text-align:center;padding:2.5rem 1.5rem;color:var(--mute)}
 .empty-icon{font-size:2.8rem;opacity:.3;margin-bottom:.8rem}
 
-/* TOAST */
 .toast-wrap{position:fixed;top:calc(var(--top) + 20px);left:20px;z-index:9999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
 .toast{background:var(--card);border:1px solid var(--line);border-right:3px solid var(--calm);border-radius:12px;padding:.8rem 1rem;min-width:230px;max-width:340px;box-shadow:0 10px 40px rgba(0,0,0,.4);pointer-events:auto;transform:translateX(-120%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .toast.show{transform:none}
@@ -331,7 +311,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .toast-title{font-size:.82rem;font-weight:700;margin-bottom:2px}
 .toast-msg{font-size:.72rem;color:var(--soft)}
 
-/* RESPONSIVE */
 @media(max-width:1100px){.clock-wrap{order:3;width:100%;max-width:100%}}
 @media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
 @media(max-width:600px){.main{padding:1rem}.brand h1{font-size:.95rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}.toast.greeting .toast-title{font-size:1.2rem}.toast.greeting .toast-msg{font-size:.85rem}}
@@ -703,7 +682,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
-/* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -720,7 +698,6 @@ function toast(title, msg='', type='info', dur=3500) {
     setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, dur);
 }
 
-/* ============ STATE ============ */
 const DEFAULT_SETTINGS = {
     capital: 1000, payout: 80, currency: '$',
     theme: 1, fontSize: 'md', volume: 70,
@@ -747,7 +724,6 @@ function save() {
     localStorage.setItem('tp_notified', JSON.stringify(state.notified));
 }
 
-/* ============ CLOCK ============ */
 function f12(h24, m) {
     const p = h24>=12?'م':'ص';
     let h = h24%12; if (h===0) h=12;
@@ -780,7 +756,6 @@ function greeting() {
     $('#greeting-sub').textContent = s;
 }
 
-/* ============ SESSIONS ============ */
 const SESSIONS = [
     {id:'sydney',name:'سيدني',en:'Sydney',open:22,close:7,pairs:'AUD · NZD'},
     {id:'tokyo',name:'طوكيو',en:'Tokyo',open:0,close:9,pairs:'JPY · AUD'},
@@ -836,7 +811,6 @@ function renderSessions() {
     }).join('');
 }
 
-/* ============ SOUND ============ */
 let actx = null;
 function beep(f=660, d=250) {
     if (!state.soundEnabled) return;
@@ -853,7 +827,6 @@ function beep(f=660, d=250) {
     } catch(e) {}
 }
 
-/* ============ ALERTS ============ */
 function checkAlerts() {
     if (state.settings.notifEnabled === false) return;
     const n = new Date();
@@ -879,7 +852,6 @@ function checkAlerts() {
     if (Object.keys(state.notified).length > 100) { state.notified = {}; save(); }
 }
 
-/* ============ TABS ============ */
 function switchTab(name, btn) {
     $$('.tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -891,7 +863,6 @@ function switchTab(name, btn) {
     if (name === 'market') renderMarket();
 }
 
-/* ============ TRADE CALCS ============ */
 function tradePnL(t) {
     const amt = parseFloat(t.amount) || 0;
     if (t.result === 'win') return amt * (state.settings.payout/100);
@@ -929,7 +900,6 @@ function todayStats() {
     return { count: todayTrades.length, pnl: totalPnL, losses: Math.abs(losses) };
 }
 
-/* ============ JOURNAL ============ */
 function renderJournal() {
     const bal = getBalance();
     const net = bal - state.settings.capital;
@@ -1020,7 +990,6 @@ function renderEquityChart() {
     });
 }
 
-/* ============ PAIR SELECTOR ============ */
 const PAIRS_CATEGORIES = {
     'العملات الرئيسية': ['EUR/USD','GBP/USD','USD/JPY','USD/CHF','USD/CAD','AUD/USD','NZD/USD'],
     'العملات المتقاطعة': ['EUR/GBP','EUR/JPY','GBP/JPY','AUD/JPY','EUR/AUD','EUR/CAD','GBP/AUD'],
@@ -1058,7 +1027,6 @@ function selectPair(pair, inputId, multiSelect) {
     input.focus();
 }
 
-/* ============ TRADE MODAL ============ */
 function updateStratDropdown() {
     const sel = $('#t-strat');
     sel.innerHTML = '<option value="">— بدون —</option>' + state.strategies.map(s => `<option value="${s.id}">${esc(s.icon)} ${esc(s.name)}</option>`).join('');
@@ -1119,7 +1087,6 @@ function deleteTrade(id) {
     toast('تم الحذف','','info');
 }
 
-/* ============ ANALYSIS ============ */
 function renderAnalysis() {
     const grid = $('#analysis-grid');
     if (!state.trades.length) {
@@ -1213,7 +1180,6 @@ function detectSession(t) {
     return 'خارج الجلسات';
 }
 
-/* ============ STRATEGIES ============ */
 function stratStats(id) {
     const trades = state.trades.filter(t => t.stratId === id);
     const total = trades.length;
@@ -1330,7 +1296,6 @@ function deleteStrategy(id) {
     toast('تم الحذف','','info');
 }
 
-/* ============ MARKET ============ */
 const MARKET_SYMBOLS = [
     {name:'EUR/USD', symbol:'EUR/USD'},
     {name:'GBP/USD', symbol:'GBP/USD'},
@@ -1388,7 +1353,6 @@ function renderMarket() {
     list.innerHTML = rows || '<div class="empty">لا توجد بيانات</div>';
 }
 
-/* ============ SETTINGS ============ */
 function toggleGroup(id) {
     const el = $('#'+id);
     const isOpen = el.classList.contains('open');
@@ -1567,11 +1531,9 @@ function applyAllSettings() {
     $('#sound-btn').classList.toggle('active', state.soundEnabled);
 }
 
-/* ============ MODAL ============ */
 function closeModal(id) { $('#'+id).classList.remove('show'); }
 document.addEventListener('click', e => { if (e.target.classList.contains('modal-bg')) e.target.classList.remove('show'); });
 
-/* ============ SOUND BUTTON ============ */
 function toggleSound() {
     state.soundEnabled = !state.soundEnabled;
     save();
@@ -1580,7 +1542,6 @@ function toggleSound() {
     if (state.soundEnabled) beep(880, 100);
 }
 
-/* ============ CALCULATOR ============ */
 function calcPos() {
     const cap = parseFloat($('#calc-cap').value) || 0;
     const risk = parseFloat($('#calc-risk').value) || 0;
@@ -1595,7 +1556,6 @@ function calcPos() {
     $('#r-rec').textContent = `${cur}${recovery.toFixed(2)}`;
 }
 
-/* ============ AI ============ */
 function addMsg(html, who='bot') {
     const b = $('#ai-body');
     const el = document.createElement('div');
@@ -1706,7 +1666,6 @@ async function sendAI() {
     }
 }
 
-/* ============ INIT ============ */
 function init() {
     applyAllSettings();
 
@@ -1725,7 +1684,6 @@ function init() {
         setInterval(refreshMarket, 60000);
     }
 
-    // Big greeting toast — lasts 8 seconds
     setTimeout(() => {
         const h = new Date().getHours();
         let title, msg;
@@ -1733,7 +1691,7 @@ function init() {
         else if (h>=12 && h<17) { title='🌤️ مساء الخير أيها المتداول'; msg='استمر بتركيزك — لا تتداول وأنت متعب'; }
         else if (h>=17 && h<21) { title='🌆 مساء الخير أيها المتداول'; msg='وقت هادئ للتأمل في صفقاتك'; }
         else { title='🌙 مساء النور أيها المتداول'; msg='الأسواق تنام — أنت أيضاً يحتاج الراحة'; }
-        
+
         const w = $('#toasts');
         const el = document.createElement('div');
         el.className = 'toast greeting';
@@ -1743,20 +1701,20 @@ function init() {
         setTimeout(() => {
             el.classList.remove('show');
             setTimeout(() => el.remove(), 600);
-        }, 8000); // 8 seconds
+        }, 8000);
     }, 800);
 }
 
 document.addEventListener('DOMContentLoaded', init);
-</script>
-  <script>
+
+// Service Worker for PWA
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('✅ Service Worker registered:', reg.scope))
-      .catch(err => console.log('❌ SW failed:', err));
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('✅ SW registered:', reg.scope))
+            .catch(err => console.log('❌ SW failed:', err));
+    });
 }
-</script>  
+</script>
 </body>
 </html>
