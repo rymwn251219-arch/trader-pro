@@ -1,0 +1,27 @@
+{
+  "name": "Trader Pro — أداة المتداول",
+  "short_name": "Trader Pro",
+  "description": "أداة احترافية لتتبع صفقات الخيارات الثنائية",
+  "start_url": "/trader-pro/",
+  "scope": "/trader-pro/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0f1a",
+  "theme_color": "#0a0f1a",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://rymwn251219-arch.github.io/trader-pro/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://rymwn251219-arch.github.io/trader-pro/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
