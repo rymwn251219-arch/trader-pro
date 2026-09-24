@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trader Pro — أداة المتداول الاحترافية</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0f1a'/%3E%3Crect x='20' y='40' width='10' height='40' fill='%234a9d7e' rx='2'/%3E%3Crect x='35' y='25' width='10' height='55' fill='%234a9d7e' rx='2'/%3E%3Crect x='50' y='35' width='10' height='45' fill='%23c96b6b' rx='2'/%3E%3Crect x='65' y='20' width='10' height='60' fill='%236b9bd1' rx='2'/%3E%3Cpath d='M20 30 L45 20 L60 25 L80 10' stroke='%23e0b876' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -32,9 +33,12 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 /* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;min-height:var(--top);background:rgba(15,22,38,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;gap:1rem;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.brand-mark{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--calmS),var(--goldS));border:1px solid var(--line2);border-radius:12px;font-size:1.15rem;color:var(--calm)}
-.brand h1{font-size:1.08rem;font-weight:700}
-.brand p{font-size:.68rem;color:var(--mute)}
+.brand-mark{width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(107,155,209,.15),rgba(74,157,126,.15),rgba(224,184,118,.1));border:1px solid var(--line2);border-radius:13px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+.brand-mark::before{content:'';position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent 70%,var(--calmS) 100%);animation:rotate 8s linear infinite;opacity:.5}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.brand-mark svg{width:26px;height:26px;position:relative;z-index:1}
+.brand h1{font-size:1.1rem;font-weight:800;letter-spacing:-.3px;background:linear-gradient(135deg,var(--text),var(--calm));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand p{font-size:.68rem;color:var(--mute);margin-top:1px}
 .clock-wrap{display:flex;align-items:center;gap:.9rem;padding:.5rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:14px;flex:1;justify-content:center;max-width:560px}
 .clock-item{display:flex;flex-direction:column;align-items:center;min-width:100px}
 .clock-label{font-size:.6rem;color:var(--mute);font-weight:600;letter-spacing:.8px;text-transform:uppercase}
@@ -52,9 +56,9 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 /* MAIN */
 .main{margin-top:var(--top);padding:1.5rem;max-width:1400px;margin:0 auto}
 .greeting{margin-bottom:1.5rem;padding:.6rem 0}
-.greeting-line{font-size:1.5rem;font-weight:300;line-height:1.4}
-.greeting-line strong{font-weight:700;color:var(--calm)}
-.greeting-sub{margin-top:.4rem;font-size:.85rem;color:var(--mute)}
+.greeting-line{font-size:1.8rem;font-weight:300;line-height:1.4}
+.greeting-line strong{font-weight:800;color:var(--calm);font-size:2.1rem}
+.greeting-sub{margin-top:.5rem;font-size:.95rem;color:var(--mute)}
 
 /* SESSIONS */
 .sessions{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem}
@@ -114,6 +118,14 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .form-input:focus{outline:none;border-color:var(--calm);background:var(--card)}
 textarea.form-input{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
+
+/* PAIR SELECTOR */
+.pair-quick-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;padding:.5rem;background:var(--bg2);border-radius:10px;border:1px solid var(--line);max-height:110px;overflow-y:auto}
+.pair-chip{padding:.3rem .65rem;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--soft);font-family:inherit;font-size:.7rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.pair-chip:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS);transform:translateY(-1px)}
+.pair-chip.cat-title{background:transparent;border:none;color:var(--mute);cursor:default;font-size:.65rem;padding:.3rem .4rem;width:100%;text-align:right;margin-top:.3rem}
+.pair-chip.cat-title:hover{transform:none;color:var(--mute);background:transparent}
 
 /* BALANCE */
 .balance-hero{background:linear-gradient(155deg,var(--card),var(--calmS));border:1px solid var(--calmS);border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;text-align:center}
@@ -145,7 +157,6 @@ textarea.form-input{resize:vertical;min-height:70px}
 .stat-v.pos{color:var(--ok)}.stat-v.neg{color:var(--bad)}
 .stat-l{font-size:.68rem;color:var(--mute);margin-top:.2rem}
 
-/* CHART */
 .chart-wrap{position:relative;height:200px;margin-top:1rem}
 
 /* TRADES */
@@ -228,12 +239,6 @@ textarea.form-input{resize:vertical;min-height:70px}
 .market-change{font-size:.75rem;font-weight:700;padding:.2rem .5rem;border-radius:8px;margin-right:.5rem}
 .market-change.pos{color:var(--ok);background:var(--okS)}
 .market-change.neg{color:var(--bad);background:var(--badS)}
-.indicators{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:.8rem}
-.indicator{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.8rem;text-align:center}
-.indicator-name{font-size:.7rem;color:var(--mute);font-weight:600;margin-bottom:.3rem}
-.indicator-value{font-size:1.1rem;font-weight:800;color:var(--calm);font-variant-numeric:tabular-nums}
-.indicator-value.pos{color:var(--ok)}.indicator-value.neg{color:var(--bad)}
-.indicator-hint{font-size:.6rem;color:var(--mute);margin-top:.2rem}
 
 /* SETTINGS */
 .setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem;transition:.3s}
@@ -253,7 +258,7 @@ textarea.form-input{resize:vertical;min-height:70px}
 .setting-arrow{color:var(--mute);font-size:.75rem;transition:transform .3s}
 .setting-group.open .setting-arrow{transform:rotate(180deg)}
 .setting-body{max-height:0;overflow:hidden;transition:max-height .4s}
-.setting-group.open .setting-body{max-height:600px;border-top:1px solid var(--line)}
+.setting-group.open .setting-body{max-height:700px;border-top:1px solid var(--line)}
 .setting-content{padding:1rem}
 .toggle-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0}
 .toggle-row+.toggle-row{border-top:1px solid var(--line)}
@@ -309,18 +314,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 /* TOAST */
 .toast-wrap{position:fixed;top:calc(var(--top) + 20px);left:20px;z-index:9999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
-.toast{background:var(--card);border:1px solid var(--line);border-right:3px solid var(--calm);border-radius:12px;padding:.8rem 1rem;min-width:230px;max-width:330px;box-shadow:0 10px 40px rgba(0,0,0,.4);pointer-events:auto;transform:translateX(-120%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.toast{background:var(--card);border:1px solid var(--line);border-right:3px solid var(--calm);border-radius:12px;padding:.8rem 1rem;min-width:230px;max-width:340px;box-shadow:0 10px 40px rgba(0,0,0,.4);pointer-events:auto;transform:translateX(-120%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .toast.show{transform:none}
 .toast.success{border-right-color:var(--ok)}
 .toast.warning{border-right-color:var(--warn)}
 .toast.danger{border-right-color:var(--bad)}
+.toast.greeting{border-right-color:var(--gold);padding:1.2rem 1.4rem;min-width:280px;max-width:400px}
+.toast.greeting .toast-title{font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:.4rem;line-height:1.3}
+.toast.greeting .toast-msg{font-size:.95rem;color:var(--text);line-height:1.6}
 .toast-title{font-size:.82rem;font-weight:700;margin-bottom:2px}
 .toast-msg{font-size:.72rem;color:var(--soft)}
 
 /* RESPONSIVE */
 @media(max-width:1100px){.clock-wrap{order:3;width:100%;max-width:100%}}
 @media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
-@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:.95rem}.brand p{display:none}.greeting-line{font-size:1.2rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}}
+@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:.95rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}.toast.greeting .toast-title{font-size:1.2rem}.toast.greeting .toast-msg{font-size:.85rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -330,7 +338,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 <header class="topbar">
 <div class="brand">
-<div class="brand-mark">◈</div>
+<div class="brand-mark">
+<svg viewBox="0 0 24 24" fill="none">
+<rect x="3" y="11" width="2.5" height="8" fill="#4a9d7e" rx=".5"/>
+<rect x="7" y="7" width="2.5" height="12" fill="#4a9d7e" rx=".5"/>
+<rect x="11" y="9" width="2.5" height="10" fill="#c96b6b" rx=".5"/>
+<rect x="15" y="5" width="2.5" height="14" fill="#6b9bd1" rx=".5"/>
+<path d="M2 8 L8 4 L13 6 L22 2" stroke="#e0b876" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="22" cy="2" r="1.5" fill="#e0b876"/>
+</svg>
+</div>
 <div><h1>Trader Pro</h1><p>أداة المتداول الاحترافية</p></div>
 </div>
 <div class="clock-wrap">
@@ -373,7 +390,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <button class="tab" onclick="switchTab('calc',this)">🧮 الحاسبة</button>
 </nav>
 
-<!-- JOURNAL -->
 <section class="panel active" id="p-journal">
 <div class="balance-hero">
 <div class="balance-label">الرصيد الحالي</div>
@@ -404,7 +420,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- ANALYSIS -->
 <section class="panel" id="p-analysis">
 <div class="card">
 <div class="card-head"><div><div class="card-title">📊 التحليل المتقدم</div><div class="card-sub">من صفقاتك الحقيقية</div></div></div>
@@ -412,7 +427,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- STRATEGIES -->
 <section class="panel" id="p-strategies">
 <div class="card">
 <div class="card-head"><div><div class="card-title">📚 استراتيجياتي</div><div class="card-sub">الإحصائيات تُحسب من صفقاتك</div></div><button class="btn btn-p btn-sm" onclick="openStrategyModal()">+ استراتيجية</button></div>
@@ -420,7 +434,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- MARKET -->
 <section class="panel" id="p-market">
 <div class="card">
 <div class="card-head">
@@ -431,7 +444,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- AI -->
 <section class="panel" id="p-ai">
 <div class="card">
 <div class="card-head"><div><div class="card-title">🤖 المساعد الذكي</div><div class="card-sub">Gemini AI — يرى بياناتك الحقيقية</div></div><span class="chip dc">● متصل</span></div>
@@ -456,7 +468,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- CALC -->
 <section class="panel" id="p-calc">
 <div class="card">
 <div class="card-head"><div class="card-title">🧮 حاسبة حجم الصفقة</div></div>
@@ -477,28 +488,52 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </section>
 </main>
 
-<!-- TRADE MODAL -->
+<datalist id="pairs-list">
+<option value="EUR/USD">
+<option value="GBP/USD">
+<option value="USD/JPY">
+<option value="USD/CHF">
+<option value="USD/CAD">
+<option value="AUD/USD">
+<option value="NZD/USD">
+<option value="EUR/GBP">
+<option value="EUR/JPY">
+<option value="GBP/JPY">
+<option value="AUD/JPY">
+<option value="EUR/AUD">
+<option value="EUR/CAD">
+<option value="GBP/AUD">
+<option value="XAU/USD">
+<option value="XAG/USD">
+<option value="BTC/USD">
+<option value="ETH/USD">
+<option value="US30">
+<option value="NAS100">
+<option value="SP500">
+</datalist>
+
 <div class="modal-bg" id="trade-modal">
 <div class="modal">
 <div class="modal-head"><div class="modal-title">صفقة جديدة</div><button class="modal-close" onclick="closeModal('trade-modal')">✕</button></div>
+<div class="form-group">
+<label class="form-label">الزوج</label>
+<input type="text" class="form-input" id="t-pair" placeholder="اكتب أو اختر..." list="pairs-list" autocomplete="off">
+<div class="pair-quick-chips" id="trade-pairs-chips"></div>
+</div>
 <div class="form-row">
-<div class="form-group"><label class="form-label">الزوج</label><input type="text" class="form-input" id="t-pair" placeholder="EUR/USD"></div>
 <div class="form-group"><label class="form-label">الاتجاه</label><select class="form-input" id="t-dir"><option value="call">▲ Call</option><option value="put">▼ Put</option></select></div>
-</div>
-<div class="form-row">
 <div class="form-group"><label class="form-label">المبلغ ($)</label><input type="number" class="form-input" id="t-amount" value="10" step="0.01"></div>
-<div class="form-group"><label class="form-label">النتيجة</label><select class="form-input" id="t-result"><option value="win">✓ ربح</option><option value="loss">✕ خسارة</option></select></div>
 </div>
 <div class="form-row">
-<div class="form-group"><label class="form-label">الاستراتيجية</label><select class="form-input" id="t-strat"><option value="">— بدون —</option></select></div>
+<div class="form-group"><label class="form-label">النتيجة</label><select class="form-input" id="t-result"><option value="win">✓ ربح</option><option value="loss">✕ خسارة</option></select></div>
 <div class="form-group"><label class="form-label">مدة الصفقة</label><select class="form-input" id="t-dur"><option value="1">1د</option><option value="3">3د</option><option value="5" selected>5د</option><option value="15">15د</option><option value="30">30د</option></select></div>
 </div>
+<div class="form-group"><label class="form-label">الاستراتيجية</label><select class="form-input" id="t-strat"><option value="">— بدون —</option></select></div>
 <div class="form-group"><label class="form-label">ملاحظات</label><input type="text" class="form-input" id="t-note" placeholder="سبب الدخول..."></div>
 <div class="modal-actions"><button class="btn btn-g" onclick="closeModal('trade-modal')">إلغاء</button><button class="btn btn-p" onclick="saveTrade()">حفظ</button></div>
 </div>
 </div>
 
-<!-- STRATEGY MODAL -->
 <div class="modal-bg" id="strat-modal">
 <div class="modal" style="max-width:540px">
 <div class="modal-head"><div class="modal-title" id="strat-modal-title">استراتيجية جديدة</div><button class="modal-close" onclick="closeModal('strat-modal')">✕</button></div>
@@ -519,14 +554,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="form-group"><label class="form-label">الجلسة</label><select class="form-input" id="s-session"><option>طوكيو</option><option>لندن</option><option>نيويورك</option><option>سيدني</option><option>أي وقت</option></select></div>
 <div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="s-risk" value="2" step="0.5"></div>
 </div>
-<div class="form-group"><label class="form-label">الأزواج</label><input type="text" class="form-input" id="s-pairs" placeholder="EUR/USD, GBP/USD"></div>
+<div class="form-group">
+<label class="form-label">الأزواج المفضلة</label>
+<input type="text" class="form-input" id="s-pairs" placeholder="اكتب أو اختر..." autocomplete="off">
+<div class="pair-quick-chips" id="strat-pairs-chips"></div>
+</div>
 <div class="form-group"><label class="form-label">شروط الدخول</label><textarea class="form-input" id="s-entry"></textarea></div>
 <div class="form-group"><label class="form-label">شروط الخروج</label><textarea class="form-input" id="s-exit"></textarea></div>
 <div class="modal-actions"><button class="btn btn-g" onclick="closeModal('strat-modal')">إلغاء</button><button class="btn btn-p" onclick="saveStrategy()">حفظ</button></div>
 </div>
 </div>
 
-<!-- SETTINGS MODAL -->
 <div class="modal-bg" id="settings-modal">
 <div class="modal" style="max-width:540px">
 <div class="modal-head"><div class="modal-title">⚙️ الإعدادات</div><button class="modal-close" onclick="closeModal('settings-modal')">✕</button></div>
@@ -728,10 +766,10 @@ function updateClock() {
 function greeting() {
     const h = new Date().getHours();
     let g, s;
-    if (h>=5&&h<12) {g='صباح الخير'; s='ابدأ يومك بصفاء ذهن';}
-    else if (h>=12&&h<17) {g='مساء الخير'; s='استمر بتركيزك';}
-    else if (h>=17&&h<21) {g='مساء الخير'; s='وقت هادئ للتأمل';}
-    else {g='مساء النور'; s='الأسواق تنام';}
+    if (h>=5&&h<12) {g='صباح الخير'; s='ابدأ يومك بصفاء ذهن — خذ نفساً عميقاً';}
+    else if (h>=12&&h<17) {g='مساء الخير'; s='استمر بتركيزك — لا تتداول وأنت متعب';}
+    else if (h>=17&&h<21) {g='مساء الخير'; s='وقت هادئ للتأمل في صفقاتك';}
+    else {g='مساء النور'; s='الأسواق تنام — أنت أيضاً يحتاج الراحة';}
     $('#greeting').innerHTML = `${g} <strong>أيها المتداول</strong>`;
     $('#greeting-sub').textContent = s;
 }
@@ -976,6 +1014,44 @@ function renderEquityChart() {
     });
 }
 
+/* ============ PAIR SELECTOR ============ */
+const PAIRS_CATEGORIES = {
+    'العملات الرئيسية': ['EUR/USD','GBP/USD','USD/JPY','USD/CHF','USD/CAD','AUD/USD','NZD/USD'],
+    'العملات المتقاطعة': ['EUR/GBP','EUR/JPY','GBP/JPY','AUD/JPY','EUR/AUD','EUR/CAD','GBP/AUD'],
+    'المعادن': ['XAU/USD','XAG/USD'],
+    'العملات الرقمية': ['BTC/USD','ETH/USD'],
+    'المؤشرات': ['US30','NAS100','SP500']
+};
+
+function renderPairChips(containerId, inputId, multiSelect=false) {
+    const container = $('#'+containerId);
+    if (!container) return;
+    let html = '';
+    for (const [cat, pairs] of Object.entries(PAIRS_CATEGORIES)) {
+        html += `<div class="pair-chip cat-title">${cat}</div>`;
+        pairs.forEach(p => {
+            html += `<button type="button" class="pair-chip" onclick="selectPair('${p}', '${inputId}', ${multiSelect})">${p}</button>`;
+        });
+    }
+    container.innerHTML = html;
+}
+
+function selectPair(pair, inputId, multiSelect) {
+    const input = $('#'+inputId);
+    if (!input) return;
+    if (multiSelect) {
+        const current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+        if (current.includes(pair)) {
+            input.value = current.filter(p => p !== pair).join(', ');
+        } else {
+            input.value = [...current, pair].join(', ');
+        }
+    } else {
+        input.value = pair;
+    }
+    input.focus();
+}
+
 /* ============ TRADE MODAL ============ */
 function updateStratDropdown() {
     const sel = $('#t-strat');
@@ -983,7 +1059,6 @@ function updateStratDropdown() {
 }
 
 function openTradeModal() {
-    // Check daily limits
     const ts = todayStats();
     if (state.settings.lossLimit > 0 && ts.losses >= state.settings.lossLimit) {
         if (!confirm(`⚠️ وصلت لحد الخسارة اليومي (${state.settings.currency}${state.settings.lossLimit}).\nهل تريد المتابعة؟`)) return;
@@ -998,6 +1073,7 @@ function openTradeModal() {
     $('#t-result').value = 'win';
     $('#t-dur').value = '5';
     updateStratDropdown();
+    renderPairChips('trade-pairs-chips', 't-pair', false);
 }
 
 function saveTrade() {
@@ -1046,7 +1122,6 @@ function renderAnalysis() {
     }
     const cur = state.settings.currency;
 
-    // Session analysis
     const sessionMap = {};
     SESSIONS.forEach(s => sessionMap[s.name] = { count:0, wins:0, pnl:0 });
     state.trades.forEach(t => {
@@ -1057,7 +1132,6 @@ function renderAnalysis() {
         sessionMap[sess].pnl += tradePnL(t);
     });
 
-    // Pair analysis
     const pairMap = {};
     state.trades.forEach(t => {
         if (!pairMap[t.pair]) pairMap[t.pair] = { count:0, wins:0, pnl:0 };
@@ -1066,19 +1140,15 @@ function renderAnalysis() {
         pairMap[t.pair].pnl += tradePnL(t);
     });
 
-    // Streak
     let maxWin = 0, maxLoss = 0, curWin = 0, curLoss = 0;
     state.trades.forEach(t => {
         if (t.result === 'win') { curWin++; curLoss = 0; maxWin = Math.max(maxWin, curWin); }
         else { curLoss++; curWin = 0; maxLoss = Math.max(maxLoss, curLoss); }
     });
 
-    // Best/Worst trade
     const pnls = state.trades.map(t => tradePnL(t));
     const best = Math.max(...pnls);
     const worst = Math.min(...pnls);
-
-    // Today
     const ts = todayStats();
 
     const sessionRows = Object.entries(sessionMap)
@@ -1129,7 +1199,8 @@ function renderAnalysis() {
 }
 
 function detectSession(t) {
-    const hour = new Date(t.createdAt).getUTCHours() + new Date(t.createdAt).getUTCMinutes()/60;
+    const d = new Date(t.createdAt);
+    const hour = d.getUTCHours() + d.getUTCMinutes()/60;
     for (const s of SESSIONS) {
         if (isOpen(s, hour)) return s.name;
     }
@@ -1199,6 +1270,7 @@ function openStrategyModal(editId) {
             $('#s-pairs').value = s.pairs;
             $('#s-entry').value = s.entry;
             $('#s-exit').value = s.exit;
+            renderPairChips('strat-pairs-chips', 's-pairs', true);
             return;
         }
     }
@@ -1211,6 +1283,7 @@ function openStrategyModal(editId) {
     $('#s-dur').value = '5 دقائق';
     $('#s-session').value = 'لندن';
     $('#s-risk').value = '2';
+    renderPairChips('strat-pairs-chips', 's-pairs', true);
 }
 
 function saveStrategy() {
@@ -1429,7 +1502,6 @@ function exportJSON() {
 
 function exportCSV() {
     if (!state.trades.length) { toast('لا توجد صفقات','','warning'); return; }
-    const cur = state.settings.currency;
     const rows = [['Date','Pair','Direction','Amount','Result','PnL','Duration','Strategy','Note']];
     state.trades.forEach(t => {
         const strat = state.strategies.find(s => s.id===t.stratId);
@@ -1642,13 +1714,31 @@ function init() {
     updateStratDropdown();
     calcPos();
 
-    // Auto-refresh market every 60s if key exists
     if (state.settings.twelveDataKey) {
         refreshMarket();
         setInterval(refreshMarket, 60000);
     }
 
-    setTimeout(() => toast('أهلاً بك','أداة المتداول الاحترافية جاهزة','success',4000), 1000);
+    // Big greeting toast — lasts 8 seconds
+    setTimeout(() => {
+        const h = new Date().getHours();
+        let title, msg;
+        if (h>=5 && h<12) { title='☀️ صباح الخير أيها المتداول'; msg='ابدأ يومك بصفاء ذهن — خذ نفساً عميقاً قبل أول صفقة'; }
+        else if (h>=12 && h<17) { title='🌤️ مساء الخير أيها المتداول'; msg='استمر بتركيزك — لا تتداول وأنت متعب'; }
+        else if (h>=17 && h<21) { title='🌆 مساء الخير أيها المتداول'; msg='وقت هادئ للتأمل في صفقاتك'; }
+        else { title='🌙 مساء النور أيها المتداول'; msg='الأسواق تنام — أنت أيضاً يحتاج الراحة'; }
+        
+        const w = $('#toasts');
+        const el = document.createElement('div');
+        el.className = 'toast greeting';
+        el.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
+        w.appendChild(el);
+        requestAnimationFrame(() => el.classList.add('show'));
+        setTimeout(() => {
+            el.classList.remove('show');
+            setTimeout(() => el.remove(), 600);
+        }, 8000); // 8 seconds
+    }, 800);
 }
 
 document.addEventListener('DOMContentLoaded', init);
