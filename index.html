@@ -867,8 +867,7 @@ function updateClock() {
     $('#d-local').textContent = arDate(new Date(utcMs + (offsetHours * 60 + offsetMins) * 60000));
     $('#d-utc').textContent = arDate(new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate())));
     
-    const tz = TIMEZONES.find(t => t.offset === offset);
-    if (tz) $('#clock-city-label').textContent = tz.city;
+    $('#clock-city-label').textContent = state.settings.tzCity || 'دمشق';
 }
 
 function greeting() {
@@ -1501,7 +1500,7 @@ function renderMarket() {
 function renderTZGrids() {
     const html = TIMEZONES.map(tz => {
         const offsetStr = tz.offset >= 0 ? `+${tz.offset}` : `${tz.offset}`;
-        const active = tz.offset === state.settings.tzOffset ? 'active' : '';
+        const active = (tz.offset === state.settings.tzOffset && tz.city === state.settings.tzCity) ? 'active' : '';
         return `<button class="tz-option ${active}" onclick="selectTZ(${tz.offset}, '${tz.city}')">
             <span class="flag">${tz.flag}</span>
             <span class="city">${tz.city}</span>
