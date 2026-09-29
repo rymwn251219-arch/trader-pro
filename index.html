@@ -3,10 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مسار — منصة التداول الاحترافية</title>
+<title>مسار — أداة المتداول</title>
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0f1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مسار">
+<link rel="apple-touch-icon" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
@@ -19,7 +23,6 @@
 --bad:#c96b6b;--badS:rgba(201,107,107,.12);
 --warn:#d4a557;--warnS:rgba(212,165,87,.12);
 --gold:#e0b876;--goldS:rgba(224,184,118,.12);
---buy:#4a9d7e;--sell:#c96b6b;
 --top:84px;--fs:1em;
 }
 body.theme-2{--bg:#0a1a12;--bg2:#0f2418;--card:#132e1f;--line:#1f442f;--line2:#2a5f3d;--calm:#4a9d7e;--calmS:rgba(74,157,126,.12)}
@@ -30,7 +33,7 @@ body.font-sm{--fs:.9em}
 body.font-lg{--fs:1.1em}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:radial-gradient(circle at 15% 10%,var(--calmS),transparent 40%),var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;letter-spacing:.2px;transition:background .4s}
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
 ::-webkit-scrollbar-thumb:hover{background:var(--calm)}
 
 .topbar{position:fixed;top:0;left:0;right:0;min-height:var(--top);background:rgba(15,22,38,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;gap:1rem;flex-wrap:wrap}
@@ -39,19 +42,14 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:10px}
 .brand h1{font-size:1.3rem;font-weight:800;letter-spacing:-.3px;background:linear-gradient(135deg,var(--text),var(--calm));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .brand p{font-size:.68rem;color:var(--mute);margin-top:1px}
-
-.clock-wrap{display:flex;align-items:center;gap:.7rem;padding:.5rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:14px;flex:1;justify-content:center;max-width:620px}
-.clock-item{display:flex;flex-direction:column;align-items:center;min-width:90px}
-.clock-label{font-size:.58rem;color:var(--mute);font-weight:600;letter-spacing:.8px;text-transform:uppercase}
-.clock-time{font-size:.95rem;font-weight:700;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:3px}
+.clock-wrap{display:flex;align-items:center;gap:.9rem;padding:.5rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:14px;flex:1;justify-content:center;max-width:560px}
+.clock-item{display:flex;flex-direction:column;align-items:center;min-width:100px}
+.clock-label{font-size:.6rem;color:var(--mute);font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.clock-time{font-size:1rem;font-weight:700;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:3px}
 .clock-time.calm{color:var(--calm)}
-.clock-time .ampm{font-size:.68rem;color:var(--mute)}
-.clock-date{font-size:.65rem;color:var(--mute);margin-top:.15rem;text-align:center}
+.clock-time .ampm{font-size:.7rem;color:var(--mute)}
+.clock-date{font-size:.68rem;color:var(--mute);margin-top:.15rem}
 .clock-div{width:1px;height:32px;background:var(--line)}
-.tz-btn{padding:.5rem .8rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.72rem;font-weight:600;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:5px;white-space:nowrap}
-.tz-btn:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
-.tz-btn .flag{font-size:.95rem}
-
 .top-actions{display:flex;gap:.5rem;flex-shrink:0}
 .icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--soft);cursor:pointer;transition:.3s}
 .icon-btn:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
@@ -64,20 +62,10 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .greeting-line strong{font-weight:800;color:var(--calm);font-size:2.1rem}
 .greeting-sub{margin-top:.5rem;font-size:.95rem;color:var(--mute)}
 
-.weekend-banner{display:none;margin-bottom:1.2rem;padding:1rem 1.2rem;background:linear-gradient(135deg,var(--goldS),var(--badS));border:1px solid rgba(224,184,118,.4);border-radius:14px;align-items:center;gap:.9rem;animation:slideDown .4s ease}
-.weekend-banner.visible{display:flex}
-.weekend-banner .icon{font-size:1.8rem;flex-shrink:0}
-.weekend-banner .info{flex:1;min-width:0}
-.weekend-banner .title{font-size:.95rem;font-weight:700;color:var(--gold);margin-bottom:.2rem}
-.weekend-banner .desc{font-size:.78rem;color:var(--soft);line-height:1.5}
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-
 .sessions{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem}
 .session{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;position:relative;overflow:hidden;transition:.4s}
 .session.open{border-color:rgba(74,157,126,.35);background:linear-gradient(155deg,var(--card),rgba(74,157,126,.05))}
 .session.open::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--ok)}
-.session.closed-weekend{opacity:.6;border-style:dashed}
-.session.closed-weekend::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--mute)}
 .session-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
 .session-name{font-size:.95rem;font-weight:700;margin-bottom:.1rem}
 .session-en{font-size:.62rem;color:var(--mute);text-transform:uppercase;letter-spacing:.5px}
@@ -92,15 +80,12 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .session-status{font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:12px}
 .session.open .session-status{color:var(--ok);background:var(--okS)}
 .session:not(.open) .session-status{color:var(--mute);background:rgba(107,118,144,.1)}
-.session.closed-weekend .session-status{color:var(--warn);background:var(--warnS)}
 .session-countdown{font-size:.66rem;color:var(--mute)}
 .session-countdown strong{color:var(--calm);font-variant-numeric:tabular-nums}
-.session.closed-weekend .session-countdown strong{color:var(--warn)}
 .session-progress{height:3px;background:rgba(107,118,144,.15);border-radius:3px;overflow:hidden;margin-bottom:.4rem}
 .session-progress-fill{height:100%;background:linear-gradient(90deg,var(--ok),#5fc19e);transition:width .6s}
 .session:not(.open) .session-progress-fill{background:linear-gradient(90deg,var(--line2),var(--line))}
 .session-pairs{font-size:.62rem;color:var(--mute)}
-.session-utc{font-size:.6rem;color:var(--mute);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed var(--line);opacity:.7}
 
 .tabs{display:flex;gap:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:1.5rem;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
@@ -116,26 +101,9 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .card-sub{font-size:.72rem;color:var(--mute);margin-top:.15rem}
 
-.account-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem}
-.acc-box{background:linear-gradient(155deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:1rem;position:relative;overflow:hidden}
-.acc-box::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
-.acc-box.balance::before{background:var(--calm)}
-.acc-box.equity::before{background:var(--gold)}
-.acc-box.floating::before{background:var(--ok)}
-.acc-box.margin::before{background:var(--accent-secondary,rgba(124,58,237,.8))}
-.acc-label{font-size:.68rem;color:var(--mute);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem}
-.acc-value{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums}
-.acc-box.balance .acc-value{color:var(--calm)}
-.acc-box.equity .acc-value{color:var(--gold)}
-.acc-box.floating .acc-value.pos{color:var(--ok)}
-.acc-box.floating .acc-value.neg{color:var(--bad)}
-.acc-box.margin .acc-value{color:#a78bfa}
-
 .btn{padding:.7rem 1.4rem;border-radius:10px;border:none;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;display:inline-flex;align-items:center;gap:6px}
 .btn-p{background:linear-gradient(135deg,var(--calm),#4a7bb8);color:#fff;box-shadow:0 4px 15px rgba(107,155,209,.25)}
 .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(107,155,209,.4)}
-.btn-buy{background:linear-gradient(135deg,#4a9d7e,#3d8a6d);color:#fff;box-shadow:0 4px 15px rgba(74,157,126,.25)}
-.btn-buy:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(74,157,126,.4)}
 .btn-g{background:var(--card2);color:var(--soft);border:1px solid var(--line)}
 .btn-g:hover{border-color:var(--calm);color:var(--calm)}
 .btn-d{background:linear-gradient(135deg,#c96b6b,#a04d4d);color:#fff}
@@ -149,42 +117,18 @@ textarea.form-input{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 
-.type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem}
-.type-btn{padding:.85rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--soft);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:8px}
-.type-btn:hover{border-color:var(--line2)}
-.type-btn.buy.active{border-color:var(--buy);background:var(--okS);color:var(--ok)}
-.type-btn.sell.active{border-color:var(--sell);background:var(--badS);color:var(--bad)}
+.pair-quick-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem;padding:.5rem;background:var(--bg2);border-radius:10px;border:1px solid var(--line);max-height:110px;overflow-y:auto}
+.pair-chip{padding:.3rem .65rem;background:var(--card);border:1px solid var(--line);border-radius:12px;color:var(--soft);font-family:inherit;font-size:.7rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.pair-chip:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS);transform:translateY(-1px)}
+.pair-chip.cat-title{background:transparent;border:none;color:var(--mute);cursor:default;font-size:.65rem;padding:.3rem .4rem;width:100%;text-align:right;margin-top:.3rem}
+.pair-chip.cat-title:hover{transform:none;color:var(--mute);background:transparent}
 
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--line)}
-.mt5-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:880px}
-.mt5-table thead{background:var(--card2);position:sticky;top:0;z-index:2}
-.mt5-table th{padding:.7rem .6rem;text-align:right;font-weight:700;color:var(--soft);font-size:.72rem;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--line2);white-space:nowrap}
-.mt5-table td{padding:.65rem .6rem;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap}
-.mt5-table tbody tr{transition:background .2s}
-.mt5-table tbody tr:hover{background:rgba(107,155,209,.03)}
-.mt5-table tbody tr.buy-row{border-right:3px solid var(--buy)}
-.mt5-table tbody tr.sell-row{border-right:3px solid var(--sell)}
-.mt5-table .ticket{color:var(--mute);font-size:.7rem;font-family:monospace}
-.mt5-table .symbol{font-weight:700;color:var(--text)}
-.mt5-table .type-buy{color:var(--buy);font-weight:800}
-.mt5-table .type-sell{color:var(--sell);font-weight:800}
-.mt5-table .pnl-pos{color:var(--ok);font-weight:800}
-.mt5-table .pnl-neg{color:var(--bad);font-weight:800}
-.mt5-table .pnl-flat{color:var(--mute);font-weight:700}
-.mt5-table .action-btn{background:transparent;border:1px solid var(--line);border-radius:6px;padding:.25rem .5rem;color:var(--soft);cursor:pointer;font-family:inherit;font-size:.7rem;transition:.2s;margin-left:2px}
-.mt5-table .action-btn:hover{border-color:var(--calm);color:var(--calm)}
-.mt5-table .action-btn.close:hover{border-color:var(--gold);color:var(--gold)}
-.mt5-table .action-btn.del:hover{border-color:var(--bad);color:var(--bad)}
-.mt5-table .time-col{color:var(--mute);font-size:.72rem}
-.mt5-table .sl-price{color:var(--bad)}
-.mt5-table .tp-price{color:var(--ok)}
-
-.mini-tabs{display:flex;gap:.4rem;margin-bottom:1rem}
-.mini-tab{padding:.5rem 1rem;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:6px}
-.mini-tab:hover{border-color:var(--calm);color:var(--calm)}
-.mini-tab.active{background:var(--calmS);color:var(--calm);border-color:var(--calm)}
-.mini-tab .count{background:var(--bg2);border-radius:10px;padding:.1rem .45rem;font-size:.7rem;font-weight:700}
-.mini-tab.active .count{background:rgba(107,155,209,.25)}
+.balance-hero{background:linear-gradient(155deg,var(--card),var(--calmS));border:1px solid var(--calmS);border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;text-align:center}
+.balance-label{font-size:.72rem;color:var(--mute);text-transform:uppercase;letter-spacing:1px}
+.balance-value{font-size:2.3rem;font-weight:800;color:var(--calm);margin:.3rem 0;font-variant-numeric:tabular-nums}
+.balance-value.pos{color:var(--ok)}.balance-value.neg{color:var(--bad)}
+.balance-change{font-size:1rem;font-weight:600;color:var(--soft)}
+.balance-change.pos{color:var(--ok)}.balance-change.neg{color:var(--bad)}
 
 .status-box{border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;transition:.3s}
 .status-box.excellent{background:linear-gradient(155deg,var(--goldS),transparent);border:1px solid rgba(224,184,118,.3)}
@@ -207,6 +151,25 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .stat-l{font-size:.68rem;color:var(--mute);margin-top:.2rem}
 
 .chart-wrap{position:relative;height:200px;margin-top:1rem}
+
+.trade-list{max-height:500px;overflow-y:auto}
+.trade{display:flex;justify-content:space-between;align-items:center;padding:.9rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s;gap:.5rem}
+.trade:hover{border-color:var(--line2)}
+.trade.win{border-right:3px solid var(--ok)}
+.trade.loss{border-right:3px solid var(--bad)}
+.trade-info{flex:1;min-width:0}
+.trade-pair{font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.trade-badge{font-size:.62rem;padding:.15rem .5rem;border-radius:10px;font-weight:600}
+.badge-call{background:var(--okS);color:var(--ok)}
+.badge-put{background:var(--badS);color:var(--bad)}
+.badge-strat{background:var(--calmS);color:var(--calm)}
+.trade-time{font-size:.68rem;color:var(--mute);margin-top:.2rem}
+.trade-pnl{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums}
+.trade-pnl.pos{color:var(--ok)}.trade-pnl.neg{color:var(--bad)}
+.trade-actions{display:flex;gap:.3rem}
+.icon-mini{width:28px;height:28px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--soft);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:.3s}
+.icon-mini:hover{border-color:var(--calm);color:var(--calm)}
+.icon-mini.del:hover{border-color:var(--bad);color:var(--bad)}
 
 .analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
 .analysis-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem}
@@ -276,14 +239,13 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .setting-icon.font{background:linear-gradient(135deg,#06b6d4,#0891b2)}
 .setting-icon.data{background:linear-gradient(135deg,#10b981,#047857)}
 .setting-icon.api{background:linear-gradient(135deg,#6366f1,#4338ca)}
-.setting-icon.tz{background:linear-gradient(135deg,#f97316,#ea580c)}
 .setting-info{flex:1;min-width:0}
 .setting-title{font-size:.9rem;font-weight:700;margin-bottom:.1rem}
 .setting-desc{font-size:.68rem;color:var(--mute)}
 .setting-arrow{color:var(--mute);font-size:.75rem;transition:transform .3s}
 .setting-group.open .setting-arrow{transform:rotate(180deg)}
 .setting-body{max-height:0;overflow:hidden;transition:max-height .4s}
-.setting-group.open .setting-body{max-height:900px;border-top:1px solid var(--line)}
+.setting-group.open .setting-body{max-height:700px;border-top:1px solid var(--line)}
 .setting-content{padding:1rem}
 .toggle-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0}
 .toggle-row+.toggle-row{border-top:1px solid var(--line)}
@@ -323,18 +285,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .sound-test{width:100%;padding:.6rem;background:linear-gradient(135deg,var(--warnS),transparent);border:1px solid rgba(212,165,87,.4);border-radius:10px;color:var(--warn);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:.3s;margin-top:.5rem}
 .sound-test:hover{transform:translateY(-2px)}
 
-.tz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem;margin-top:.5rem;max-height:400px;overflow-y:auto;padding-right:.3rem}
-.tz-option{padding:.6rem .7rem;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:.25s;text-align:right;display:flex;align-items:center;gap:.4rem}
-.tz-option:hover{border-color:var(--line2);background:var(--card2)}
-.tz-option.active{border-color:var(--calm);background:var(--calmS);color:var(--calm)}
-.tz-option .flag{font-size:.95rem;flex-shrink:0}
-.tz-option .city{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tz-option .offset{font-size:.62rem;color:var(--mute);flex-shrink:0}
-.tz-option.active .offset{color:var(--calm)}
-
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,15,26,.85);backdrop-filter:blur(8px);z-index:500;padding:1rem;overflow-y:auto}
 .modal-bg.show{display:block}
-.modal{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;max-width:600px;margin:2rem auto}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;max-width:520px;margin:2rem auto}
 .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
 .modal-title{font-size:1rem;font-weight:700}
 .modal-close{background:none;border:none;color:var(--mute);font-size:1.3rem;cursor:pointer;padding:.2rem}
@@ -343,7 +296,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 .empty{text-align:center;padding:2.5rem 1.5rem;color:var(--mute)}
 .empty-icon{font-size:2.8rem;opacity:.3;margin-bottom:.8rem}
-.empty-text{font-size:.85rem}
 
 .toast-wrap{position:fixed;top:calc(var(--top) + 20px);left:20px;z-index:9999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
 .toast{background:var(--card);border:1px solid var(--line);border-right:3px solid var(--calm);border-radius:12px;padding:.8rem 1rem;min-width:230px;max-width:340px;box-shadow:0 10px 40px rgba(0,0,0,.4);pointer-events:auto;transform:translateX(-120%);transition:transform .5s cubic-bezier(.16,1,.3,1)}
@@ -358,8 +310,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .toast-msg{font-size:.72rem;color:var(--soft)}
 
 @media(max-width:1100px){.clock-wrap{order:3;width:100%;max-width:100%}}
-@media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.account-summary{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.05rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.72rem;padding:.5rem .65rem;min-width:75px}.clock-item{min-width:75px}.clock-time{font-size:.85rem}.tz-btn{padding:.4rem .55rem;font-size:.68rem}.mt5-table{font-size:.7rem;min-width:800px}}
+@media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
+@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.1rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}.toast.greeting .toast-title{font-size:1.2rem}.toast.greeting .toast-msg{font-size:.85rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -372,13 +324,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="brand-mark">
 <img src="icon.svg" alt="مسار" onerror="this.style.display='none';this.parentElement.innerHTML='📈'">
 </div>
-<div><h1>مسار</h1><p>منصة التداول الاحترافية</p></div>
+<div><h1>مسار</h1><p>أداة المتداول</p></div>
 </div>
 <div class="clock-wrap">
 <div class="clock-item">
-<div class="clock-label" id="clock-city-label">دمشق</div>
-<div class="clock-time calm" id="c-local"><span>--:--</span><span class="ampm">--</span></div>
-<div class="clock-date" id="d-local">—</div>
+<div class="clock-label">دمشق</div>
+<div class="clock-time calm" id="c-dam"><span>--:--</span><span class="ampm">--</span></div>
+<div class="clock-date" id="d-dam">—</div>
 </div>
 <div class="clock-div"></div>
 <div class="clock-item">
@@ -386,10 +338,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="clock-time" id="c-utc"><span>--:--</span><span class="ampm">--</span></div>
 <div class="clock-date" id="d-utc">—</div>
 </div>
-<button class="tz-btn" onclick="openTZModal()" title="تغيير المنطقة الزمنية">
-<span class="flag">🌍</span>
-<span>تغيير</span>
-</button>
 </div>
 <div class="top-actions">
 <button class="icon-btn active" onclick="toggleSound()" id="sound-btn" title="الصوت">
@@ -407,111 +355,54 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="greeting-sub" id="greeting-sub">—</div>
 </div>
 
-<div class="weekend-banner" id="weekend-banner">
-<div class="icon">🌙</div>
-<div class="info">
-<div class="title">عطلة نهاية الأسبوع — السوق مغلق</div>
-<div class="desc" id="weekend-desc">—</div>
-</div>
-</div>
-
 <section class="sessions" id="sessions"></section>
 
 <nav class="tabs">
-<button class="tab active" onclick="switchTab('journal',this)">📊 الحساب</button>
-<button class="tab" onclick="switchTab('analysis',this)">📈 التحليل</button>
+<button class="tab active" onclick="switchTab('journal',this)">📝 السجل</button>
+<button class="tab" onclick="switchTab('analysis',this)">📊 التحليل</button>
 <button class="tab" onclick="switchTab('strategies',this)">📚 الاستراتيجيات</button>
 <button class="tab" onclick="switchTab('market',this)">💹 السوق</button>
 <button class="tab" onclick="switchTab('ai',this)">🤖 المساعد</button>
-<button class="tab" onclick="switchTab('calc',this)">🧮 حاسبة اللوت</button>
+<button class="tab" onclick="switchTab('calc',this)">🧮 الحاسبة</button>
 </nav>
 
-<!-- JOURNAL / ACCOUNT PAGE -->
 <section class="panel active" id="p-journal">
-
-<div class="account-summary">
-<div class="acc-box balance">
-<div class="acc-label">الرصيد</div>
-<div class="acc-value" id="acc-balance">$0.00</div>
+<div class="balance-hero">
+<div class="balance-label">الرصيد الحالي</div>
+<div class="balance-value" id="balance">$0</div>
+<div class="balance-change" id="balance-change">—</div>
 </div>
-<div class="acc-box equity">
-<div class="acc-label">حقوق الملكية</div>
-<div class="acc-value" id="acc-equity">$0.00</div>
-</div>
-<div class="acc-box floating">
-<div class="acc-label">العائم P&L</div>
-<div class="acc-value" id="acc-floating">$0.00</div>
-</div>
-<div class="acc-box margin">
-<div class="acc-label">الهامش المستخدم</div>
-<div class="acc-value" id="acc-margin">$0.00</div>
-</div>
-</div>
-
 <div class="status-box" id="status-box">
 <div class="status-icon" id="status-icon">◈</div>
 <div class="status-info">
 <div class="status-name" id="status-name">—</div>
-<div class="status-text" id="status-text">افتح صفقاتك الأولى لبدء التحليل</div>
+<div class="status-text" id="status-text">أضف صفقاتك لبدء التحليل</div>
 </div>
 </div>
-
 <div class="dash">
 <div class="stat"><div class="stat-v" id="s-total">0</div><div class="stat-l">إجمالي</div></div>
 <div class="stat"><div class="stat-v pos" id="s-wins">0</div><div class="stat-l">رابحة</div></div>
 <div class="stat"><div class="stat-v neg" id="s-losses">0</div><div class="stat-l">خاسرة</div></div>
-<div class="stat"><div class="stat-v" id="s-rate">—</div><div class="stat-l">نسبة النجاح</div></div>
+<div class="stat"><div class="stat-v" id="s-rate">0%</div><div class="stat-l">نسبة الربح</div></div>
 </div>
-
 <div class="card">
-<div class="card-head"><div><div class="card-title">📈 منحنى الرصيد</div><div class="card-sub">تطور حسابك عبر الزمن</div></div></div>
+<div class="card-head"><div><div class="card-title">📈 منحنى الرصيد</div><div class="card-sub">أدائك عبر الزمن</div></div></div>
 <div class="chart-wrap"><canvas id="equity-chart"></canvas></div>
 </div>
-
 <div class="card">
-<div class="card-head">
-<div><div class="card-title">📋 الصفقات</div><div class="card-sub">إدارة المراكز المفتوحة والسجل</div></div>
-<button class="btn btn-buy btn-sm" onclick="openTradeModal()">+ أمر جديد</button>
-</div>
-
-<div class="mini-tabs">
-<button class="mini-tab active" onclick="switchPositions('open',this)">🟢 مفتوحة <span class="count" id="open-count">0</span></button>
-<button class="mini-tab" onclick="switchPositions('history',this)">📜 السجل <span class="count" id="history-count">0</span></button>
-</div>
-
-<div class="table-wrap">
-<table class="mt5-table">
-<thead>
-<tr id="table-head">
-<th>التذكرة</th>
-<th>الوقت</th>
-<th>الرمز</th>
-<th>النوع</th>
-<th>الحجم</th>
-<th>الفتح</th>
-<th>S/L</th>
-<th>T/P</th>
-<th id="col-close-or-current">الحالي</th>
-<th>P&L</th>
-<th>الحالة</th>
-<th>إجراء</th>
-</tr>
-</thead>
-<tbody id="trade-list"></tbody>
-</table>
-</div>
+<div class="card-head"><div><div class="card-title">📝 الصفقات</div><div class="card-sub">سجّل صفقاتك لحساب أدائك</div></div>
+<div style="display:flex;gap:.4rem"><button class="btn btn-g btn-sm" onclick="exportCSV()">📤 CSV</button><button class="btn btn-p btn-sm" onclick="openTradeModal()">+ صفقة</button></div></div>
+<div class="trade-list" id="trade-list"></div>
 </div>
 </section>
 
-<!-- ANALYSIS PAGE -->
 <section class="panel" id="p-analysis">
 <div class="card">
-<div class="card-head"><div><div class="card-title">📊 التحليل المتقدم</div><div class="card-sub">من صفقاتك المغلقة</div></div></div>
+<div class="card-head"><div><div class="card-title">📊 التحليل المتقدم</div><div class="card-sub">من صفقاتك الحقيقية</div></div></div>
 <div class="analysis-grid" id="analysis-grid"></div>
 </div>
 </section>
 
-<!-- STRATEGIES PAGE -->
 <section class="panel" id="p-strategies">
 <div class="card">
 <div class="card-head"><div><div class="card-title">📚 استراتيجياتي</div><div class="card-sub">الإحصائيات تُحسب من صفقاتك</div></div><button class="btn btn-p btn-sm" onclick="openStrategyModal()">+ استراتيجية</button></div>
@@ -519,31 +410,29 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- MARKET PAGE -->
 <section class="panel" id="p-market">
 <div class="card">
 <div class="card-head">
 <div><div class="card-title">💹 السوق المباشر</div><div class="card-sub">Twelve Data — يتحدث كل 60 ثانية</div></div>
 <button class="btn btn-p btn-sm" onclick="refreshMarket()">🔄 تحديث</button>
 </div>
-<div id="market-list"><div class="empty"><div class="empty-icon">📈</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات لعرض الأسعار</div></div></div>
+<div id="market-list"><div class="empty"><div class="empty-icon">📈</div><div>أضف مفتاح Twelve Data في الإعدادات لعرض الأسعار</div></div></div>
 </div>
 </section>
 
-<!-- AI PAGE -->
 <section class="panel" id="p-ai">
 <div class="card">
-<div class="card-head"><div><div class="card-title">🤖 المساعد الذكي</div><div class="card-sub">Gemini AI — يرى بيانات حسابك</div></div><span class="chip dc">● متصل</span></div>
+<div class="card-head"><div><div class="card-title">🤖 المساعد الذكي</div><div class="card-sub">Gemini AI — يرى بياناتك الحقيقية</div></div><span class="chip dc">● متصل</span></div>
 <div class="ai-chat">
 <div class="ai-body" id="ai-body">
-<div class="msg bot">مرحباً! يمكنني:<br>• تحليل صورة شارت 📷<br>• تحليل أدائك من سجل الصفقات 📊<br>• اقتراح تحسينات 🎯<br><br>جرّب زراً سريعاً!</div>
+<div class="msg bot">مرحباً! يمكنني:<br>• تحليل صورة شارت 📷<br>• تحليل أدائك من السجل 📊<br>• اقتراح تحسينات 🎯<br><br>جرّب زراً سريعاً!</div>
 </div>
 <div class="preview-strip" id="preview"><img id="preview-img" alt=""><div class="info" id="preview-info"></div><button onclick="clearImg()">✕</button></div>
 <div class="quick-chips">
 <button class="chip-btn" onclick="quickAsk('حلل أدائي')">تحليل أدائي</button>
 <button class="chip-btn" onclick="quickAsk('ما أكبر أخطائي؟')">أخطائي</button>
 <button class="chip-btn" onclick="quickAsk('كيف أتحسن؟')">كيف أتحسن؟</button>
-<button class="chip-btn" onclick="quickAsk('ما أفضل رمز لي؟')">أفضل رمز</button>
+<button class="chip-btn" onclick="quickAsk('ما أفضل جلسة لي؟')">أفضل جلسة</button>
 </div>
 <div class="ai-input">
 <button class="ai-attach" onclick="document.getElementById('ai-file').click()">📎</button>
@@ -555,182 +444,72 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- CALCULATOR PAGE (MT5 Style) -->
 <section class="panel" id="p-calc">
 <div class="card">
-<div class="card-head"><div class="card-title">🧮 حاسبة حجم الصفقة (Position Size)</div></div>
+<div class="card-head"><div class="card-title">🧮 حاسبة حجم الصفقة</div></div>
 <div class="form-row">
 <div>
 <div class="form-group"><label class="form-label">رأس المال ($)</label><input type="number" class="form-input" id="calc-cap" value="1000"></div>
-<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="calc-risk" value="1" step="0.1"></div>
-<div class="form-group">
-<label class="form-label">الرمز</label>
-<select class="form-input" id="calc-symbol">
-<option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
-<option>USD/CHF</option><option>USD/CAD</option><option>AUD/USD</option>
-<option>NZD/USD</option><option>EUR/GBP</option><option>EUR/JPY</option>
-<option>GBP/JPY</option><option>AUD/JPY</option><option>XAU/USD</option>
-<option>XAG/USD</option><option>BTC/USD</option><option>ETH/USD</option>
-<option>US30</option><option>NAS100</option><option>SP500</option>
-</select>
-</div>
-<div class="form-group"><label class="form-label">سعر الدخول</label><input type="number" class="form-input" id="calc-entry" value="1.0850" step="0.0001"></div>
-<div class="form-group"><label class="form-label">وقف الخسارة (S/L)</label><input type="number" class="form-input" id="calc-stop" value="1.0820" step="0.0001"></div>
-<button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPositionSize()">احسب حجم اللوت</button>
+<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="calc-risk" value="2" step="0.5"></div>
+<div class="form-group"><label class="form-label">عدد الصفقات المتزامنة</label><input type="number" class="form-input" id="calc-count" value="5"></div>
+<button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPos()">احسب</button>
 </div>
 <div class="card" style="margin:0;background:linear-gradient(155deg,var(--calmS),transparent)">
 <div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">المبلغ المخاطر به</span><strong id="r-risk">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">المسافة (نقاط)</span><strong id="r-pips">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">قيمة النقطة/لوت</span><strong id="r-pipval">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0"><span style="color:var(--soft)">حجم اللوت</span><strong style="color:var(--gold);font-size:1.4rem" id="r-lot">—</strong></div>
-</div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-head"><div class="card-title">📊 حاسبة القيمة الحالية</div></div>
-<div class="form-row">
-<div>
-<div class="form-group">
-<label class="form-label">الرمز</label>
-<select class="form-input" id="pl-symbol">
-<option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
-<option>USD/CHF</option><option>USD/CAD</option><option>AUD/USD</option>
-<option>NZD/USD</option><option>EUR/GBP</option><option>EUR/JPY</option>
-<option>GBP/JPY</option><option>AUD/JPY</option><option>XAU/USD</option>
-<option>XAG/USD</option><option>BTC/USD</option><option>ETH/USD</option>
-<option>US30</option><option>NAS100</option><option>SP500</option>
-</select>
-</div>
-<div class="form-group"><label class="form-label">حجم اللوت</label><input type="number" class="form-input" id="pl-lots" value="0.10" step="0.01"></div>
-<div class="form-group"><label class="form-label">سعر الفتح</label><input type="number" class="form-input" id="pl-entry" value="1.0850" step="0.0001"></div>
-<div class="form-group"><label class="form-label">سعر الإغلاق</label><input type="number" class="form-input" id="pl-exit" value="1.0900" step="0.0001"></div>
-<div class="form-group">
-<label class="form-label">الاتجاه</label>
-<select class="form-input" id="pl-dir"><option value="buy">Buy (شراء)</option><option value="sell">Sell (بيع)</option></select>
-</div>
-<button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPL()">احسب</button>
-</div>
-<div class="card" style="margin:0;background:linear-gradient(155deg,var(--okS),transparent)">
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">النقاط (Pips)</span><strong id="r2-pips">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">القيمة لكل نقطة</span><strong id="r2-pipval">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0"><span style="color:var(--soft)">الربح/الخسارة</span><strong style="font-size:1.4rem" id="r2-pl">—</strong></div>
+<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">حجم كل صفقة</span><strong id="r-trade">—</strong></div>
+<div style="display:flex;justify-content:space-between;padding:.6rem 0"><span style="color:var(--soft)">الربح المطلوب لتعويض خسارة</span><strong style="color:var(--gold);font-size:1.2rem" id="r-rec">—</strong></div>
 </div>
 </div>
 </div>
 </section>
 </main>
 
-<datalist id="symbols-list">
-<option value="EUR/USD"><option value="GBP/USD"><option value="USD/JPY"><option value="USD/CHF">
-<option value="USD/CAD"><option value="AUD/USD"><option value="NZD/USD"><option value="EUR/GBP">
-<option value="EUR/JPY"><option value="GBP/JPY"><option value="AUD/JPY"><option value="EUR/AUD">
-<option value="EUR/CAD"><option value="GBP/AUD"><option value="XAU/USD"><option value="XAG/USD">
-<option value="BTC/USD"><option value="ETH/USD"><option value="US30"><option value="NAS100"><option value="SP500">
+<datalist id="pairs-list">
+<option value="EUR/USD">
+<option value="GBP/USD">
+<option value="USD/JPY">
+<option value="USD/CHF">
+<option value="USD/CAD">
+<option value="AUD/USD">
+<option value="NZD/USD">
+<option value="EUR/GBP">
+<option value="EUR/JPY">
+<option value="GBP/JPY">
+<option value="AUD/JPY">
+<option value="EUR/AUD">
+<option value="EUR/CAD">
+<option value="GBP/AUD">
+<option value="XAU/USD">
+<option value="XAG/USD">
+<option value="BTC/USD">
+<option value="ETH/USD">
+<option value="US30">
+<option value="NAS100">
+<option value="SP500">
 </datalist>
 
-<!-- TZ MODAL -->
-<div class="modal-bg" id="tz-modal">
-<div class="modal">
-<div class="modal-head"><div class="modal-title">🌍 اختر منطقتك الزمنية</div><button class="modal-close" onclick="closeModal('tz-modal')">✕</button></div>
-<div style="font-size:.78rem;color:var(--mute);margin-bottom:.8rem;line-height:1.6">تُعرض مواعيد الجلسات دائماً بتوقيت مدينتك — الوقت الأصلي (UTC) محفوظ أسفل كل بطاقة.</div>
-<div class="tz-grid" id="tz-grid"></div>
-</div>
-</div>
-
-<!-- NEW TRADE MODAL (MT5 Style) -->
 <div class="modal-bg" id="trade-modal">
 <div class="modal">
-<div class="modal-head"><div class="modal-title">🎯 أمر تداول جديد</div><button class="modal-close" onclick="closeModal('trade-modal')">✕</button></div>
-
-<div class="type-toggle">
-<button class="type-btn buy active" id="type-buy" onclick="setTradeType('buy')">
-<span>▲</span><span>BUY (شراء)</span>
-</button>
-<button class="type-btn sell" id="type-sell" onclick="setTradeType('sell')">
-<span>▼</span><span>SELL (بيع)</span>
-</button>
+<div class="modal-head"><div class="modal-title">صفقة جديدة</div><button class="modal-close" onclick="closeModal('trade-modal')">✕</button></div>
+<div class="form-group">
+<label class="form-label">الزوج</label>
+<input type="text" class="form-input" id="t-pair" placeholder="اكتب أو اختر..." list="pairs-list" autocomplete="off">
+<div class="pair-quick-chips" id="trade-pairs-chips"></div>
 </div>
-
 <div class="form-row">
-<div class="form-group">
-<label class="form-label">الرمز</label>
-<input type="text" class="form-input" id="t-symbol" list="symbols-list" value="EUR/USD" placeholder="اكتب الرمز...">
+<div class="form-group"><label class="form-label">الاتجاه</label><select class="form-input" id="t-dir"><option value="call">▲ Call</option><option value="put">▼ Put</option></select></div>
+<div class="form-group"><label class="form-label">المبلغ ($)</label><input type="number" class="form-input" id="t-amount" value="10" step="0.01"></div>
 </div>
-<div class="form-group">
-<label class="form-label">الحجم (لوت)</label>
-<input type="number" class="form-input" id="t-volume" value="0.10" step="0.01" min="0.01">
-</div>
-</div>
-
 <div class="form-row">
-<div class="form-group">
-<label class="form-label">سعر الفتح</label>
-<input type="number" class="form-input" id="t-open" value="1.0850" step="0.0001">
+<div class="form-group"><label class="form-label">النتيجة</label><select class="form-input" id="t-result"><option value="win">✓ ربح</option><option value="loss">✕ خسارة</option></select></div>
+<div class="form-group"><label class="form-label">مدة الصفقة</label><select class="form-input" id="t-dur"><option value="1">1د</option><option value="3">3د</option><option value="5" selected>5د</option><option value="15">15د</option><option value="30">30د</option></select></div>
 </div>
-<div class="form-group">
-<label class="form-label">الاستراتيجية (اختياري)</label>
-<select class="form-input" id="t-strat"><option value="">— بدون —</option></select>
-</div>
-</div>
-
-<div class="form-row">
-<div class="form-group">
-<label class="form-label">وقف الخسارة S/L (اختياري)</label>
-<input type="number" class="form-input" id="t-sl" placeholder="مثال: 1.0820" step="0.0001">
-</div>
-<div class="form-group">
-<label class="form-label">الهدف T/P (اختياري)</label>
-<input type="number" class="form-input" id="t-tp" placeholder="مثال: 1.0900" step="0.0001">
+<div class="form-group"><label class="form-label">الاستراتيجية</label><select class="form-input" id="t-strat"><option value="">— بدون —</option></select></div>
+<div class="form-group"><label class="form-label">ملاحظات</label><input type="text" class="form-input" id="t-note" placeholder="سبب الدخول..."></div>
+<div class="modal-actions"><button class="btn btn-g" onclick="closeModal('trade-modal')">إلغاء</button><button class="btn btn-p" onclick="saveTrade()">حفظ</button></div>
 </div>
 </div>
 
-<div class="form-group">
-<label class="form-label">ملاحظات</label>
-<input type="text" class="form-input" id="t-note" placeholder="سبب الدخول...">
-</div>
-
-<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.9rem;margin-bottom:1rem;font-size:.78rem;color:var(--soft);line-height:1.7">
-<div style="color:var(--calm);font-weight:700;margin-bottom:.4rem">💡 معلومات الأمر:</div>
-<div>• BUY = ترتفع العملة → تربح عند صعود السعر</div>
-<div>• SELL = تنخفض العملة → تربح عند هبوط السعر</div>
-<div>• 1.00 لوت = 100,000 وحدة (10$ لكل نقطة)</div>
-<div>• 0.10 لوت = 10,000 وحدة (1$ لكل نقطة)</div>
-</div>
-
-<div class="modal-actions">
-<button class="btn btn-g" onclick="closeModal('trade-modal')">إلغاء</button>
-<button class="btn btn-buy" onclick="saveTrade()">✅ تنفيذ الأمر</button>
-</div>
-</div>
-</div>
-
-<!-- CLOSE POSITION MODAL -->
-<div class="modal-bg" id="close-modal">
-<div class="modal">
-<div class="modal-head"><div class="modal-title">🔒 إغلاق الصفقة</div><button class="modal-close" onclick="closeModal('close-modal')">✕</button></div>
-
-<div id="close-info" style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.85rem;line-height:1.9">
-</div>
-
-<div class="form-group">
-<label class="form-label">سعر الإغلاق</label>
-<input type="number" class="form-input" id="close-price" step="0.0001">
-</div>
-
-<div style="background:linear-gradient(155deg,var(--okS),transparent);border:1px solid rgba(74,157,126,.3);border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center">
-<div style="font-size:.75rem;color:var(--mute);margin-bottom:.3rem">الربح / الخسارة المتوقعة</div>
-<div id="close-preview" style="font-size:1.5rem;font-weight:800;color:var(--ok)">$0.00</div>
-</div>
-
-<div class="modal-actions">
-<button class="btn btn-g" onclick="closeModal('close-modal')">إلغاء</button>
-<button class="btn btn-p" onclick="confirmClose()">🔒 تأكيد الإغلاق</button>
-</div>
-</div>
-</div>
-
-<!-- STRATEGY MODAL -->
 <div class="modal-bg" id="strat-modal">
 <div class="modal" style="max-width:540px">
 <div class="modal-head"><div class="modal-title" id="strat-modal-title">استراتيجية جديدة</div><button class="modal-close" onclick="closeModal('strat-modal')">✕</button></div>
@@ -741,34 +520,30 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 <div class="form-row">
 <div class="form-group"><label class="form-label">التصنيف</label><select class="form-input" id="s-cat"><option>Breakout</option><option>Trend</option><option>Reversal</option><option>Scalping</option><option>News</option><option>أخرى</option></select></div>
-<div class="form-group"><label class="form-label">الاتجاه</label><select class="form-input" id="s-dir"><option value="buy">▲ Buy</option><option value="sell">▼ Sell</option><option value="both">◆ Both</option></select></div>
+<div class="form-group"><label class="form-label">الاتجاه</label><select class="form-input" id="s-dir"><option value="call">▲ Call</option><option value="put">▼ Put</option><option value="both">◆ كلاهما</option></select></div>
 </div>
 <div class="form-row">
 <div class="form-group"><label class="form-label">التايم فريم</label><select class="form-input" id="s-tf"><option>1د</option><option>5د</option><option>15د</option><option>30د</option><option>1س</option><option>4س</option></select></div>
-<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="s-risk" value="1" step="0.1"></div>
+<div class="form-group"><label class="form-label">مدة الصفقة</label><input type="text" class="form-input" id="s-dur" value="5 دقائق"></div>
 </div>
-<div class="form-group"><label class="form-label">الرموز المفضلة</label><input type="text" class="form-input" id="s-pairs" placeholder="EUR/USD, XAU/USD" autocomplete="off"></div>
+<div class="form-row">
+<div class="form-group"><label class="form-label">الجلسة</label><select class="form-input" id="s-session"><option>طوكيو</option><option>لندن</option><option>نيويورك</option><option>سيدني</option><option>أي وقت</option></select></div>
+<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="s-risk" value="2" step="0.5"></div>
+</div>
+<div class="form-group">
+<label class="form-label">الأزواج المفضلة</label>
+<input type="text" class="form-input" id="s-pairs" placeholder="اكتب أو اختر..." autocomplete="off">
+<div class="pair-quick-chips" id="strat-pairs-chips"></div>
+</div>
 <div class="form-group"><label class="form-label">شروط الدخول</label><textarea class="form-input" id="s-entry"></textarea></div>
 <div class="form-group"><label class="form-label">شروط الخروج</label><textarea class="form-input" id="s-exit"></textarea></div>
 <div class="modal-actions"><button class="btn btn-g" onclick="closeModal('strat-modal')">إلغاء</button><button class="btn btn-p" onclick="saveStrategy()">حفظ</button></div>
 </div>
 </div>
 
-<!-- SETTINGS MODAL -->
 <div class="modal-bg" id="settings-modal">
 <div class="modal" style="max-width:540px">
 <div class="modal-head"><div class="modal-title">⚙️ الإعدادات</div><button class="modal-close" onclick="closeModal('settings-modal')">✕</button></div>
-
-<div class="setting-group" id="g-tz">
-<div class="setting-header" onclick="toggleGroup('g-tz')">
-<div class="setting-icon tz">🌍</div>
-<div class="setting-info"><div class="setting-title">المنطقة الزمنية</div><div class="setting-desc">اعرض الجلسات بتوقيت مدينتك</div></div>
-<div class="setting-arrow">▼</div>
-</div>
-<div class="setting-body"><div class="setting-content">
-<div class="tz-grid" id="tz-grid-settings"></div>
-</div></div>
-</div>
 
 <div class="setting-group" id="g-bg">
 <div class="setting-header" onclick="toggleGroup('g-bg')">
@@ -852,22 +627,23 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div></div>
 </div>
 
-<div class="setting-group" id="g-account">
-<div class="setting-header" onclick="toggleGroup('g-account')">
+<div class="setting-group" id="g-money">
+<div class="setting-header" onclick="toggleGroup('g-money')">
 <div class="setting-icon data">💰</div>
-<div class="setting-info"><div class="setting-title">الحساب</div><div class="setting-desc">إعدادات الرصيد والرافعة</div></div>
+<div class="setting-info"><div class="setting-title">رأس المال</div><div class="setting-desc">الإعدادات المالية</div></div>
 <div class="setting-arrow">▼</div>
 </div>
 <div class="setting-body"><div class="setting-content">
 <div class="form-row">
-<div class="form-group" style="margin:0"><label class="form-label">الرصيد ($)</label><input type="number" class="form-input" id="set-cap" value="1000"></div>
+<div class="form-group" style="margin:0"><label class="form-label">رأس المال ($)</label><input type="number" class="form-input" id="set-cap" value="1000"></div>
 <div class="form-group" style="margin:0"><label class="form-label">العملة</label><select class="form-input" id="set-cur"><option value="$">دولار ($)</option><option value="€">يورو (€)</option><option value="£">جنيه (£)</option></select></div>
 </div>
+<div class="form-group" style="margin-top:.8rem;margin-bottom:0"><label class="form-label">نسبة العائد في المنصة (%)</label><input type="number" class="form-input" id="set-payout" value="80" step="5"></div>
 <div class="form-row" style="margin-top:.8rem">
-<div class="form-group" style="margin:0"><label class="form-label">الرافعة المالية</label><select class="form-input" id="set-leverage"><option value="1">1:1</option><option value="10">1:10</option><option value="30">1:30</option><option value="50">1:50</option><option value="100" selected>1:100</option><option value="200">1:200</option><option value="500">1:500</option></select></div>
 <div class="form-group" style="margin:0"><label class="form-label">حد الخسارة اليومي ($)</label><input type="number" class="form-input" id="set-loss-limit" value="0" min="0"></div>
+<div class="form-group" style="margin:0"><label class="form-label">حد الصفقات اليومي</label><input type="number" class="form-input" id="set-trade-limit" value="0" min="0"></div>
 </div>
-<div style="font-size:.68rem;color:var(--mute);margin-top:.4rem">حد الخسارة: ضع 0 لإلغاء الحد</div>
+<div style="font-size:.68rem;color:var(--mute);margin-top:.4rem">ضع 0 لإلغاء الحد</div>
 </div></div>
 </div>
 
@@ -897,7 +673,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
-/* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -914,137 +689,11 @@ function toast(title, msg='', type='info', dur=3500) {
     setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, dur);
 }
 
-/* ============ SYMBOL SPECIFICATIONS (MT5 — محدّثة) ============ */
-const SYMBOL_SPECS = {
-    // Majors
-    'EUR/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'GBP/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'AUD/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'NZD/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'USD/CHF': { pipSize:0.0001, pipValuePerLot:11.3,  decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'USD/CAD': { pipSize:0.0001, pipValuePerLot:7.4,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    // Crosses
-    'EUR/GBP': { pipSize:0.0001, pipValuePerLot:12.7,  decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'EUR/AUD': { pipSize:0.0001, pipValuePerLot:6.6,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'EUR/CAD': { pipSize:0.0001, pipValuePerLot:7.4,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'GBP/AUD': { pipSize:0.0001, pipValuePerLot:6.6,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    // JPY pairs
-    'USD/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'EUR/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'GBP/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    'AUD/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
-    // Metals
-    'XAU/USD': { pipSize:0.01,   pipValuePerLot:1,     decimals:2, contractSize:100,    minLot:0.01, maxLot:50,  lotStep:0.01 },
-    'XAG/USD': { pipSize:0.001,  pipValuePerLot:5,     decimals:3, contractSize:5000,   minLot:0.01, maxLot:100, lotStep:0.01 },
-    // Crypto (1 lot = 1 coin عند معظم الوسطاء)
-    'BTC/USD': { pipSize:1,      pipValuePerLot:1,     decimals:2, contractSize:1,      minLot:0.01, maxLot:10,  lotStep:0.01 },
-    'ETH/USD': { pipSize:0.1,    pipValuePerLot:0.1,   decimals:2, contractSize:1,      minLot:0.01, maxLot:50,  lotStep:0.01 },
-    // Indices (CFD — 1 lot = 1 contract)
-    'US30':    { pipSize:1,      pipValuePerLot:1,     decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 },
-    'NAS100':  { pipSize:1,      pipValuePerLot:1,     decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 },
-    'SP500':   { pipSize:0.1,    pipValuePerLot:0.1,   decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 }
-};
-
-function getSymbolSpec(symbol) {
-    return SYMBOL_SPECS[symbol] || SYMBOL_SPECS['EUR/USD'];
-}
-
-function calcPnL(symbol, type, volume, openPrice, closePrice) {
-    const spec = getSymbolSpec(symbol);
-    const direction = type === 'buy' ? 1 : -1;
-    const priceDiff = (closePrice - openPrice) * direction;
-    const pnl = priceDiff * volume * spec.contractSize;
-    return pnl;
-}
-
-function calcPips(symbol, openPrice, closePrice) {
-    const spec = getSymbolSpec(symbol);
-    return Math.abs(closePrice - openPrice) / spec.pipSize;
-}
-
-/* ============ TIMEZONES ============ */
-const TIMEZONES = [
-    { city: 'دمشق', flag: '🇸🇾', offset: 3 },
-    { city: 'بيروت', flag: '🇱🇧', offset: 3 },
-    { city: 'عمّان', flag: '🇯🇴', offset: 3 },
-    { city: 'بغداد', flag: '🇮🇶', offset: 3 },
-    { city: 'الرياض', flag: '🇸🇦', offset: 3 },
-    { city: 'الكويت', flag: '🇰🇼', offset: 3 },
-    { city: 'الدوحة', flag: '🇶🇦', offset: 3 },
-    { city: 'المنامة', flag: '🇧🇭', offset: 3 },
-    { city: 'مسقط', flag: '🇴🇲', offset: 4 },
-    { city: 'دبي', flag: '🇦🇪', offset: 4 },
-    { city: 'أبوظبي', flag: '🇦🇪', offset: 4 },
-    { city: 'صنعاء', flag: '🇾🇪', offset: 3 },
-    { city: 'القاهرة', flag: '🇪🇬', offset: 2 },
-    { city: 'الخرطوم', flag: '🇸🇩', offset: 2 },
-    { city: 'طرابلس', flag: '🇱🇾', offset: 2 },
-    { city: 'تونس', flag: '🇹🇳', offset: 1 },
-    { city: 'الجزائر', flag: '🇩🇿', offset: 1 },
-    { city: 'الرباط', flag: '🇲🇦', offset: 1 },
-    { city: 'نواكشوط', flag: '🇲🇷', offset: 0 },
-    { city: 'إستنبول', flag: '🇹🇷', offset: 3 },
-    { city: 'طهران', flag: '🇮🇷', offset: 3.5 },
-    { city: 'كابول', flag: '🇦🇫', offset: 4.5 },
-    { city: 'كراتشي', flag: '🇵🇰', offset: 5 },
-    { city: 'دلهي', flag: '🇮🇳', offset: 5.5 },
-    { city: 'دكا', flag: '🇧🇩', offset: 6 },
-    { city: 'بانكوك', flag: '🇹🇭', offset: 7 },
-    { city: 'جاكرتا', flag: '🇮🇩', offset: 7 },
-    { city: 'سنغافورة', flag: '🇸🇬', offset: 8 },
-    { city: 'هونغ كونغ', flag: '🇭🇰', offset: 8 },
-    { city: 'شنغهاي', flag: '🇨🇳', offset: 8 },
-    { city: 'بكين', flag: '🇨🇳', offset: 8 },
-    { city: 'مانيلا', flag: '🇵🇭', offset: 8 },
-    { city: 'كوالالمبور', flag: '🇲🇾', offset: 8 },
-    { city: 'طوكيو', flag: '🇯🇵', offset: 9 },
-    { city: 'سول', flag: '🇰🇷', offset: 9 },
-    { city: 'سيدني', flag: '🇦🇺', offset: 10 },
-    { city: 'ملبورن', flag: '🇦🇺', offset: 10 },
-    { city: 'أوكلاند', flag: '🇳🇿', offset: 12 },
-    { city: 'موسكو', flag: '🇷🇺', offset: 3 },
-    { city: 'كييف', flag: '🇺🇦', offset: 2 },
-    { city: 'أثينا', flag: '🇬🇷', offset: 2 },
-    { city: 'روما', flag: '🇮🇹', offset: 1 },
-    { city: 'باريس', flag: '🇫🇷', offset: 1 },
-    { city: 'برلين', flag: '🇩🇪', offset: 1 },
-    { city: 'مدريد', flag: '🇪🇸', offset: 1 },
-    { city: 'أمستردام', flag: '🇳🇱', offset: 1 },
-    { city: 'زيوريخ', flag: '🇨🇭', offset: 1 },
-    { city: 'ستوكهولم', flag: '🇸🇪', offset: 1 },
-    { city: 'لندن', flag: '🇬🇧', offset: 0 },
-    { city: 'دبلن', flag: '🇮🇪', offset: 0 },
-    { city: 'لشبونة', flag: '🇵🇹', offset: 0 },
-    { city: 'نيويورك', flag: '🇺🇸', offset: -5 },
-    { city: 'واشنطن', flag: '🇺🇸', offset: -5 },
-    { city: 'ميامي', flag: '🇺🇸', offset: -5 },
-    { city: 'شيكاغو', flag: '🇺🇸', offset: -6 },
-    { city: 'دالاس', flag: '🇺🇸', offset: -6 },
-    { city: 'دنفر', flag: '🇺🇸', offset: -7 },
-    { city: 'لوس أنجلوس', flag: '🇺🇸', offset: -8 },
-    { city: 'سان فرانسيسكو', flag: '🇺🇸', offset: -8 },
-    { city: 'سياتل', flag: '🇺🇸', offset: -8 },
-    { city: 'فانكوفر', flag: '🇨🇦', offset: -8 },
-    { city: 'تورونتو', flag: '🇨🇦', offset: -5 },
-    { city: 'مونتريال', flag: '🇨🇦', offset: -5 },
-    { city: 'المكسيك', flag: '🇲🇽', offset: -6 },
-    { city: 'ساو باولو', flag: '🇧🇷', offset: -3 },
-    { city: 'ريو دي جانيرو', flag: '🇧🇷', offset: -3 },
-    { city: 'بوينس آيرس', flag: '🇦🇷', offset: -3 },
-    { city: 'جوهانسبرغ', flag: '🇿🇦', offset: 2 },
-    { city: 'لاغوس', flag: '🇳🇬', offset: 1 },
-    { city: 'نيروبي', flag: '🇰🇪', offset: 3 }
-];
-
 const DEFAULT_SETTINGS = {
-    capital: 1000, currency: '$',
+    capital: 1000, payout: 80, currency: '$',
     theme: 1, fontSize: 'md', volume: 70,
     notifEnabled: true, notifOpen: true, notifClose: true, advance: 5,
-    lossLimit: 0,
-    twelveDataKey: '',
-    tzOffset: 3,
-    tzCity: 'دمشق',
-    leverage: 100
+    lossLimit: 0, tradeLimit: 0, twelveDataKey: ''
 };
 
 const state = {
@@ -1055,10 +704,7 @@ const state = {
     notified: JSON.parse(localStorage.getItem('tp_notified')||'{}'),
     img: null,
     equityChart: null,
-    marketData: null,
-    tradeType: 'buy',
-    positionView: 'open',
-    closingTicket: null
+    marketData: null
 };
 
 function save() {
@@ -1069,15 +715,10 @@ function save() {
     localStorage.setItem('tp_notified', JSON.stringify(state.notified));
 }
 
-/* ============ TIME FORMATTING ============ */
 function f12(h24, m) {
-    let h = ((Math.floor(h24) % 24) + 24) % 24;
-    const p = h >= 12 ? 'م' : 'ص';
-    let h12 = h % 12; if (h12 === 0) h12 = 12;
-    return {time:`${h12}:${pad2(m)}`, period:p};
-}
-function applyOffset(utcHour, offset) {
-    return ((utcHour + offset) % 24 + 24) % 24;
+    const p = h24>=12?'م':'ص';
+    let h = h24%12; if (h===0) h=12;
+    return {time:`${h}:${pad2(m)}`, period:p};
 }
 const AR_DAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const AR_MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -1086,19 +727,13 @@ const arDate = d => `${AR_DAYS[d.getDay()]}، ${d.getDate()} ${AR_MONTHS[d.getMo
 function updateClock() {
     const n = new Date();
     const uh = n.getUTCHours(), um = n.getUTCMinutes(), us = n.getUTCSeconds();
-    const offset = state.settings.tzOffset ?? 3;
-    const offsetHours = Math.floor(offset);
-    const offsetMins = Math.round((offset - offsetHours) * 60);
-    const totalLocalMin = uh * 60 + um + offsetHours * 60 + offsetMins;
-    const localH = Math.floor(((totalLocalMin % 1440) + 1440) % 1440 / 60);
-    const localM = ((totalLocalMin % 60) + 60) % 60;
-    const d = f12(localH, localM), u = f12(uh, um);
-    $('#c-local').innerHTML = `<span>${d.time}:${pad2(us)}</span><span class="ampm">${d.period}</span>`;
+    const dh = (uh+3)%24;
+    const d = f12(dh, um), u = f12(uh, um);
+    $('#c-dam').innerHTML = `<span>${d.time}:${pad2(us)}</span><span class="ampm">${d.period}</span>`;
     $('#c-utc').innerHTML = `<span>${u.time}:${pad2(us)}</span><span class="ampm">${u.period}</span>`;
-    const utcMs = n.getTime() + n.getTimezoneOffset() * 60000;
-    $('#d-local').textContent = arDate(new Date(utcMs + (offsetHours * 60 + offsetMins) * 60000));
-    $('#d-utc').textContent = arDate(new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate())));
-    $('#clock-city-label').textContent = state.settings.tzCity || 'دمشق';
+    const utcMs = n.getTime() + n.getTimezoneOffset()*60000;
+    $('#d-dam').textContent = arDate(new Date(utcMs + 3*3600000));
+    $('#d-utc').textContent = arDate(new Date(Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate())));
 }
 
 function greeting() {
@@ -1112,7 +747,6 @@ function greeting() {
     $('#greeting-sub').textContent = s;
 }
 
-/* ============ SESSIONS ============ */
 const SESSIONS = [
     {id:'sydney',name:'سيدني',en:'Sydney',open:22,close:7,pairs:'AUD · NZD'},
     {id:'tokyo',name:'طوكيو',en:'Tokyo',open:0,close:9,pairs:'JPY · AUD'},
@@ -1120,70 +754,35 @@ const SESSIONS = [
     {id:'ny',name:'نيويورك',en:'New York',open:13,close:22,pairs:'USD · CAD'}
 ];
 
-function getUTCWeekendStatus(date) {
-    const day = date.getUTCDay();
-    const hour = date.getUTCHours() + date.getUTCMinutes() / 60;
-    if (day === 6) return { closed: true, reason: 'saturday' };
-    if (day === 0 && hour < 21) return { closed: true, reason: 'sunday-before' };
-    if (day === 5 && hour >= 21) return { closed: true, reason: 'friday-after' };
-    return { closed: false, reason: 'open' };
+function isOpen(s, utcH) {
+    if (s.open<=s.close) return utcH>=s.open && utcH<s.close;
+    return utcH>=s.open || utcH<s.close;
 }
-function isSessionActiveUTC(session, utcHour) {
-    if (session.open <= session.close) return utcHour >= session.open && utcHour < session.close;
-    return utcHour >= session.open || utcHour < session.close;
-}
-function sessionProgressUTC(session, utcHour) {
-    const total = session.open <= session.close ? session.close-session.open : (24-session.open)+session.close;
+function progress(s, utcH) {
+    const total = s.open<=s.close ? s.close-s.open : (24-s.open)+s.close;
     let el;
-    if (session.open <= session.close) el = utcHour-session.open;
-    else el = utcHour>=session.open ? utcHour-session.open : (24-session.open)+utcHour;
+    if (s.open<=s.close) el = utcH-s.open;
+    else el = utcH>=s.open ? utcH-s.open : (24-s.open)+utcH;
     el = Math.max(0,Math.min(total,el));
     return Math.round((el/total)*100);
 }
-function minsToOpenUTC(session, utcHour) { let d = session.open*60 - utcHour*60; if (d<=0) d+=1440; return Math.round(d); }
-function minsToCloseUTC(session, utcHour) { let d = session.close*60 - utcHour*60; if (d<=0) d+=1440; return Math.round(d); }
+function minsToOpen(s, utcH) { let d = s.open*60 - utcH*60; if (d<=0) d+=1440; return Math.round(d); }
+function minsToClose(s, utcH) { let d = s.close*60 - utcH*60; if (d<=0) d+=1440; return Math.round(d); }
 function fmtMin(m) { const h=Math.floor(m/60), mn=m%60; if (h&&mn) return `${h}س ${mn}د`; if (h) return `${h}س`; return `${mn}د`; }
-
-function getNextMarketOpenDesc() {
-    const n = new Date();
-    const day = n.getUTCDay();
-    const hour = n.getUTCHours() + n.getUTCMinutes()/60;
-    const offset = state.settings.tzOffset ?? 3;
-    const localOpen12 = f12(applyOffset(21, offset), 0);
-    if (day === 6) return `يفتح السوق يوم الأحد الساعة ${localOpen12.time} ${localOpen12.period} بتوقيتك`;
-    if (day === 0 && hour < 21) return `يفتح السوق اليوم الساعة ${localOpen12.time} ${localOpen12.period} بتوقيتك`;
-    if (day === 5 && hour >= 21) return `يفتح السوق يوم الأحد الساعة ${localOpen12.time} ${localOpen12.period} بتوقيتك`;
-    return '';
-}
+const damHour = h => (h+3)%24;
 
 function renderSessions() {
-    const now = new Date();
-    const utcH = now.getUTCHours() + now.getUTCMinutes()/60;
-    const weekend = getUTCWeekendStatus(now);
-    const offset = state.settings.tzOffset ?? 3;
-    const banner = $('#weekend-banner');
-    if (weekend.closed) {
-        banner.classList.add('visible');
-        $('#weekend-desc').textContent = getNextMarketOpenDesc();
-    } else {
-        banner.classList.remove('visible');
-    }
+    const n = new Date();
+    const utcH = n.getUTCHours() + n.getUTCMinutes()/60;
     $('#sessions').innerHTML = SESSIONS.map(s => {
-        const sessionOpenUTC = isSessionActiveUTC(s, utcH);
-        const isOpen = sessionOpenUTC && !weekend.closed;
-        const openLocal = applyOffset(s.open, offset);
-        const closeLocal = applyOffset(s.close, offset);
-        const o12 = f12(openLocal, 0);
-        const c12 = f12(closeLocal, 0);
-        const o12u = f12(s.open, 0);
-        const c12u = f12(s.close, 0);
-        const prg = isOpen ? sessionProgressUTC(s, utcH) : 0;
-        let cdText;
-        if (weekend.closed) cdText = '<strong>عطلة الأسبوع</strong>';
-        else if (isOpen) cdText = `تُغلق خلال <strong>${fmtMin(minsToCloseUTC(s, utcH))}</strong>`;
-        else cdText = `تفتح خلال <strong>${fmtMin(minsToOpenUTC(s, utcH))}</strong>`;
-        const cardClass = weekend.closed ? 'session closed-weekend' : (isOpen ? 'session open' : 'session');
-        return `<div class="${cardClass}">
+        const open = isOpen(s, utcH);
+        const od = damHour(s.open), cd = damHour(s.close);
+        const o12 = f12(od, 0), c12 = f12(cd, 0);
+        const prg = open ? progress(s, utcH) : 0;
+        const cdText = open
+            ? `تُغلق خلال <strong>${fmtMin(minsToClose(s, utcH))}</strong>`
+            : `تفتح خلال <strong>${fmtMin(minsToOpen(s, utcH))}</strong>`;
+        return `<div class="session ${open?'open':''}">
             <div class="session-head">
                 <div><div class="session-name">${s.name}</div><div class="session-en">${s.en}</div></div>
                 <div class="session-dot"></div>
@@ -1194,17 +793,15 @@ function renderSessions() {
                 <span class="t">${c12.time}</span><span class="ampm">${c12.period}</span>
             </div>
             <div class="session-status-row">
-                <span class="session-status">${weekend.closed ? '🌙 عطلة' : (isOpen?'◉ مفتوحة':'◯ مغلقة')}</span>
+                <span class="session-status">${open?'◉ مفتوحة':'◯ مغلقة'}</span>
                 <span class="session-countdown">${cdText}</span>
             </div>
             <div class="session-progress"><div class="session-progress-fill" style="width:${prg}%"></div></div>
             <div class="session-pairs">${s.pairs}</div>
-            <div class="session-utc">UTC: ${o12u.time} ${o12u.period} — ${c12u.time} ${c12u.period}</div>
         </div>`;
     }).join('');
 }
 
-/* ============ SOUND ============ */
 let actx = null;
 function beep(f=660, d=250) {
     if (!state.soundEnabled) return;
@@ -1224,100 +821,52 @@ function beep(f=660, d=250) {
 function checkAlerts() {
     if (state.settings.notifEnabled === false) return;
     const n = new Date();
-    if (getUTCWeekendStatus(n).closed) return;
     const utcH = n.getUTCHours() + n.getUTCMinutes()/60;
     const today = n.toDateString();
     const adv = state.settings.advance || 5;
-    const offset = state.settings.tzOffset ?? 3;
     SESSIONS.forEach(s => {
-        const open = isSessionActiveUTC(s, utcH);
+        const open = isOpen(s, utcH);
         const key = `${today}-${s.id}`;
-        const mO = minsToOpenUTC(s, utcH), mC = minsToCloseUTC(s, utcH);
-        const o12 = f12(applyOffset(s.open, offset), 0);
-        const c12 = f12(applyOffset(s.close, offset), 0);
+        const mO = minsToOpen(s, utcH), mC = minsToClose(s, utcH);
+        const o12 = f12(damHour(s.open), 0), c12 = f12(damHour(s.close), 0);
         if (!open && mO<=adv && mO>0 && !state.notified[key+'-o'] && state.settings.notifOpen !== false) {
             state.notified[key+'-o'] = true; save();
             beep(880, 300);
-            toast(`🔔 ${s.name} تفتح قريباً`, `بعد ${mO} دقيقة — ${o12.time} ${o12.period} بتوقيتك`, 'success', 8000);
+            toast(`🔔 ${s.name} تفتح قريباً`, `بعد ${mO} دقيقة — ${o12.time} ${o12.period}`, 'success', 8000);
         }
         if (open && mC<=adv && mC>0 && !state.notified[key+'-c'] && state.settings.notifClose !== false) {
             state.notified[key+'-c'] = true; save();
             beep(440, 300);
-            toast(`🔕 ${s.name} تُغلق قريباً`, `بعد ${mC} دقيقة — ${c12.time} ${c12.period} بتوقيتك`, 'warning', 8000);
+            toast(`🔕 ${s.name} تُغلق قريباً`, `بعد ${mC} دقيقة — ${c12.time} ${c12.period}`, 'warning', 8000);
         }
     });
     if (Object.keys(state.notified).length > 100) { state.notified = {}; save(); }
 }
 
-/* ============ TABS ============ */
 function switchTab(name, btn) {
     $$('.tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     $$('.panel').forEach(p => p.classList.remove('active'));
     $(`#p-${name}`).classList.add('active');
-    if (name === 'journal') renderAccount();
+    if (name === 'journal') renderJournal();
     if (name === 'analysis') renderAnalysis();
     if (name === 'strategies') renderStrats();
     if (name === 'market') renderMarket();
 }
 
-function switchPositions(view, btn) {
-    state.positionView = view;
-    $$('.mini-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderTradeList();
-}
-
-/* ============ ACCOUNT CALCULATIONS ============ */
-function getClosedTrades() {
-    return state.trades.filter(t => t.status === 'closed');
-}
-function getOpenTrades() {
-    return state.trades.filter(t => t.status === 'open');
+function tradePnL(t) {
+    const amt = parseFloat(t.amount) || 0;
+    if (t.result === 'win') return amt * (state.settings.payout/100);
+    return -amt;
 }
 
 function getBalance() {
-    const closedPnL = getClosedTrades().reduce((s,t) => s + (t.pnl || 0), 0);
-    return state.settings.capital + closedPnL;
-}
-
-function getCurrentPrice(symbol) {
-    if (state.marketData) {
-        const d = state.marketData[symbol];
-        if (d && d.close) return parseFloat(d.close);
-        const alt = state.marketData[symbol.replace('/','')];
-        if (alt && alt.close) return parseFloat(alt.close);
-    }
-    return null;
-}
-
-function getFloatingPnL() {
-    return getOpenTrades().reduce((sum, t) => {
-        const currentPrice = getCurrentPrice(t.symbol);
-        if (currentPrice === null) return sum;
-        const pnl = calcPnL(t.symbol, t.type, t.volume, t.openPrice, currentPrice);
-        return sum + pnl;
-    }, 0);
-}
-
-function getEquity() {
-    return getBalance() + getFloatingPnL();
-}
-
-function getUsedMargin() {
-    let margin = 0;
-    getOpenTrades().forEach(t => {
-        const spec = getSymbolSpec(t.symbol);
-        const notional = t.volume * spec.contractSize * t.openPrice;
-        margin += notional / (state.settings.leverage || 100);
-    });
-    return margin;
+    return state.settings.capital + state.trades.reduce((s,t) => s + tradePnL(t), 0);
 }
 
 function getStats() {
-    const closed = getClosedTrades();
-    const total = closed.length;
-    const wins = closed.filter(t => t.pnl > 0).length;
+    const total = state.trades.length;
+    const wins = state.trades.filter(t => t.result==='win').length;
     const losses = total - wins;
     const rate = total ? (wins/total)*100 : 0;
     const netPnL = getBalance() - state.settings.capital;
@@ -1327,26 +876,34 @@ function getStats() {
 
 function getStatus() {
     const { total, rate, changePct } = getStats();
-    if (total < 5) return { key:'weak', icon:'◈', name:'ابدأ', text:`أغلق ${5-total} صفقات أخرى لبدء التحليل` };
+    if (total < 5) return { key:'weak', icon:'◈', name:'ابدأ', text:`سجّل ${5-total} صفقات أخرى لبدء التحليل` };
     if (changePct >= 15 && rate >= 55) return { key:'excellent', icon:'🌟', name:'ممتاز', text:'أداؤك ممتاز! حافظ على استراتيجيتك ولا تتهور.' };
     if (changePct >= 5) return { key:'good', icon:'✅', name:'جيد', text:'أنت على الطريق الصحيح. ركّز على تحسين نقاط الدخول.' };
-    if (changePct >= -5) return { key:'weak', icon:'⚠️', name:'ضعيف', text:'الوضع متعادل. راجع آخر 10 صفقات واكتشف الأخطاء.' };
-    return { key:'bad', icon:'🚨', name:'سيئ', text:'توقف! خسائرك كبيرة. راجع استراتيجيتك قبل المتابعة.' };
+    if (changePct >= -5) return { key:'weak', icon:'⚠️', name:'ضعيف', text:'الوضع متعادل. راجع آخر 10 صفقات واكتشف الأخطاء المتكررة.' };
+    return { key:'bad', icon:'🚨', name:'سيئ', text:'توقف! خسائرك كبيرة. توقف اليوم وتعلّم قبل المتابعة.' };
 }
 
-function renderAccount() {
-    const cur = state.settings.currency;
-    const balance = getBalance();
-    const equity = getEquity();
-    const floating = getFloatingPnL();
-    const margin = getUsedMargin();
+function todayStats() {
+    const today = new Date().toDateString();
+    const todayTrades = state.trades.filter(t => new Date(t.createdAt).toDateString() === today);
+    const totalPnL = todayTrades.reduce((s,t) => s + tradePnL(t), 0);
+    const losses = todayTrades.filter(t => tradePnL(t) < 0).reduce((s,t) => s + tradePnL(t), 0);
+    return { count: todayTrades.length, pnl: totalPnL, losses: Math.abs(losses) };
+}
 
-    $('#acc-balance').textContent = `${cur}${fmtMoney(balance)}`;
-    $('#acc-equity').textContent = `${cur}${fmtMoney(equity)}`;
-    const flEl = $('#acc-floating');
-    flEl.textContent = `${floating >= 0 ? '+' : ''}${cur}${fmtMoney(Math.abs(floating))}`;
-    flEl.className = 'acc-value ' + (floating > 0 ? 'pos' : floating < 0 ? 'neg' : '');
-    $('#acc-margin').textContent = `${cur}${fmtMoney(margin)}`;
+function renderJournal() {
+    const bal = getBalance();
+    const net = bal - state.settings.capital;
+    const pct = state.settings.capital ? (net/state.settings.capital)*100 : 0;
+    const cur = state.settings.currency;
+
+    const bEl = $('#balance');
+    bEl.textContent = `${cur}${fmtMoney(bal)}`;
+    bEl.className = 'balance-value ' + (net>0?'pos':net<0?'neg':'');
+
+    const cEl = $('#balance-change');
+    cEl.textContent = `${net>=0?'+':''}${cur}${fmtMoney(Math.abs(net))} (${pct>=0?'+':''}${pct.toFixed(1)}%)`;
+    cEl.className = 'balance-change ' + (net>0?'pos':net<0?'neg':'');
 
     const s = getStats();
     $('#s-total').textContent = s.total;
@@ -1361,77 +918,34 @@ function renderAccount() {
     $('#status-name').textContent = st.name;
     $('#status-text').textContent = st.text;
 
-    renderTradeList();
+    renderTradesList();
     renderEquityChart();
 }
 
-function renderTradeList() {
-    const tbody = $('#trade-list');
-    const view = state.positionView;
-    const trades = view === 'open' ? getOpenTrades() : getClosedTrades().slice().reverse();
-
-    $('#open-count').textContent = getOpenTrades().length;
-    $('#history-count').textContent = getClosedTrades().length;
-
-    const colHeader = $('#col-close-or-current');
-    colHeader.textContent = view === 'open' ? 'الحالي' : 'الإغلاق';
-
-    if (!trades.length) {
-        tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;padding:2rem;color:var(--mute);">
-            <div style="font-size:2rem;opacity:.3;margin-bottom:.5rem;">📋</div>
-            <div>${view === 'open' ? 'لا توجد صفقات مفتوحة' : 'لا يوجد سجل صفقات بعد'}</div>
-        </td></tr>`;
+function renderTradesList() {
+    const list = $('#trade-list');
+    if (!state.trades.length) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><div>لا توجد صفقات بعد</div><div style="font-size:.75rem;margin-top:.4rem;color:var(--mute)">اضغط "+ صفقة" للبدء</div></div>`;
         return;
     }
-
-    tbody.innerHTML = trades.map(t => {
-        const spec = getSymbolSpec(t.symbol);
-        const rowClass = t.type === 'buy' ? 'buy-row' : 'sell-row';
-        const typeClass = t.type === 'buy' ? 'type-buy' : 'type-sell';
-        const typeLabel = t.type === 'buy' ? '▲ BUY' : '▼ SELL';
-
-        let currentPrice, pnl, pnlClass, pnlText, statusText, actionHTML;
-
-        if (t.status === 'open') {
-            currentPrice = getCurrentPrice(t.symbol);
-            if (currentPrice !== null) {
-                pnl = calcPnL(t.symbol, t.type, t.volume, t.openPrice, currentPrice);
-            } else {
-                pnl = 0;
-            }
-            pnlClass = pnl > 0 ? 'pnl-pos' : pnl < 0 ? 'pnl-neg' : 'pnl-flat';
-            pnlText = (pnl >= 0 ? '+' : '') + fmtMoney(Math.abs(pnl));
-            statusText = '<span style="color:var(--ok);font-weight:700;">🟢 نشط</span>';
-            actionHTML = `<button class="action-btn close" onclick="openCloseModal('${t.id}')">🔒 إغلاق</button>
-                          <button class="action-btn del" onclick="deleteTrade('${t.id}')">🗑</button>`;
-        } else {
-            currentPrice = t.closePrice;
-            pnl = t.pnl || 0;
-            pnlClass = pnl > 0 ? 'pnl-pos' : pnl < 0 ? 'pnl-neg' : 'pnl-flat';
-            pnlText = (pnl >= 0 ? '+' : '') + fmtMoney(Math.abs(pnl));
-            statusText = '<span style="color:var(--mute);font-weight:700;">✅ مغلق</span>';
-            actionHTML = `<button class="action-btn del" onclick="deleteTrade('${t.id}')">🗑</button>`;
-        }
-
-        const cur = state.settings.currency;
-        const slText = t.sl ? t.sl.toFixed(spec.decimals) : '—';
-        const tpText = t.tp ? t.tp.toFixed(spec.decimals) : '—';
-        const curPriceText = currentPrice !== null ? currentPrice.toFixed(spec.decimals) : '—';
-
-        return `<tr class="${t.status === 'open' ? rowClass : ''}">
-            <td class="ticket">#${t.ticket}</td>
-            <td class="time-col">${esc(t.openTimeStr)}</td>
-            <td class="symbol">${esc(t.symbol)}</td>
-            <td class="${typeClass}">${typeLabel}</td>
-            <td>${t.volume.toFixed(2)}</td>
-            <td>${t.openPrice.toFixed(spec.decimals)}</td>
-            <td class="sl-price">${slText}</td>
-            <td class="tp-price">${tpText}</td>
-            <td>${curPriceText}</td>
-            <td class="${pnlClass}">${cur}${pnlText}</td>
-            <td>${statusText}</td>
-            <td>${actionHTML}</td>
-        </tr>`;
+    const cur = state.settings.currency;
+    list.innerHTML = state.trades.slice().reverse().map(t => {
+        const pnl = tradePnL(t);
+        const strat = state.strategies.find(s => s.id === t.stratId);
+        return `<div class="trade ${t.result}">
+            <div class="trade-info">
+                <div class="trade-pair">
+                    <span>${esc(t.pair)}</span>
+                    <span class="trade-badge ${t.dir==='call'?'badge-call':'badge-put'}">${t.dir==='call'?'▲ صعود':'▼ هبوط'}</span>
+                    ${strat?`<span class="trade-badge badge-strat">${esc(strat.icon)} ${esc(strat.name)}</span>`:''}
+                </div>
+                <div class="trade-time">${esc(t.time)} · ${esc(t.dur)} د${t.note?' · '+esc(t.note):''}</div>
+            </div>
+            <div class="trade-pnl ${pnl>0?'pos':'neg'}">${pnl>0?'+':''}${cur}${fmtMoney(Math.abs(pnl))}</div>
+            <div class="trade-actions">
+                <button class="icon-mini del" onclick="deleteTrade('${t.id}')">🗑</button>
+            </div>
+        </div>`;
     }).join('');
 }
 
@@ -1440,17 +954,7 @@ function renderEquityChart() {
     if (!canvas) return;
     if (state.equityChart) state.equityChart.destroy();
     const cur = state.settings.currency;
-    const closed = getClosedTrades();
-
-    let bal = state.settings.capital;
-    const labels = ['البداية'], data = [bal];
-    closed.forEach((t,i) => {
-        bal += t.pnl || 0;
-        labels.push('#' + t.ticket);
-        data.push(bal);
-    });
-
-    if (closed.length === 0) {
+    if (!state.trades.length) {
         state.equityChart = new Chart(canvas.getContext('2d'), {
             type: 'line',
             data: { labels:['البداية'], datasets:[{ label:'الرصيد', data:[state.settings.capital], borderColor:'#6b9bd1', backgroundColor:'rgba(107,155,209,.1)', fill:true, tension:.3, pointRadius:0, borderWidth:2 }] },
@@ -1460,7 +964,13 @@ function renderEquityChart() {
         });
         return;
     }
-
+    let bal = state.settings.capital;
+    const labels = ['البداية'], data = [bal];
+    state.trades.forEach((t,i) => {
+        bal += tradePnL(t);
+        labels.push('#' + (i+1));
+        data.push(bal);
+    });
     const isProfit = data[data.length-1] >= data[0];
     state.equityChart = new Chart(canvas.getContext('2d'), {
         type: 'line',
@@ -1471,11 +981,41 @@ function renderEquityChart() {
     });
 }
 
-/* ============ NEW TRADE ============ */
-function setTradeType(type) {
-    state.tradeType = type;
-    $('#type-buy').classList.toggle('active', type === 'buy');
-    $('#type-sell').classList.toggle('active', type === 'sell');
+const PAIRS_CATEGORIES = {
+    'العملات الرئيسية': ['EUR/USD','GBP/USD','USD/JPY','USD/CHF','USD/CAD','AUD/USD','NZD/USD'],
+    'العملات المتقاطعة': ['EUR/GBP','EUR/JPY','GBP/JPY','AUD/JPY','EUR/AUD','EUR/CAD','GBP/AUD'],
+    'المعادن': ['XAU/USD','XAG/USD'],
+    'العملات الرقمية': ['BTC/USD','ETH/USD'],
+    'المؤشرات': ['US30','NAS100','SP500']
+};
+
+function renderPairChips(containerId, inputId, multiSelect=false) {
+    const container = $('#'+containerId);
+    if (!container) return;
+    let html = '';
+    for (const [cat, pairs] of Object.entries(PAIRS_CATEGORIES)) {
+        html += `<div class="pair-chip cat-title">${cat}</div>`;
+        pairs.forEach(p => {
+            html += `<button type="button" class="pair-chip" onclick="selectPair('${p}', '${inputId}', ${multiSelect})">${p}</button>`;
+        });
+    }
+    container.innerHTML = html;
+}
+
+function selectPair(pair, inputId, multiSelect) {
+    const input = $('#'+inputId);
+    if (!input) return;
+    if (multiSelect) {
+        const current = input.value.split(',').map(s => s.trim()).filter(Boolean);
+        if (current.includes(pair)) {
+            input.value = current.filter(p => p !== pair).join(', ');
+        } else {
+            input.value = [...current, pair].join(', ');
+        }
+    } else {
+        input.value = pair;
+    }
+    input.focus();
 }
 
 function updateStratDropdown() {
@@ -1484,271 +1024,183 @@ function updateStratDropdown() {
 }
 
 function openTradeModal() {
+    const ts = todayStats();
+    if (state.settings.lossLimit > 0 && ts.losses >= state.settings.lossLimit) {
+        if (!confirm(`⚠️ وصلت لحد الخسارة اليومي (${state.settings.currency}${state.settings.lossLimit}).\nهل تريد المتابعة؟`)) return;
+    }
+    if (state.settings.tradeLimit > 0 && ts.count >= state.settings.tradeLimit) {
+        if (!confirm(`⚠️ وصلت لحد الصفقات اليومي (${state.settings.tradeLimit}).\nهل تريد المتابعة؟`)) return;
+    }
     $('#trade-modal').classList.add('show');
-    state.tradeType = 'buy';
-    setTradeType('buy');
-    $('#t-symbol').value = 'EUR/USD';
-    $('#t-volume').value = '0.10';
-    $('#t-open').value = '1.0850';
-    $('#t-sl').value = '';
-    $('#t-tp').value = '';
-    $('#t-note').value = '';
+    ['t-pair','t-note'].forEach(id => $('#'+id).value = '');
+    $('#t-amount').value = '10';
+    $('#t-dir').value = 'call';
+    $('#t-result').value = 'win';
+    $('#t-dur').value = '5';
     updateStratDropdown();
-}
-
-/* ✅ FIX #1: Ticket generator — unique per device & session (no more conflicts) */
-function newTicket() {
-    const ts = Date.now().toString().slice(-7);
-    const rnd = Math.floor(Math.random() * 900) + 100;
-    return parseInt(ts + rnd, 10);
+    renderPairChips('trade-pairs-chips', 't-pair', false);
 }
 
 function saveTrade() {
-    const symbol = $('#t-symbol').value.trim().toUpperCase();
-    const volume = parseFloat($('#t-volume').value);
-    const openPrice = parseFloat($('#t-open').value);
-    const sl = parseFloat($('#t-sl').value) || null;
-    const tp = parseFloat($('#t-tp').value) || null;
-    const stratId = $('#t-strat').value || null;
-    const note = $('#t-note').value.trim();
-
-    if (!symbol) { toast('خطأ','أدخل الرمز','warning'); return; }
-    if (!volume || volume <= 0) { toast('خطأ','أدخل حجم صحيح','warning'); return; }
-    if (!openPrice || openPrice <= 0) { toast('خطأ','أدخل سعر فتح صحيح','warning'); return; }
-
-    const ticket = newTicket();
+    const pair = $('#t-pair').value.trim();
+    const amt = parseFloat($('#t-amount').value);
+    if (!pair) { toast('خطأ','أدخل اسم الزوج','warning'); return; }
+    if (!amt || amt<=0) { toast('خطأ','أدخل مبلغاً صحيحاً','warning'); return; }
 
     const now = new Date();
-    const offset = state.settings.tzOffset ?? 3;
-    const offsetHours = Math.floor(offset);
-    const offsetMins = Math.round((offset - offsetHours) * 60);
-    const totalLocal = now.getUTCHours() * 60 + now.getUTCMinutes() + offsetHours * 60 + offsetMins;
-    const localH = Math.floor(((totalLocal % 1440) + 1440) % 1440 / 60);
-    const localM = ((totalLocal % 60) + 60) % 60;
-    const t12 = f12(localH, localM);
-    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    const localDate = new Date(utcMs + (offsetHours * 60 + offsetMins) * 60000);
-
-    const openTimeStr = `${t12.time} ${t12.period} - ${pad2(localDate.getUTCDate())}/${pad2(localDate.getUTCMonth()+1)}`;
+    const dh = (now.getUTCHours()+3)%24;
+    const t12 = f12(dh, now.getUTCMinutes());
 
     state.trades.push({
-        id: 't-' + Date.now() + '-' + Math.floor(Math.random()*1000),
-        ticket: ticket,
-        symbol,
-        type: state.tradeType,
-        volume,
-        openPrice,
-        sl,
-        tp,
-        note,
-        stratId,
-        status: 'open',
-        openTime: Date.now(),
-        openTimeStr,
-        closePrice: null,
-        closeTime: null,
-        closeTimeStr: null,
-        pnl: null
+        id: 't-'+Date.now(),
+        pair,
+        dir: $('#t-dir').value,
+        amount: amt,
+        result: $('#t-result').value,
+        stratId: $('#t-strat').value || null,
+        dur: $('#t-dur').value,
+        note: $('#t-note').value.trim(),
+        time: `${t12.time} ${t12.period} — ${now.getDate()}/${now.getMonth()+1}`,
+        createdAt: Date.now()
     });
-
     save();
     closeModal('trade-modal');
-    renderAccount();
-    toast('✅ تم فتح الأمر', `${symbol} ${state.tradeType.toUpperCase()} ${volume} لوت`, 'success');
-    beep(state.tradeType === 'buy' ? 880 : 660, 150);
-}
-
-/* ============ CLOSE POSITION ============ */
-function openCloseModal(id) {
-    const t = state.trades.find(x => x.id === id);
-    if (!t) return;
-    state.closingTicket = id;
-
-    const spec = getSymbolSpec(t.symbol);
-    const currentPrice = getCurrentPrice(t.symbol);
-    const typeLabel = t.type === 'buy' ? 'BUY ▲' : 'SELL ▼';
-    const typeColor = t.type === 'buy' ? 'var(--ok)' : 'var(--bad)';
-
-    $('#close-info').innerHTML = `
-        <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--mute)">التذكرة:</span><strong>#${t.ticket}</strong></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--mute)">الرمز:</span><strong>${esc(t.symbol)}</strong></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--mute)">النوع:</span><strong style="color:${typeColor}">${typeLabel}</strong></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:.4rem"><span style="color:var(--mute)">الحجم:</span><strong>${t.volume.toFixed(2)} لوت</strong></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:var(--mute)">سعر الفتح:</span><strong>${t.openPrice.toFixed(spec.decimals)}</strong></div>
-    `;
-
-    $('#close-price').value = currentPrice !== null ? currentPrice.toFixed(spec.decimals) : t.openPrice.toFixed(spec.decimals);
-    $('#close-price').step = Math.pow(10, -spec.decimals);
-    updateClosePreview();
-
-    $('#close-modal').classList.add('show');
-}
-
-function updateClosePreview() {
-    const t = state.trades.find(x => x.id === state.closingTicket);
-    if (!t) return;
-    const closePrice = parseFloat($('#close-price').value);
-    if (!closePrice || closePrice <= 0) {
-        $('#close-preview').textContent = '—';
-        return;
-    }
-    const pnl = calcPnL(t.symbol, t.type, t.volume, t.openPrice, closePrice);
-    const cur = state.settings.currency;
-    const el = $('#close-preview');
-    el.textContent = `${pnl >= 0 ? '+' : '-'}${cur}${Math.abs(pnl).toFixed(2)}`;
-    el.style.color = pnl > 0 ? 'var(--ok)' : pnl < 0 ? 'var(--bad)' : 'var(--text)';
-}
-
-function confirmClose() {
-    const t = state.trades.find(x => x.id === state.closingTicket);
-    if (!t) return;
-    const closePrice = parseFloat($('#close-price').value);
-    if (!closePrice || closePrice <= 0) { toast('خطأ','أدخل سعر إغلاق صحيح','warning'); return; }
-
-    const pnl = calcPnL(t.symbol, t.type, t.volume, t.openPrice, closePrice);
-
-    const now = new Date();
-    const offset = state.settings.tzOffset ?? 3;
-    const offsetHours = Math.floor(offset);
-    const offsetMins = Math.round((offset - offsetHours) * 60);
-    const totalLocal = now.getUTCHours() * 60 + now.getUTCMinutes() + offsetHours * 60 + offsetMins;
-    const localH = Math.floor(((totalLocal % 1440) + 1440) % 1440 / 60);
-    const localM = ((totalLocal % 60) + 60) % 60;
-    const t12 = f12(localH, localM);
-    const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
-    const localDate = new Date(utcMs + (offsetHours * 60 + offsetMins) * 60000);
-    const closeTimeStr = `${t12.time} ${t12.period} - ${pad2(localDate.getUTCDate())}/${pad2(localDate.getUTCMonth()+1)}`;
-
-    t.status = 'closed';
-    t.closePrice = closePrice;
-    t.closeTime = Date.now();
-    t.closeTimeStr = closeTimeStr;
-    t.pnl = pnl;
-
-    save();
-    closeModal('close-modal');
-    renderAccount();
-    toast('✅ تم إغلاق الصفقة', `${pnl >= 0 ? '+' : '-'}${state.settings.currency}${Math.abs(pnl).toFixed(2)}`, pnl >= 0 ? 'success' : 'danger');
-    beep(pnl >= 0 ? 880 : 440, 200);
+    renderJournal();
+    toast('✅ تم الحفظ','صفقة جديدة','success');
+    beep(880, 100);
 }
 
 function deleteTrade(id) {
-    if (!confirm('حذف هذه الصفقة نهائياً؟')) return;
+    if (!confirm('حذف هذه الصفقة؟')) return;
     state.trades = state.trades.filter(t => t.id !== id);
     save();
-    renderAccount();
+    renderJournal();
     toast('تم الحذف','','info');
 }
 
-/* ============ ANALYSIS ============ */
 function renderAnalysis() {
     const grid = $('#analysis-grid');
-    const closed = getClosedTrades();
-    if (!closed.length) {
-        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📊</div><div class="empty-text">لا توجد صفقات مغلقة للتحليل</div></div>`;
+    if (!state.trades.length) {
+        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📊</div><div>لا توجد بيانات للتحليل</div></div>`;
         return;
     }
     const cur = state.settings.currency;
 
     const sessionMap = {};
     SESSIONS.forEach(s => sessionMap[s.name] = { count:0, wins:0, pnl:0 });
-    closed.forEach(t => {
+    state.trades.forEach(t => {
         const sess = detectSession(t);
         if (!sessionMap[sess]) sessionMap[sess] = { count:0, wins:0, pnl:0 };
         sessionMap[sess].count++;
-        if (t.pnl > 0) sessionMap[sess].wins++;
-        sessionMap[sess].pnl += t.pnl;
+        if (t.result === 'win') sessionMap[sess].wins++;
+        sessionMap[sess].pnl += tradePnL(t);
     });
 
-    const symbolMap = {};
-    closed.forEach(t => {
-        if (!symbolMap[t.symbol]) symbolMap[t.symbol] = { count:0, wins:0, pnl:0 };
-        symbolMap[t.symbol].count++;
-        if (t.pnl > 0) symbolMap[t.symbol].wins++;
-        symbolMap[t.symbol].pnl += t.pnl;
+    const pairMap = {};
+    state.trades.forEach(t => {
+        if (!pairMap[t.pair]) pairMap[t.pair] = { count:0, wins:0, pnl:0 };
+        pairMap[t.pair].count++;
+        if (t.result === 'win') pairMap[t.pair].wins++;
+        pairMap[t.pair].pnl += tradePnL(t);
     });
 
     let maxWin = 0, maxLoss = 0, curWin = 0, curLoss = 0;
-    closed.forEach(t => {
-        if (t.pnl > 0) { curWin++; curLoss = 0; maxWin = Math.max(maxWin, curWin); }
+    state.trades.forEach(t => {
+        if (t.result === 'win') { curWin++; curLoss = 0; maxWin = Math.max(maxWin, curWin); }
         else { curLoss++; curWin = 0; maxLoss = Math.max(maxLoss, curLoss); }
     });
 
-    const pnls = closed.map(t => t.pnl);
+    const pnls = state.trades.map(t => tradePnL(t));
     const best = Math.max(...pnls);
     const worst = Math.min(...pnls);
-    const totalPnL = pnls.reduce((a,b)=>a+b, 0);
-    const avgWin = closed.filter(t=>t.pnl>0).reduce((a,t)=>a+t.pnl,0) / (closed.filter(t=>t.pnl>0).length||1);
-    const avgLoss = closed.filter(t=>t.pnl<0).reduce((a,t)=>a+t.pnl,0) / (closed.filter(t=>t.pnl<0).length||1);
-    const profitFactor = Math.abs(avgLoss) > 0 && closed.filter(t=>t.pnl>0).length ?
-        Math.abs((avgWin * closed.filter(t=>t.pnl>0).length) / (avgLoss * closed.filter(t=>t.pnl<0).length)) : 0;
+    const ts = todayStats();
 
-    const sessionRows = Object.entries(sessionMap).filter(([_,v]) => v.count > 0).sort((a,b) => b[1].pnl - a[1].pnl)
+    const sessionRows = Object.entries(sessionMap)
+        .filter(([_,v]) => v.count > 0)
+        .sort((a,b) => b[1].pnl - a[1].pnl)
         .map(([name,v]) => {
             const rate = v.count ? (v.wins/v.count*100).toFixed(0) : 0;
-            return `<div class="analysis-row ${v.pnl>0?'pos':v.pnl<0?'neg':''}"><span>${esc(name)}</span><span>${v.count} · ${rate}% · ${v.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(v.pnl))}</span></div>`;
+            return `<div class="analysis-row ${v.pnl>0?'pos':v.pnl<0?'neg':''}">
+                <span>${name}</span>
+                <span>${v.count} · ${rate}% · ${v.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(v.pnl))}</span>
+            </div>`;
         }).join('') || '<div class="analysis-row"><span>لا بيانات</span><span>—</span></div>';
 
-    const symbolRows = Object.entries(symbolMap).sort((a,b) => b[1].pnl - a[1].pnl).slice(0, 10)
+    const pairRows = Object.entries(pairMap)
+        .sort((a,b) => b[1].pnl - a[1].pnl)
+        .slice(0, 8)
         .map(([name,v]) => {
             const rate = v.count ? (v.wins/v.count*100).toFixed(0) : 0;
-            return `<div class="analysis-row ${v.pnl>0?'pos':v.pnl<0?'neg':''}"><span>${esc(name)}</span><span>${v.count} · ${rate}% · ${v.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(v.pnl))}</span></div>`;
+            return `<div class="analysis-row ${v.pnl>0?'pos':v.pnl<0?'neg':''}">
+                <span>${name}</span>
+                <span>${v.count} · ${rate}% · ${v.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(v.pnl))}</span>
+            </div>`;
         }).join('') || '<div class="analysis-row"><span>لا بيانات</span><span>—</span></div>';
 
     grid.innerHTML = `
-        <div class="analysis-card"><div class="analysis-title">🌍 حسب الجلسة</div>${sessionRows}</div>
-        <div class="analysis-card"><div class="analysis-title">💱 حسب الرمز</div>${symbolRows}</div>
-        <div class="analysis-card"><div class="analysis-title">🔥 السلاسل</div>
-            <div class="analysis-row"><span>أطول سلسلة ربح</span><span style="color:var(--ok)">${maxWin} صفقة</span></div>
-            <div class="analysis-row"><span>أطول سلسلة خسارة</span><span style="color:var(--bad)">${maxLoss} صفقة</span></div>
+        <div class="analysis-card">
+            <div class="analysis-title">🌍 حسب الجلسة</div>
+            ${sessionRows}
+        </div>
+        <div class="analysis-card">
+            <div class="analysis-title">💱 حسب الزوج</div>
+            ${pairRows}
+        </div>
+        <div class="analysis-card">
+            <div class="analysis-title">🔥 Streaks</div>
+            <div class="analysis-row"><span>أطول ربح متتالي</span><span style="color:var(--ok)">${maxWin} صفقة</span></div>
+            <div class="analysis-row"><span>أطول خسارة متتالية</span><span style="color:var(--bad)">${maxLoss} صفقة</span></div>
             <div class="analysis-row"><span>الحالي</span><span>${curWin>0?curWin+' ربح':curLoss>0?curLoss+' خسارة':'-'}</span></div>
         </div>
-        <div class="analysis-card"><div class="analysis-title">📊 إحصائيات الأداء</div>
+        <div class="analysis-card">
+            <div class="analysis-title">🎯 صفقات استثنائية</div>
             <div class="analysis-row pos"><span>🏆 أفضل صفقة</span><span>+${cur}${fmtMoney(best)}</span></div>
             <div class="analysis-row neg"><span>💀 أسوأ صفقة</span><span>${cur}${fmtMoney(Math.abs(worst))}</span></div>
-            <div class="analysis-row ${totalPnL>0?'pos':'neg'}"><span>💵 صافي P&L</span><span>${totalPnL>0?'+':''}${cur}${fmtMoney(Math.abs(totalPnL))}</span></div>
-            <div class="analysis-row"><span>📊 Profit Factor</span><span>${profitFactor.toFixed(2)}</span></div>
-            <div class="analysis-row pos"><span>📈 متوسط الربح</span><span>+${cur}${fmtMoney(avgWin)}</span></div>
-            <div class="analysis-row neg"><span>📉 متوسط الخسارة</span><span>${cur}${fmtMoney(Math.abs(avgLoss))}</span></div>
+            <div class="analysis-row ${ts.pnl>0?'pos':'neg'}"><span>📅 ربح/خسارة اليوم</span><span>${ts.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(ts.pnl))}</span></div>
+            <div class="analysis-row"><span>📊 صفقات اليوم</span><span>${ts.count}</span></div>
         </div>
     `;
 }
 
 function detectSession(t) {
-    const d = new Date(t.openTime);
+    const d = new Date(t.createdAt);
     const hour = d.getUTCHours() + d.getUTCMinutes()/60;
-    for (const s of SESSIONS) { if (isSessionActiveUTC(s, hour)) return s.name; }
+    for (const s of SESSIONS) {
+        if (isOpen(s, hour)) return s.name;
+    }
     return 'خارج الجلسات';
 }
 
-/* ============ STRATEGIES ============ */
 function stratStats(id) {
-    const trades = getClosedTrades().filter(t => t.stratId === id);
+    const trades = state.trades.filter(t => t.stratId === id);
     const total = trades.length;
-    const wins = trades.filter(t => t.pnl > 0).length;
+    const wins = trades.filter(t => t.result==='win').length;
     const rate = total ? (wins/total)*100 : 0;
-    const netPnL = trades.reduce((s,t) => s + t.pnl, 0);
+    const netPnL = trades.reduce((s,t) => s + tradePnL(t), 0);
     return { total, wins, losses: total-wins, rate, netPnL };
 }
 
 function renderStrats() {
     const grid = $('#strat-grid');
     if (!state.strategies.length) {
-        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📚</div><div class="empty-text">لا توجد استراتيجيات</div><div style="font-size:.75rem;margin-top:.4rem;color:var(--mute)">اضغط "+ استراتيجية" للبدء</div></div>`;
+        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📚</div><div>لا توجد استراتيجيات</div><div style="font-size:.75rem;margin-top:.4rem;color:var(--mute)">اضغط "+ استراتيجية" للبدء</div></div>`;
         return;
     }
     const cur = state.settings.currency;
     grid.innerHTML = state.strategies.map(s => {
         const st = stratStats(s.id);
-        const dirClass = s.dir==='buy'?'dc':s.dir==='sell'?'dp':'db';
-        const dirLabel = s.dir==='buy'?'▲ Buy':s.dir==='sell'?'▼ Sell':'◆ Both';
+        const dirClass = s.dir==='call'?'dc':s.dir==='put'?'dp':'db';
+        const dirLabel = s.dir==='call'?'▲ Call':s.dir==='put'?'▼ Put':'◆ Both';
         return `<div class="strat">
-            <div class="strat-head"><div class="strat-title"><span class="strat-icon">${esc(s.icon)}</span><span class="strat-name">${esc(s.name)}</span></div></div>
+            <div class="strat-head">
+                <div class="strat-title"><span class="strat-icon">${esc(s.icon)}</span><span class="strat-name">${esc(s.name)}</span></div>
+            </div>
             <div class="strat-meta">
                 <span class="chip">${esc(s.cat)}</span>
                 <span class="chip ${dirClass}">${dirLabel}</span>
                 <span class="chip">${esc(s.tf)}</span>
-                <span class="chip">⚠️ ${esc(s.risk)}%</span>
+                <span class="chip">⏱ ${esc(s.dur)}</span>
+                <span class="chip">🌍 ${esc(s.session)}</span>
             </div>
             <div class="strat-stats">
                 <div class="strat-stat"><div class="strat-stat-v">${st.total}</div><div class="strat-stat-l">صفقات</div></div>
@@ -1775,10 +1227,13 @@ function openStrategyModal(editId) {
             $('#s-cat').value = s.cat;
             $('#s-dir').value = s.dir;
             $('#s-tf').value = s.tf;
+            $('#s-dur').value = s.dur;
+            $('#s-session').value = s.session;
             $('#s-risk').value = s.risk;
             $('#s-pairs').value = s.pairs;
             $('#s-entry').value = s.entry;
             $('#s-exit').value = s.exit;
+            renderPairChips('strat-pairs-chips', 's-pairs', true);
             return;
         }
     }
@@ -1786,9 +1241,12 @@ function openStrategyModal(editId) {
     ['s-id','s-name','s-pairs','s-entry','s-exit'].forEach(id => $('#'+id).value = '');
     $('#s-icon').value = '⚡';
     $('#s-cat').value = 'Breakout';
-    $('#s-dir').value = 'buy';
+    $('#s-dir').value = 'call';
     $('#s-tf').value = '5د';
-    $('#s-risk').value = '1';
+    $('#s-dur').value = '5 دقائق';
+    $('#s-session').value = 'لندن';
+    $('#s-risk').value = '2';
+    renderPairChips('strat-pairs-chips', 's-pairs', true);
 }
 
 function saveStrategy() {
@@ -1801,7 +1259,9 @@ function saveStrategy() {
         cat: $('#s-cat').value,
         dir: $('#s-dir').value,
         tf: $('#s-tf').value,
-        risk: parseFloat($('#s-risk').value) || 1,
+        dur: $('#s-dur').value,
+        session: $('#s-session').value,
+        risk: parseFloat($('#s-risk').value) || 2,
         pairs: $('#s-pairs').value.trim(),
         entry: $('#s-entry').value.trim(),
         exit: $('#s-exit').value.trim(),
@@ -1827,7 +1287,6 @@ function deleteStrategy(id) {
     toast('تم الحذف','','info');
 }
 
-/* ============ MARKET ============ */
 const MARKET_SYMBOLS = [
     {name:'EUR/USD', symbol:'EUR/USD'},
     {name:'GBP/USD', symbol:'GBP/USD'},
@@ -1839,8 +1298,11 @@ const MARKET_SYMBOLS = [
 async function refreshMarket() {
     const key = state.settings.twelveDataKey;
     const list = $('#market-list');
-    if (!key) { list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات</div></div>`; return; }
-    list.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><div class="empty-text">جاري التحميل...</div></div>`;
+    if (!key) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div>أضف مفتاح Twelve Data في الإعدادات</div></div>`;
+        return;
+    }
+    list.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><div>جاري التحميل...</div></div>`;
     try {
         const symbols = MARKET_SYMBOLS.map(s => s.symbol).join(',');
         const url = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbols)}&apikey=${encodeURIComponent(key)}`;
@@ -1848,15 +1310,22 @@ async function refreshMarket() {
         const data = await res.json();
         state.marketData = data;
         renderMarket();
-        renderAccount();
-    } catch(e) { list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-text">فشل التحميل: ${esc(e.message)}</div></div>`; }
+    } catch(e) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div>فشل التحميل: ${esc(e.message)}</div></div>`;
+    }
 }
 
 function renderMarket() {
     const list = $('#market-list');
     const key = state.settings.twelveDataKey;
-    if (!key) { list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات</div></div>`; return; }
-    if (!state.marketData) { list.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><div class="empty-text">اضغط "🔄 تحديث" لجلب الأسعار</div></div>`; return; }
+    if (!key) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div>أضف مفتاح Twelve Data في الإعدادات</div></div>`;
+        return;
+    }
+    if (!state.marketData) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><div>اضغط "🔄 تحديث" لجلب الأسعار</div></div>`;
+        return;
+    }
     const data = state.marketData;
     const rows = MARKET_SYMBOLS.map(m => {
         const d = data[m.symbol] || data[m.symbol.replace('/','')];
@@ -1864,69 +1333,54 @@ function renderMarket() {
         const close = parseFloat(d.close);
         const changePct = parseFloat(d.percent_change) || 0;
         const isPos = changePct >= 0;
-        const spec = getSymbolSpec(m.symbol);
         return `<div class="market-price">
             <span class="market-symbol">${esc(m.name)}</span>
             <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="market-val">${close.toFixed(spec.decimals)}</span>
+                <span class="market-val">${close.toFixed(close>100?2:4)}</span>
                 <span class="market-change ${isPos?'pos':'neg'}">${isPos?'+':''}${changePct.toFixed(2)}%</span>
             </div>
         </div>`;
     }).filter(Boolean).join('');
-    list.innerHTML = rows || '<div class="empty"><div class="empty-text">لا توجد بيانات</div></div>';
+    list.innerHTML = rows || '<div class="empty">لا توجد بيانات</div>';
 }
 
-/* ============ TIMEZONE SELECTOR ============ */
-function renderTZGrids() {
-    const html = TIMEZONES.map(tz => {
-        const offsetStr = tz.offset >= 0 ? `+${tz.offset}` : `${tz.offset}`;
-        const active = (tz.offset === state.settings.tzOffset && tz.city === state.settings.tzCity) ? 'active' : '';
-        return `<button class="tz-option ${active}" onclick="selectTZ(${tz.offset}, '${tz.city}')">
-            <span class="flag">${tz.flag}</span>
-            <span class="city">${esc(tz.city)}</span>
-            <span class="offset">UTC${offsetStr}</span>
-        </button>`;
-    }).join('');
-    const g1 = $('#tz-grid');
-    const g2 = $('#tz-grid-settings');
-    if (g1) g1.innerHTML = html;
-    if (g2) g2.innerHTML = html;
-}
-function selectTZ(offset, city) {
-    state.settings.tzOffset = offset;
-    state.settings.tzCity = city;
-    save();
-    renderSessions();
-    renderTZGrids();
-    updateClock();
-    closeModal('tz-modal');
-    toast(`🌍 ${city}`, 'تم تغيير المنطقة الزمنية', 'success', 2500);
-}
-function openTZModal() {
-    renderTZGrids();
-    $('#tz-modal').classList.add('show');
-}
-
-/* ============ SETTINGS ============ */
 function toggleGroup(id) {
     const el = $('#'+id);
     const isOpen = el.classList.contains('open');
     $$('.setting-group').forEach(g => g.classList.remove('open'));
     if (!isOpen) el.classList.add('open');
 }
+
 function updateToggles() {
     $('#tg-sound').classList.toggle('on', state.soundEnabled);
     $('#tg-notif').classList.toggle('on', state.settings.notifEnabled !== false);
     $('#tg-no').classList.toggle('on', state.settings.notifOpen !== false);
     $('#tg-nc').classList.toggle('on', state.settings.notifClose !== false);
 }
+
 function toggleSetting(key) {
-    if (key==='sound') { state.soundEnabled = !state.soundEnabled; save(); updateToggles(); if (state.soundEnabled) beep(880, 100); }
-    else if (key==='notif') { state.settings.notifEnabled = state.settings.notifEnabled === false; save(); updateToggles(); }
-    else if (key==='notifOpen') { state.settings.notifOpen = state.settings.notifOpen === false; save(); updateToggles(); }
-    else if (key==='notifClose') { state.settings.notifClose = state.settings.notifClose === false; save(); updateToggles(); }
+    if (key==='sound') {
+        state.soundEnabled = !state.soundEnabled;
+        save(); updateToggles();
+        if (state.soundEnabled) beep(880, 100);
+    } else if (key==='notif') {
+        state.settings.notifEnabled = state.settings.notifEnabled === false;
+        save(); updateToggles();
+    } else if (key==='notifOpen') {
+        state.settings.notifOpen = state.settings.notifOpen === false;
+        save(); updateToggles();
+    } else if (key==='notifClose') {
+        state.settings.notifClose = state.settings.notifClose === false;
+        save(); updateToggles();
+    }
 }
-function setVolume(v) { state.settings.volume = parseInt(v); $('#vol-val').textContent = v + '%'; save(); }
+
+function setVolume(v) {
+    state.settings.volume = parseInt(v);
+    $('#vol-val').textContent = v + '%';
+    save();
+}
+
 function setAdvance(min, btn) {
     state.settings.advance = min;
     $('#adv-val').textContent = min + ' دقائق';
@@ -1934,7 +1388,13 @@ function setAdvance(min, btn) {
     btn.classList.add('active');
     save();
 }
-function testSound() { beep(880, 200); setTimeout(() => beep(660, 200), 300); toast('🔊 اختبار','سمعت الصوت؟','success',2000); }
+
+function testSound() {
+    beep(880, 200);
+    setTimeout(() => beep(660, 200), 300);
+    toast('🔊 اختبار','سمعت الصوت؟','success',2000);
+}
+
 function setTheme(n, el) {
     document.body.className = document.body.className.replace(/theme-\d+/g,'').trim();
     if (n !== 1) document.body.classList.add('theme-'+n);
@@ -1943,6 +1403,7 @@ function setTheme(n, el) {
     $$('.theme-opt').forEach(t => t.classList.remove('active'));
     if (el) el.classList.add('active');
 }
+
 function setFontSize(size) {
     document.body.classList.remove('font-sm','font-lg');
     if (size==='sm') document.body.classList.add('font-sm');
@@ -1952,12 +1413,14 @@ function setFontSize(size) {
     $$('.font-btn').forEach(b => b.classList.remove('active'));
     $('#font-'+size).classList.add('active');
 }
+
 function openSettings() {
     $('#set-cap').value = state.settings.capital;
+    $('#set-payout').value = state.settings.payout;
     $('#set-cur').value = state.settings.currency;
     $('#set-td').value = state.settings.twelveDataKey || '';
-    $('#set-leverage').value = state.settings.leverage || 100;
     $('#set-loss-limit').value = state.settings.lossLimit || 0;
+    $('#set-trade-limit').value = state.settings.tradeLimit || 0;
     $('#vol-slider').value = state.settings.volume;
     $('#vol-val').textContent = state.settings.volume + '%';
     const adv = state.settings.advance;
@@ -1968,33 +1431,59 @@ function openSettings() {
     $('#font-'+fs).classList.add('active');
     $$('.theme-opt').forEach((t, i) => t.classList.toggle('active', i+1 === state.settings.theme));
     updateToggles();
-    renderTZGrids();
     $$('.setting-group').forEach(g => g.classList.remove('open'));
     $('#settings-modal').classList.add('show');
 }
+
 function saveSettings() {
     state.settings.capital = parseFloat($('#set-cap').value) || 1000;
+    state.settings.payout = parseFloat($('#set-payout').value) || 80;
     state.settings.currency = $('#set-cur').value;
     state.settings.twelveDataKey = $('#set-td').value.trim();
-    state.settings.leverage = parseInt($('#set-leverage').value) || 100;
     state.settings.lossLimit = parseFloat($('#set-loss-limit').value) || 0;
+    state.settings.tradeLimit = parseInt($('#set-trade-limit').value) || 0;
     save();
     closeModal('settings-modal');
-    renderAccount();
+    renderJournal();
     renderStrats();
     toast('✅ تم الحفظ','الإعدادات محدّثة','success');
 }
+
 function exportJSON() {
-    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, exportedAt:new Date().toISOString(), version:'2.1' };
+    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, exportedAt:new Date().toISOString(), version:'1.0' };
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `masar-mt5-backup-${Date.now()}.json`;
+    a.href = url;
+    a.download = `masar-backup-${Date.now()}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     URL.revokeObjectURL(url);
     toast('✅ تم التصدير','','success');
 }
+
+function exportCSV() {
+    if (!state.trades.length) { toast('لا توجد صفقات','','warning'); return; }
+    const rows = [['Date','Pair','Direction','Amount','Result','PnL','Duration','Strategy','Note']];
+    state.trades.forEach(t => {
+        const strat = state.strategies.find(s => s.id===t.stratId);
+        rows.push([
+            t.time, t.pair, t.dir==='call'?'Call':'Put', t.amount,
+            t.result==='win'?'Win':'Loss', tradePnL(t).toFixed(2),
+            t.dur, strat?strat.name:'', t.note || ''
+        ]);
+    });
+    const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `trades-${Date.now()}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+    toast('✅ تم التصدير','CSV','success');
+}
+
 function importJSON() { $('#import-file').click(); }
+
 function handleImport(e) {
     const f = e.target.files[0];
     if (!f) return;
@@ -2009,8 +1498,7 @@ function handleImport(e) {
             state.strategies = data.strategies || [];
             save();
             applyAllSettings();
-            renderAccount(); renderStrats(); updateStratDropdown();
-            renderSessions(); renderTZGrids(); updateClock();
+            renderJournal(); renderStrats(); updateStratDropdown();
             closeModal('settings-modal');
             toast('✅ تم الاستيراد','','success');
         } catch(err) { toast('❌ فشل','ملف غير صالح','danger'); }
@@ -2018,12 +1506,14 @@ function handleImport(e) {
     r.readAsText(f);
     e.target.value = '';
 }
+
 function resetAll() {
     if (!confirm('مسح كل البيانات؟ لا يمكن التراجع!')) return;
     if (!confirm('تأكيد نهائي؟')) return;
     localStorage.clear();
     location.reload();
 }
+
 function applyAllSettings() {
     document.body.className = '';
     if (state.settings.theme !== 1) document.body.classList.add('theme-'+state.settings.theme);
@@ -2031,8 +1521,10 @@ function applyAllSettings() {
     else if (state.settings.fontSize === 'lg') document.body.classList.add('font-lg');
     $('#sound-btn').classList.toggle('active', state.soundEnabled);
 }
+
 function closeModal(id) { $('#'+id).classList.remove('show'); }
 document.addEventListener('click', e => { if (e.target.classList.contains('modal-bg')) e.target.classList.remove('show'); });
+
 function toggleSound() {
     state.soundEnabled = !state.soundEnabled;
     save();
@@ -2041,75 +1533,20 @@ function toggleSound() {
     if (state.soundEnabled) beep(880, 100);
 }
 
-/* ============ CALCULATORS ============ */
-/* ✅ FIX #3: حاسبة اللوت — مع تقييد الحدود وتحذيرات */
-function calcPositionSize() {
-    const cap    = parseFloat($('#calc-cap').value) || 0;
-    const risk   = parseFloat($('#calc-risk').value) || 0;
-    const symbol = $('#calc-symbol').value;
-    const entry  = parseFloat($('#calc-entry').value);
-    const stop   = parseFloat($('#calc-stop').value);
-    const cur    = state.settings.currency;
-    const spec   = getSymbolSpec(symbol);
-
-    if (!entry || !stop || entry === stop || !cap || !risk) {
-        $('#r-lot').textContent = '—';
-        $('#r-risk').textContent = '—';
-        $('#r-pips').textContent = '—';
-        $('#r-pipval').textContent = '—';
-        return;
-    }
-
-    const riskAmt = cap * (risk / 100);
-    const pips    = Math.abs(entry - stop) / spec.pipSize;
-
-    if (pips <= 0) { $('#r-lot').textContent = '—'; return; }
-
-    const rawLot = riskAmt / (pips * spec.pipValuePerLot);
-
-    let lot = Math.max(spec.minLot, Math.min(spec.maxLot, rawLot));
-    lot = Math.round(lot / spec.lotStep) * spec.lotStep;
-    lot = parseFloat(lot.toFixed(2));
-
-    const isClamped = (lot !== parseFloat(rawLot.toFixed(2)));
-    const warn = isClamped
-        ? ` <span style="color:var(--warn);font-size:.7rem">(مُقيَّد — الحد ${lot === spec.minLot ? 'الأدنى' : 'الأعلى'})</span>`
-        : '';
-
-    $('#r-risk').textContent   = `${cur}${riskAmt.toFixed(2)}`;
-    $('#r-pips').textContent   = pips.toFixed(1) + ' pips';
-    $('#r-pipval').textContent = `${cur}${(spec.pipValuePerLot * lot).toFixed(2)}`;
-    $('#r-lot').innerHTML      = lot.toFixed(2) + ' لوت' + warn;
-
-    const notional = lot * spec.contractSize * entry;
-    const margin   = notional / (state.settings.leverage || 100);
-    if (margin > cap) {
-        $('#r-lot').innerHTML += `<div style="color:var(--bad);font-size:.7rem;margin-top:.3rem">
-            ⚠️ الهامش المطلوب ${cur}${margin.toFixed(0)} يتجاوز رأس المال ${cur}${cap}
-        </div>`;
-    }
-}
-
-function calcPL() {
-    const symbol = $('#pl-symbol').value;
-    const lots = parseFloat($('#pl-lots').value) || 0;
-    const entry = parseFloat($('#pl-entry').value) || 0;
-    const exit = parseFloat($('#pl-exit').value) || 0;
-    const dir = $('#pl-dir').value;
+function calcPos() {
+    const cap = parseFloat($('#calc-cap').value) || 0;
+    const risk = parseFloat($('#calc-risk').value) || 0;
+    const cnt = parseInt($('#calc-count').value) || 1;
     const cur = state.settings.currency;
-
-    const pips = (exit - entry) * (dir === 'buy' ? 1 : -1) / getSymbolSpec(symbol).pipSize;
-    const spec = getSymbolSpec(symbol);
-    const pl = pips * spec.pipValuePerLot * lots;
-
-    $('#r2-pips').textContent = (pips >= 0 ? '+' : '') + pips.toFixed(1);
-    $('#r2-pipval').textContent = `${cur}${(spec.pipValuePerLot * lots).toFixed(2)}`;
-    const el = $('#r2-pl');
-    el.textContent = (pl >= 0 ? '+' : '-') + cur + Math.abs(pl).toFixed(2);
-    el.style.color = pl >= 0 ? 'var(--ok)' : 'var(--bad)';
+    const payout = state.settings.payout/100;
+    const riskAmt = cap * (risk/100);
+    const perTrade = riskAmt/cnt;
+    const recovery = riskAmt / (1+payout);
+    $('#r-risk').textContent = `${cur}${riskAmt.toFixed(2)}`;
+    $('#r-trade').textContent = `${cur}${perTrade.toFixed(2)}`;
+    $('#r-rec').textContent = `${cur}${recovery.toFixed(2)}`;
 }
 
-/* ============ AI ============ */
 function addMsg(html, who='bot') {
     const b = $('#ai-body');
     const el = document.createElement('div');
@@ -2119,6 +1556,7 @@ function addMsg(html, who='bot') {
     b.appendChild(el);
     b.scrollTop = b.scrollHeight;
 }
+
 function typing() {
     const b = $('#ai-body');
     const el = document.createElement('div');
@@ -2129,6 +1567,7 @@ function typing() {
     b.scrollTop = b.scrollHeight;
 }
 function stopTyping() { const t = $('#typing-ind'); if (t) t.remove(); }
+
 function handleImg(e) {
     const f = e.target.files[0];
     if (!f) return;
@@ -2143,54 +1582,38 @@ function handleImg(e) {
     r.readAsDataURL(f);
     e.target.value = '';
 }
+
 function clearImg() { state.img = null; $('#preview').classList.remove('show'); }
 function quickAsk(t) { $('#ai-text').value = t; sendAI(); }
 
 function buildContext() {
     const st = getStats();
     const bal = getBalance();
-    const equity = getEquity();
-    const floating = getFloatingPnL();
     const status = getStatus();
     const cur = state.settings.currency;
-    const tzCity = state.settings.tzCity || 'دمشق';
-    const openTrades = getOpenTrades();
-    const closedTrades = getClosedTrades();
-
-    const last5 = closedTrades.slice(-5).map(t =>
-        `${t.symbol} ${t.type.toUpperCase()} ${t.pnl>0?'ربح +':'خسارة '}${cur}${Math.abs(t.pnl).toFixed(2)}`
+    const last5 = state.trades.slice(-5).map(t =>
+        `${t.pair} ${t.dir==='call'?'صعود':'هبوط'} ${t.result==='win'?'ربح':'خسارة'}`
     ).join(' | ') || 'لا يوجد';
-
-    const openInfo = openTrades.length ? openTrades.map(t =>
-        `${t.symbol} ${t.type.toUpperCase()} ${t.volume}lot`
-    ).join(' | ') : 'لا توجد صفقات مفتوحة';
 
     const strategies = state.strategies.map(s => {
         const sst = stratStats(s.id);
         return `${s.name}: ${sst.total} صفقة، ${sst.rate.toFixed(0)}%، ${sst.netPnL>0?'+':''}${sst.netPnL.toFixed(2)}`;
     }).join('\n') || 'لا يوجد';
 
-    return `[سياق المتداول — MT5]
-- المنطقة الزمنية: ${tzCity}
-- رأس المال الأولي: ${cur}${state.settings.capital}
-- الرصيد الحالي: ${cur}${bal.toFixed(2)}
-- حقوق الملكية: ${cur}${equity.toFixed(2)}
-- P&L العائم: ${cur}${floating.toFixed(2)}
-- صافي الربح/الخسارة: ${cur}${(bal - state.settings.capital).toFixed(2)} (${st.changePct.toFixed(1)}%)
-- الصفقات المغلقة: ${st.total} (${st.wins}W/${st.losses}L)
-- نسبة النجاح: ${st.rate.toFixed(1)}%
-- الصفقات المفتوحة: ${openTrades.length}
-- قائمة المفتوحة: ${openInfo}
+    return `[سياق المتداول]
+- رأس المال: ${cur}${state.settings.capital}
+- الرصيد: ${cur}${bal.toFixed(2)} (${st.changePct.toFixed(1)}%)
+- الصفقات: ${st.total} (${st.wins}W/${st.losses}L)
+- نسبة الربح: ${st.rate.toFixed(1)}%
 - حالة الحساب: ${status.name}
-- آخر 5 صفقات مغلقة: ${last5}
+- آخر 5: ${last5}
 - الاستراتيجيات:
 ${strategies}
-- الرافعة المالية: 1:${state.settings.leverage}
+- نسبة العائد: ${state.settings.payout}%
 
 [التعليمات]
-أنت مساعد تداول محترف متخصص في MetaTrader 5 و Forex.
-أجب بالعربية. كن مختصراً ومباشراً.
-اذكر دائماً إدارة المخاطر. لا تَعِد بأرباح.
+أنت مساعد تداول محترف. أجب بالعربية. كن مختصراً ومباشراً.
+لا تعطي وعوداً بأرباح. اذكر المخاطر. ركز على تحسين الأداء.
 
 [السؤال]`;
 }
@@ -2234,44 +1657,28 @@ async function sendAI() {
     }
 }
 
-/* ============ INIT ============ */
 function init() {
     applyAllSettings();
+
     updateClock(); setInterval(updateClock, 1000);
     greeting(); setInterval(greeting, 60000);
     renderSessions(); setInterval(renderSessions, 30000);
     checkAlerts(); setInterval(checkAlerts, 60000);
-    renderAccount();
+
+    renderJournal();
     renderStrats();
     updateStratDropdown();
-    renderTZGrids();
-    calcPositionSize();
-    calcPL();
-
-    const closePriceInput = $('#close-price');
-    if (closePriceInput) closePriceInput.addEventListener('input', updateClosePreview);
+    calcPos();
 
     if (state.settings.twelveDataKey) {
         refreshMarket();
         setInterval(refreshMarket, 60000);
     }
 
-    setInterval(() => {
-        if ($('#p-journal').classList.contains('active')) {
-            const floating = getFloatingPnL();
-            const cur = state.settings.currency;
-            const flEl = $('#acc-floating');
-            flEl.textContent = `${floating >= 0 ? '+' : ''}${cur}${fmtMoney(Math.abs(floating))}`;
-            flEl.className = 'acc-value ' + (floating > 0 ? 'pos' : floating < 0 ? 'neg' : '');
-            $('#acc-equity').textContent = `${cur}${fmtMoney(getEquity())}`;
-            renderTradeList();
-        }
-    }, 30000);
-
     setTimeout(() => {
         const h = new Date().getHours();
         let title, msg;
-        if (h>=5 && h<12) { title='☀️ صباح الخير أيها المتداول'; msg='ابدأ يومك بصفاء ذهن — خذ نفساً عميقاً'; }
+        if (h>=5 && h<12) { title='☀️ صباح الخير أيها المتداول'; msg='ابدأ يومك بصفاء ذهن — خذ نفساً عميقاً قبل أول صفقة'; }
         else if (h>=12 && h<17) { title='🌤️ مساء الخير أيها المتداول'; msg='استمر بتركيزك — لا تتداول وأنت متعب'; }
         else if (h>=17 && h<21) { title='🌆 مساء الخير أيها المتداول'; msg='وقت هادئ للتأمل في صفقاتك'; }
         else { title='🌙 مساء النور أيها المتداول'; msg='الأسواق تنام — أنت أيضاً يحتاج الراحة'; }
@@ -2282,15 +1689,37 @@ function init() {
         el.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
         w.appendChild(el);
         requestAnimationFrame(() => el.classList.add('show'));
-        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 600); }, 8000);
+        setTimeout(() => {
+            el.classList.remove('show');
+            setTimeout(() => el.remove(), 600);
+        }, 8000);
     }, 800);
 }
 
 document.addEventListener('DOMContentLoaded', init);
 
+/* ===== SERVICE WORKER ===== */
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(r => console.log('✅ SW')).catch(e => console.log('❌ SW'));
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => {
+                console.log('✅ SW registered');
+                
+                // فحص تحديثات كل دقيقة
+                setInterval(() => {
+                    reg.update().catch(() => {});
+                }, 60 * 1000);
+            })
+            .catch(err => console.log('❌ SW failed:', err));
+    });
+    
+    // عند تفعيل SW جديد → حدّث الصفحة تلقائياً
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshing) return;
+        refreshing = true;
+        console.log('🔄 SW updated - reloading...');
+        window.location.reload();
     });
 }
 </script>
