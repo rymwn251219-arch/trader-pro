@@ -2,8 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مسار — منصة التداول الاحترافية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مسار — دفتر المتداول الاحترافي</title>
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0f1a">
@@ -23,7 +23,6 @@
 --bad:#c96b6b;--badS:rgba(201,107,107,.12);
 --warn:#d4a557;--warnS:rgba(212,165,87,.12);
 --gold:#e0b876;--goldS:rgba(224,184,118,.12);
---accent-secondary:#7c3aed;--accent-secondaryS:rgba(124,58,237,.12);
 --buy:#4a9d7e;--sell:#c96b6b;
 --top:84px;--fs:1em;
 }
@@ -34,17 +33,65 @@ body.theme-5{--bg:#1a1810;--bg2:#262415;--card:#2e2b1a;--line:#443f1f;--line2:#5
 body.font-sm{--fs:.9em}
 body.font-lg{--fs:1.1em}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:radial-gradient(circle at 15% 10%,var(--calmS),transparent 40%),var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;letter-spacing:.2px;transition:background .4s}
+body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:radial-gradient(circle at 15% 10%,var(--calmS),transparent 40%),var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;letter-spacing:.2px}
 ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
-::-webkit-scrollbar-thumb:hover{background:var(--calm)}
 
-.topbar{position:fixed;top:0;left:0;right:0;min-height:var(--top);background:rgba(15,22,38,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;gap:1rem;flex-wrap:wrap}
+/* ============ LIGHT MODE ============ */
+body.light-mode{
+    --bg:#f4f7fb;--bg2:#e9eef5;--card:#ffffff;--card2:#f9fbfd;
+    --line:#dde4ee;--line2:#c8d2e0;
+    --text:#1a2340;--soft:#4a5568;--mute:#8892a6;
+    background:radial-gradient(circle at 15% 10%,var(--calmS),transparent 40%),var(--bg);
+    color:var(--text);
+}
+body.light-mode .topbar{background:rgba(255,255,255,.9);border-bottom-color:var(--line)}
+body.light-mode .modal-bg{background:rgba(240,244,250,.85)}
+body.light-mode .acc-box{background:linear-gradient(155deg,var(--card),var(--card2))}
+body.light-mode .toast{box-shadow:0 10px 40px rgba(0,0,0,.12)}
+body.light-mode .session.open{background:linear-gradient(155deg,var(--card),rgba(74,157,126,.08))}
+body.light-mode .mt5-table thead{background:var(--card2)}
+body.light-mode .mt5-table tbody tr:hover{background:rgba(107,155,209,.06)}
+body.light-mode .theme-opt.active::after{background:rgba(0,0,0,.5)}
+
+/* ============ MODE BUTTON ============ */
+.mode-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    color:var(--soft);cursor:pointer;transition:.3s;font-size:1.1rem;position:relative;flex-shrink:0}
+.mode-btn:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
+.mode-btn .sun,.mode-btn .moon{position:absolute;transition:transform .4s,opacity .3s}
+.mode-btn .sun{transform:rotate(0) scale(1);opacity:1}
+.mode-btn .moon{transform:rotate(-180deg) scale(0);opacity:0}
+body.light-mode .mode-btn .sun{transform:rotate(180deg) scale(0);opacity:0}
+body.light-mode .mode-btn .moon{transform:rotate(0) scale(1);opacity:1}
+
+/* ============ NETWORK STATUS ============ */
+.net-status{position:fixed;bottom:16px;left:16px;z-index:9998;
+    padding:.4rem .9rem;background:var(--card);border:1px solid var(--line);
+    border-radius:20px;font-size:.72rem;font-weight:700;color:var(--soft);
+    display:flex;align-items:center;gap:.4rem;opacity:0;transform:translateY(20px);
+    transition:opacity .3s,transform .3s;pointer-events:none}
+.net-status.show{opacity:1;transform:none}
+.net-status.offline{border-color:var(--warn);color:var(--warn);background:var(--warnS)}
+.net-status.online{border-color:var(--ok);color:var(--ok);background:var(--okS)}
+.net-status .dot{width:8px;height:8px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ============ INSTALL BTN ============ */
+.install-btn{position:fixed;bottom:16px;right:16px;z-index:9998;
+    padding:.7rem 1.2rem;background:linear-gradient(135deg,var(--calm),#4a7bb8);
+    border:none;border-radius:12px;color:#fff;font-family:inherit;
+    font-size:.85rem;font-weight:700;cursor:pointer;display:none;
+    align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(107,155,209,.4);
+    transition:.25s}
+.install-btn.show{display:flex}
+.install-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(107,155,209,.5)}
+
+/* ============ TOPBAR ============ */
+.topbar{position:fixed;top:0;left:0;right:0;min-height:var(--top);background:rgba(15,22,38,.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--line);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;gap:1rem;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.brand-mark{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(107,155,209,.15),rgba(74,157,126,.15),rgba(224,184,118,.1));border:1px solid var(--line2);border-radius:13px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.3);padding:3px}
-.brand-mark img{width:100%;height:100%;object-fit:contain;border-radius:10px}
-.brand h1{font-size:1.3rem;font-weight:800;letter-spacing:-.3px;background:linear-gradient(135deg,var(--text),var(--calm));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.brand-mark{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--calmS),var(--okS));border:1px solid var(--line2);border-radius:13px;overflow:hidden;padding:3px;font-size:1.4rem}
+.brand h1{font-size:1.3rem;font-weight:800;background:linear-gradient(135deg,var(--text),var(--calm));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .brand p{font-size:.68rem;color:var(--mute);margin-top:1px}
-
 .clock-wrap{display:flex;align-items:center;gap:.7rem;padding:.5rem 1rem;background:var(--card);border:1px solid var(--line);border-radius:14px;flex:1;justify-content:center;max-width:620px;flex-wrap:wrap}
 .clock-item{display:flex;flex-direction:column;align-items:center;min-width:90px}
 .clock-label{font-size:.58rem;color:var(--mute);font-weight:600;letter-spacing:.8px;text-transform:uppercase}
@@ -55,13 +102,10 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .clock-div{width:1px;height:32px;background:var(--line)}
 .tz-btn{padding:.5rem .8rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.72rem;font-weight:600;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0}
 .tz-btn:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
-.tz-btn .flag{font-size:.95rem}
-
 .top-actions{display:flex;gap:.5rem;flex-shrink:0}
-.icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--soft);cursor:pointer;transition:.3s}
+.icon-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--card);border:1px solid var(--line);border-radius:10px;color:var(--soft);cursor:pointer;transition:.3s;font-size:1.1rem}
 .icon-btn:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
 .icon-btn.active{color:var(--calm);border-color:var(--calm);background:var(--calmS)}
-.icon-btn svg{width:16px;height:16px}
 
 .main{margin-top:var(--top);padding:1.5rem;max-width:1400px;margin:0 auto}
 .greeting{margin-bottom:1.5rem;padding:.6rem 0}
@@ -69,26 +113,22 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .greeting-line strong{font-weight:800;color:var(--calm);font-size:2.1rem}
 .greeting-sub{margin-top:.5rem;font-size:.95rem;color:var(--mute)}
 
-.weekend-banner{display:none;margin-bottom:1.2rem;padding:1rem 1.2rem;background:linear-gradient(135deg,var(--goldS),var(--badS));border:1px solid rgba(224,184,118,.4);border-radius:14px;align-items:center;gap:.9rem;animation:slideDown .4s ease}
+.weekend-banner{display:none;margin-bottom:1.2rem;padding:1rem 1.2rem;background:linear-gradient(135deg,var(--goldS),var(--badS));border:1px solid rgba(224,184,118,.4);border-radius:14px;align-items:center;gap:.9rem}
 .weekend-banner.visible{display:flex}
 .weekend-banner .icon{font-size:1.8rem;flex-shrink:0}
-.weekend-banner .info{flex:1;min-width:0}
 .weekend-banner .title{font-size:.95rem;font-weight:700;color:var(--gold);margin-bottom:.2rem}
 .weekend-banner .desc{font-size:.78rem;color:var(--soft);line-height:1.5}
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 
 .sessions{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem}
-.session{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;position:relative;overflow:hidden;transition:.4s}
+.session{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem;position:relative;overflow:hidden;transition:.3s}
 .session.open{border-color:rgba(74,157,126,.35);background:linear-gradient(155deg,var(--card),rgba(74,157,126,.05))}
 .session.open::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--ok)}
 .session.closed-weekend{opacity:.6;border-style:dashed}
-.session.closed-weekend::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--mute)}
 .session-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
 .session-name{font-size:.95rem;font-weight:700;margin-bottom:.1rem}
 .session-en{font-size:.62rem;color:var(--mute);text-transform:uppercase;letter-spacing:.5px}
 .session-dot{width:9px;height:9px;border-radius:50%;background:var(--mute);flex-shrink:0;margin-top:3px}
-.session.open .session-dot{background:var(--ok);box-shadow:0 0 0 3px rgba(74,157,126,.25);animation:bre 4s infinite}
-@keyframes bre{0%,100%{opacity:1}50%{opacity:.6}}
+.session.open .session-dot{background:var(--ok);box-shadow:0 0 0 3px rgba(74,157,126,.25)}
 .session-times{display:flex;gap:.4rem;align-items:center;margin-bottom:.6rem;font-size:.72rem;font-variant-numeric:tabular-nums}
 .session-times .t{font-weight:700}
 .session-times .ampm{color:var(--mute);font-size:.58rem}
@@ -112,23 +152,22 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .tab{flex:1;padding:.7rem 1rem;background:transparent;border:none;border-radius:8px;color:var(--soft);font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;white-space:nowrap;min-width:100px}
 .tab:hover{color:var(--text)}
 .tab.active{background:var(--calmS);color:var(--calm)}
-.panel{display:none;animation:fi .4s}
-.panel.active{display:block}
-@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel{display:none}
+.panel.active{display:block;animation:fi .3s}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem;margin-bottom:1.2rem}
 .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
 .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .card-sub{font-size:.72rem;color:var(--mute);margin-top:.15rem}
 
-/* MT5 Account Summary */
 .account-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem}
 .acc-box{background:linear-gradient(155deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:1rem;position:relative;overflow:hidden}
 .acc-box::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
 .acc-box.balance::before{background:var(--calm)}
 .acc-box.equity::before{background:var(--gold)}
 .acc-box.floating::before{background:var(--ok)}
-.acc-box.margin::before{background:var(--accent-secondary)}
+.acc-box.margin::before{background:#a78bfa}
 .acc-label{font-size:.68rem;color:var(--mute);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem}
 .acc-value{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums}
 .acc-box.balance .acc-value{color:var(--calm)}
@@ -137,11 +176,10 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .acc-box.floating .acc-value.neg{color:var(--bad)}
 .acc-box.margin .acc-value{color:#a78bfa}
 
-.btn{padding:.7rem 1.4rem;border-radius:10px;border:none;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.3s;display:inline-flex;align-items:center;gap:6px}
-.btn-p{background:linear-gradient(135deg,var(--calm),#4a7bb8);color:#fff;box-shadow:0 4px 15px rgba(107,155,209,.25)}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(107,155,209,.4)}
-.btn-buy{background:linear-gradient(135deg,#4a9d7e,#3d8a6d);color:#fff;box-shadow:0 4px 15px rgba(74,157,126,.25)}
-.btn-buy:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(74,157,126,.4)}
+.btn{padding:.7rem 1.4rem;border-radius:10px;border:none;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:.25s;display:inline-flex;align-items:center;gap:6px}
+.btn-p{background:linear-gradient(135deg,var(--calm),#4a7bb8);color:#fff}
+.btn-p:hover{transform:translateY(-2px)}
+.btn-buy{background:linear-gradient(135deg,#4a9d7e,#3d8a6d);color:#fff}
 .btn-g{background:var(--card2);color:var(--soft);border:1px solid var(--line)}
 .btn-g:hover{border-color:var(--calm);color:var(--calm)}
 .btn-d{background:linear-gradient(135deg,#c96b6b,#a04d4d);color:#fff}
@@ -149,29 +187,26 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 
 .form-group{margin-bottom:1rem}
 .form-label{display:block;font-size:.78rem;color:var(--soft);font-weight:500;margin-bottom:.35rem}
-.form-input{width:100%;padding:.7rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:inherit;font-size:.9rem;transition:.3s}
+.form-input{width:100%;padding:.7rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:inherit;font-size:.9rem;transition:.25s}
 .form-input:focus{outline:none;border-color:var(--calm);background:var(--card)}
-textarea.form-input{resize:vertical;min-height:70px}
+textarea.form-input{resize:vertical;min-height:80px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
-input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 
 .type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem}
 .type-btn{padding:.85rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--soft);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:8px}
-.type-btn:hover{border-color:var(--line2)}
 .type-btn.buy.active{border-color:var(--buy);background:var(--okS);color:var(--ok)}
 .type-btn.sell.active{border-color:var(--sell);background:var(--badS);color:var(--bad)}
 
-.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--line)}
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
 .mt5-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:880px}
 .mt5-table thead{background:var(--card2);position:sticky;top:0;z-index:2}
 .mt5-table th{padding:.7rem .6rem;text-align:right;font-weight:700;color:var(--soft);font-size:.72rem;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid var(--line2);white-space:nowrap}
 .mt5-table td{padding:.65rem .6rem;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;white-space:nowrap}
-.mt5-table tbody tr{transition:background .2s}
 .mt5-table tbody tr:hover{background:rgba(107,155,209,.03)}
 .mt5-table tbody tr.buy-row{border-right:3px solid var(--buy)}
 .mt5-table tbody tr.sell-row{border-right:3px solid var(--sell)}
 .mt5-table .ticket{color:var(--mute);font-size:.7rem;font-family:monospace}
-.mt5-table .symbol{font-weight:700;color:var(--text)}
+.mt5-table .symbol{font-weight:700}
 .mt5-table .type-buy{color:var(--buy);font-weight:800}
 .mt5-table .type-sell{color:var(--sell);font-weight:800}
 .mt5-table .pnl-pos{color:var(--ok);font-weight:800}
@@ -182,65 +217,95 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .mt5-table .action-btn.close:hover{border-color:var(--gold);color:var(--gold)}
 .mt5-table .action-btn.del:hover{border-color:var(--bad);color:var(--bad)}
 .mt5-table .time-col{color:var(--mute);font-size:.72rem}
-.mt5-table .sl-price{color:var(--bad)}
-.mt5-table .tp-price{color:var(--ok)}
 
-.mini-tabs{display:flex;gap:.4rem;margin-bottom:1rem}
+.mini-tabs{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap}
 .mini-tab{padding:.5rem 1rem;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:6px}
-.mini-tab:hover{border-color:var(--calm);color:var(--calm)}
 .mini-tab.active{background:var(--calmS);color:var(--calm);border-color:var(--calm)}
 .mini-tab .count{background:var(--bg2);border-radius:10px;padding:.1rem .45rem;font-size:.7rem;font-weight:700}
 .mini-tab.active .count{background:rgba(107,155,209,.25)}
 
-.status-box{border-radius:14px;padding:1.1rem 1.3rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;transition:.3s}
-.status-box.excellent{background:linear-gradient(155deg,var(--goldS),transparent);border:1px solid rgba(224,184,118,.3)}
-.status-box.good{background:linear-gradient(155deg,var(--okS),transparent);border:1px solid rgba(74,157,126,.3)}
-.status-box.weak{background:linear-gradient(155deg,var(--warnS),transparent);border:1px solid rgba(212,165,87,.3)}
-.status-box.bad{background:linear-gradient(155deg,var(--badS),transparent);border:1px solid rgba(201,107,107,.3)}
-.status-icon{font-size:2rem;flex-shrink:0}
-.status-info{flex:1;min-width:180px}
-.status-name{font-size:1.1rem;font-weight:800;margin-bottom:.15rem}
-.status-box.excellent .status-name{color:var(--gold)}
-.status-box.good .status-name{color:var(--ok)}
-.status-box.weak .status-name{color:var(--warn)}
-.status-box.bad .status-name{color:var(--bad)}
-.status-text{font-size:.8rem;color:var(--soft);line-height:1.5}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem}
+.stat-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem;text-align:center}
+.stat-card .stat-icon{font-size:1.4rem;margin-bottom:.3rem;opacity:.7}
+.stat-card .stat-label{font-size:.7rem;color:var(--mute);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.stat-card .stat-value{font-size:1.4rem;font-weight:800;font-variant-numeric:tabular-nums}
+.stat-card.pos .stat-value{color:var(--ok)}
+.stat-card.neg .stat-value{color:var(--bad)}
+.stat-card.warn .stat-value{color:var(--warn)}
+.stat-card.gold .stat-value{color:var(--gold)}
+.stat-card.neutral .stat-value{color:var(--calm)}
+.stat-card .sub{font-size:.65rem;color:var(--mute);font-weight:600;margin-top:.15rem}
 
-.dash{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem;text-align:center}
-.stat-v{font-size:1.25rem;font-weight:800;color:var(--calm);font-variant-numeric:tabular-nums}
-.stat-v.pos{color:var(--ok)}.stat-v.neg{color:var(--bad)}
-.stat-l{font-size:.68rem;color:var(--mute);margin-top:.2rem}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--line)}
+.stat-row:last-child{border-bottom:none}
+.stat-row-label{font-size:.82rem;color:var(--soft)}
+.stat-row-value{font-size:.95rem;font-weight:700;font-variant-numeric:tabular-nums}
+.stat-row-value.pos{color:var(--ok)}
+.stat-row-value.neg{color:var(--bad)}
 
-.chart-wrap{position:relative;height:200px;margin-top:1rem}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
+.cal-nav{display:flex;align-items:center;gap:.5rem}
+.cal-nav-btn{width:34px;height:34px;border-radius:8px;background:var(--card2);border:1px solid var(--line);color:var(--soft);cursor:pointer;font-family:inherit;font-size:1rem}
+.cal-nav-btn:hover{border-color:var(--calm);color:var(--calm)}
+.cal-month{font-size:1.1rem;font-weight:700;color:var(--calm);min-width:150px;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dow{text-align:center;font-size:.72rem;color:var(--mute);font-weight:700;padding:.4rem 0}
+.cal-day{aspect-ratio:1;border-radius:8px;padding:4px;font-size:.7rem;display:flex;flex-direction:column;justify-content:space-between;cursor:default;transition:.2s;border:1px solid transparent;background:var(--bg2);min-height:50px}
+.cal-day.empty{background:transparent}
+.cal-day.today{border-color:var(--calm);border-width:2px}
+.cal-day .day-num{font-weight:700;font-size:.72rem;color:var(--soft)}
+.cal-day .day-pnl{font-size:.65rem;font-weight:800;font-variant-numeric:tabular-nums}
+.cal-day.win{background:linear-gradient(145deg,var(--okS),transparent);border-color:rgba(74,157,126,.3)}
+.cal-day.win .day-pnl{color:var(--ok)}
+.cal-day.loss{background:linear-gradient(145deg,var(--badS),transparent);border-color:rgba(201,107,107,.3)}
+.cal-day.loss .day-pnl{color:var(--bad)}
+.cal-day.breakeven .day-pnl{color:var(--mute)}
+.cal-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:1rem}
+.cal-sum-item{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.7rem;text-align:center}
+.cal-sum-label{font-size:.68rem;color:var(--mute);margin-bottom:.2rem}
+.cal-sum-value{font-size:1.05rem;font-weight:800;font-variant-numeric:tabular-nums}
+.cal-sum-value.pos{color:var(--ok)}
+.cal-sum-value.neg{color:var(--bad)}
 
-.analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.analysis-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem}
-.analysis-title{font-size:.85rem;font-weight:700;color:var(--calm);margin-bottom:.7rem;display:flex;align-items:center;gap:6px}
-.analysis-row{display:flex;justify-content:space-between;padding:.4rem 0;font-size:.78rem;border-bottom:1px solid var(--line)}
-.analysis-row:last-child{border-bottom:none}
-.analysis-row span:last-child{color:var(--calm);font-weight:700}
-.analysis-row.pos span:last-child{color:var(--ok)}
-.analysis-row.neg span:last-child{color:var(--bad)}
+.note-card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:1rem;margin-bottom:.7rem;transition:.25s;position:relative}
+.note-card:hover{border-color:var(--calm)}
+.note-card.pinned{border-color:var(--gold)}
+.note-card.pinned::before{content:'📌';position:absolute;top:8px;left:8px;font-size:.85rem}
+.note-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.5rem}
+.note-title{font-size:.95rem;font-weight:700;color:var(--text);flex:1;min-width:0}
+.note-date{font-size:.68rem;color:var(--mute);white-space:nowrap}
+.note-preview{font-size:.82rem;color:var(--soft);line-height:1.6;max-height:4.8em;overflow:hidden}
+.note-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.6rem}
+.note-tag{font-size:.65rem;padding:.15rem .5rem;background:var(--calmS);color:var(--calm);border-radius:8px;font-weight:600}
+.note-actions{display:flex;gap:.3rem;margin-top:.6rem}
+.note-actions button{background:transparent;border:1px solid var(--line);border-radius:6px;padding:.25rem .5rem;color:var(--soft);cursor:pointer;font-family:inherit;font-size:.7rem;transition:.2s}
+.note-actions button:hover{border-color:var(--calm);color:var(--calm)}
+.note-actions button.del:hover{border-color:var(--bad);color:var(--bad)}
+.note-actions button.pin:hover{border-color:var(--gold);color:var(--gold)}
+.note-template{padding:.5rem 1rem;background:var(--card2);border:1px solid var(--line);border-radius:20px;color:var(--soft);font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s}
+.note-template:hover{border-color:var(--calm);color:var(--calm);background:var(--calmS)}
 
-.strat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
-.strat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem}
-.strat-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem;gap:.5rem}
-.strat-title{display:flex;align-items:center;gap:.6rem;flex:1;min-width:0}
-.strat-icon{font-size:1.4rem}
-.strat-name{font-size:.95rem;font-weight:700}
-.strat-meta{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.7rem}
-.chip{font-size:.62rem;padding:.2rem .55rem;border-radius:10px;background:var(--card2);color:var(--soft);font-weight:600;border:1px solid var(--line)}
-.chip.dc{background:var(--okS);color:var(--ok);border-color:transparent}
-.chip.dp{background:var(--badS);color:var(--bad);border-color:transparent}
-.chip.db{background:var(--calmS);color:var(--calm);border-color:transparent}
-.strat-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;padding:.7rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:.7rem}
-.strat-stat{text-align:center}
-.strat-stat-v{font-size:.95rem;font-weight:800;color:var(--calm);font-variant-numeric:tabular-nums}
-.strat-stat-v.pos{color:var(--ok)}.strat-stat-v.neg{color:var(--bad)}
-.strat-stat-l{font-size:.58rem;color:var(--mute);margin-top:.1rem}
-.strat-actions{display:flex;gap:.4rem}
-.strat-actions .btn{flex:1;justify-content:center;font-size:.75rem;padding:.45rem}
+.market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;gap:.5rem}
+.market-symbol{font-size:.9rem;font-weight:700}
+.market-val{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--calm)}
+.market-change{font-size:.72rem;font-weight:700;padding:.15rem .4rem;border-radius:6px;display:inline-block;margin-top:.15rem}
+.market-change.pos{color:var(--ok);background:var(--okS)}
+.market-change.neg{color:var(--bad);background:var(--badS)}
+.sparkline-wrap{width:80px;height:30px;flex-shrink:0}
+.sparkline-wrap svg{display:block}
+
+.alert-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem}
+.alert-item.triggered{opacity:.55;border-color:var(--ok)}
+.alert-item.disabled{opacity:.4}
+.alert-info{flex:1;min-width:0}
+.alert-symbol{font-size:.88rem;font-weight:700;margin-bottom:.15rem}
+.alert-detail{font-size:.72rem;color:var(--mute)}
+.alert-detail strong{color:var(--calm)}
+.alert-actions{display:flex;gap:.35rem;align-items:center}
+.alert-toggle{width:36px;height:22px;border-radius:12px;background:var(--line2);border:none;cursor:pointer;position:relative;transition:.3s;padding:0;flex-shrink:0}
+.alert-toggle::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.3s}
+.alert-toggle.on{background:var(--ok)}
+.alert-toggle.on::after{transform:translateX(-14px)}
 
 .ai-chat{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .ai-body{max-height:500px;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.7rem}
@@ -259,41 +324,14 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .preview-strip img{width:44px;height:44px;border-radius:6px;object-fit:cover}
 .preview-strip .info{flex:1;font-size:.72rem;color:var(--soft)}
 .preview-strip button{background:none;border:none;color:var(--bad);cursor:pointer;font-size:1rem}
-.quick-chips{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-top:1px solid var(--line);background:rgba(0,0,0,.08)}
+.quick-chips{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem 1rem;border-top:1px solid var(--line)}
 .chip-btn{padding:.35rem .75rem;background:var(--card2);border:1px solid var(--line);border-radius:15px;color:var(--soft);font-family:inherit;font-size:.7rem;cursor:pointer;transition:.2s}
 .chip-btn:hover{border-color:var(--calm);color:var(--calm)}
 
-/* Market + Sparklines */
-.market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s;gap:.5rem}
-.market-price:hover{border-color:var(--line2)}
-.market-symbol{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.3rem}
-.market-val{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--calm)}
-.market-change{font-size:.72rem;font-weight:700;padding:.15rem .4rem;border-radius:6px;display:inline-block;margin-top:.15rem}
-.market-change.pos{color:var(--ok);background:var(--okS)}
-.market-change.neg{color:var(--bad);background:var(--badS)}
-.sparkline-wrap{width:80px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.sparkline-wrap svg{display:block}
-
-/* Price Alerts */
-.alert-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s}
-.alert-item.triggered{opacity:.55;border-color:var(--ok)}
-.alert-item.disabled{opacity:.4}
-.alert-info{flex:1;min-width:0}
-.alert-symbol{font-size:.88rem;font-weight:700;margin-bottom:.15rem}
-.alert-detail{font-size:.72rem;color:var(--mute)}
-.alert-detail strong{color:var(--calm)}
-.alert-actions{display:flex;gap:.35rem;align-items:center}
-.alert-toggle{width:36px;height:22px;border-radius:12px;background:var(--line2);border:none;cursor:pointer;position:relative;transition:.3s;padding:0;flex-shrink:0}
-.alert-toggle::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.alert-toggle.on{background:var(--ok)}
-.alert-toggle.on::after{transform:translateX(-14px)}
-
-/* Settings */
-.setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem;transition:.3s}
-.setting-group:hover{border-color:var(--line2)}
+.setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem}
 .setting-header{display:flex;align-items:center;gap:.9rem;padding:.9rem 1rem;cursor:pointer;user-select:none}
 .setting-header:hover{background:rgba(107,155,209,.03)}
-.setting-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-size:1.2rem;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.setting-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-size:1.2rem;flex-shrink:0}
 .setting-icon.bg{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
 .setting-icon.sound{background:linear-gradient(135deg,#f59e0b,#d97706)}
 .setting-icon.notif{background:linear-gradient(135deg,#ec4899,#be185d)}
@@ -320,42 +358,34 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .slider-label{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.8rem;color:var(--soft)}
 .slider-value{color:var(--calm);font-weight:700}
 input[type=range]{width:100%;height:5px;background:var(--line2);border-radius:3px;outline:none;-webkit-appearance:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--calm);border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(107,155,209,.4)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--calm);border-radius:50%;cursor:pointer}
 .theme-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
-.theme-opt{aspect-ratio:1;border-radius:12px;cursor:pointer;position:relative;border:2px solid transparent;transition:.3s;overflow:hidden}
-.theme-opt:hover{transform:scale(1.05)}
+.theme-opt{aspect-ratio:1;border-radius:12px;cursor:pointer;position:relative;border:2px solid transparent;transition:.3s}
 .theme-opt.active{border-color:var(--calm);box-shadow:0 0 0 3px var(--calmS)}
-.theme-opt.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;font-weight:bold;background:rgba(0,0,0,.4);text-shadow:0 2px 4px rgba(0,0,0,.5)}
+.theme-opt.active::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;font-weight:bold;background:rgba(0,0,0,.4)}
 .theme-1{background:linear-gradient(135deg,#0a0f1a,#1a2340)}
 .theme-2{background:linear-gradient(135deg,#0a1a12,#0f2a1f)}
 .theme-3{background:linear-gradient(135deg,#1a0f1a,#2a0f2a)}
 .theme-4{background:linear-gradient(135deg,#0f0a0a,#2a1515)}
 .theme-5{background:linear-gradient(135deg,#1a1810,#2a2415)}
 .font-options{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
-.font-btn{padding:.7rem .4rem;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;cursor:pointer;transition:.3s;text-align:center}
-.font-btn:hover{border-color:var(--line2)}
+.font-btn{padding:.7rem .4rem;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;cursor:pointer;text-align:center}
 .font-btn.active{border-color:var(--calm);background:var(--calmS);color:var(--calm)}
 .font-btn-sample{font-weight:700;margin-bottom:.2rem}
 .font-btn-label{font-size:.68rem}
 .advance-chips{display:flex;gap:.4rem;flex-wrap:wrap}
-.advance-chip{padding:.4rem .9rem;background:var(--card);border:2px solid var(--line);border-radius:18px;color:var(--soft);font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;transition:.3s}
-.advance-chip:hover{border-color:var(--line2)}
+.advance-chip{padding:.4rem .9rem;background:var(--card);border:2px solid var(--line);border-radius:18px;color:var(--soft);font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer}
 .advance-chip.active{border-color:var(--calm);background:var(--calmS);color:var(--calm)}
 .setting-actions{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.5rem}
-.setting-actions .btn{justify-content:center;padding:.6rem;font-size:.78rem}
 .setting-actions.full{grid-template-columns:1fr}
-.sound-test{width:100%;padding:.6rem;background:linear-gradient(135deg,var(--warnS),transparent);border:1px solid rgba(212,165,87,.4);border-radius:10px;color:var(--warn);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:.3s;margin-top:.5rem}
-.sound-test:hover{transform:translateY(-2px)}
-
-/* Timezone Grid */
+.setting-actions .btn{justify-content:center;padding:.6rem;font-size:.78rem}
+.sound-test{width:100%;padding:.6rem;background:var(--warnS);border:1px solid rgba(212,165,87,.4);border-radius:10px;color:var(--warn);font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;margin-top:.5rem}
 .tz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem;max-height:400px;overflow-y:auto;padding-right:.3rem;margin-top:.5rem}
-.tz-option{padding:.6rem .7rem;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:.25s;text-align:right;display:flex;align-items:center;gap:.4rem}
-.tz-option:hover{border-color:var(--line2);background:var(--card2)}
+.tz-option{padding:.6rem .7rem;background:var(--card);border:2px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-align:right;display:flex;align-items:center;gap:.4rem}
 .tz-option.active{border-color:var(--calm);background:var(--calmS);color:var(--calm)}
 .tz-option .flag{font-size:.95rem;flex-shrink:0}
-.tz-option .city{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tz-option .offset{font-size:.62rem;color:var(--mute);flex-shrink:0}
-.tz-option.active .offset{color:var(--calm)}
+.tz-option .city{flex:1;min-width:0}
+.tz-option .offset{font-size:.62rem;color:var(--mute)}
 
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,15,26,.85);backdrop-filter:blur(8px);z-index:500;padding:1rem;overflow-y:auto}
 .modal-bg.show{display:block}
@@ -377,14 +407,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .toast.warning{border-right-color:var(--warn)}
 .toast.danger{border-right-color:var(--bad)}
 .toast.greeting{border-right-color:var(--gold);padding:1.2rem 1.4rem;min-width:280px;max-width:400px}
-.toast.greeting .toast-title{font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:.4rem;line-height:1.3}
+.toast.greeting .toast-title{font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:.4rem}
 .toast.greeting .toast-msg{font-size:.95rem;color:var(--text);line-height:1.6}
 .toast-title{font-size:.82rem;font-weight:700;margin-bottom:2px}
 .toast-msg{font-size:.72rem;color:var(--soft)}
 
+.disclaimer{background:var(--warnS);border:1px solid rgba(212,165,87,.3);border-radius:12px;padding:.8rem 1rem;margin-bottom:1rem;font-size:.78rem;color:var(--soft);line-height:1.7}
+.disclaimer strong{color:var(--warn)}
+
 @media(max-width:1100px){.clock-wrap{order:3;width:100%;max-width:100%}}
-@media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.account-summary{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.05rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.72rem;padding:.5rem .65rem;min-width:75px}.clock-item{min-width:75px}.clock-time{font-size:.85rem}.tz-btn{padding:.4rem .55rem;font-size:.68rem}.mt5-table{font-size:.7rem;min-width:800px}.sparkline-wrap{width:60px;height:24px}}
+@media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.account-summary{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.05rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.card{padding:1.1rem}.tab{font-size:.72rem;padding:.5rem .65rem;min-width:75px}.clock-item{min-width:75px}.clock-time{font-size:.85rem}.sparkline-wrap{width:60px;height:24px}.cal-month{min-width:110px;font-size:.95rem}.cal-day{min-height:42px;padding:3px;font-size:.62rem}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -392,12 +425,19 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 <div class="toast-wrap" id="toasts"></div>
 
+<!-- NETWORK STATUS -->
+<div class="net-status" id="net-status">
+    <span class="dot"></span>
+    <span id="net-text">متصل</span>
+</div>
+
+<!-- INSTALL PWA -->
+<button class="install-btn" id="install-btn" onclick="installPWA()">📲 تثبيت التطبيق</button>
+
 <header class="topbar">
 <div class="brand">
-<div class="brand-mark">
-<img src="icon.svg" alt="مسار" onerror="this.style.display='none';this.parentElement.innerHTML='📈'">
-</div>
-<div><h1>مسار</h1><p>منصة التداول الاحترافية</p></div>
+<div class="brand-mark">📈</div>
+<div><h1>مسار</h1><p>دفتر المتداول الاحترافي</p></div>
 </div>
 <div class="clock-wrap">
 <div class="clock-item">
@@ -412,17 +452,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="clock-date" id="d-utc">—</div>
 </div>
 <button class="tz-btn" onclick="openTZModal()" title="تغيير المنطقة الزمنية">
-<span class="flag" id="tz-flag">🇸🇾</span>
+<span id="tz-flag">🇸🇾</span>
 <span id="tz-label">دمشق</span>
 </button>
 </div>
 <div class="top-actions">
-<button class="icon-btn active" onclick="toggleSound()" id="sound-btn" title="الصوت">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+<button class="mode-btn" onclick="toggleDarkMode()" id="mode-btn" title="تبديل الوضع">
+<span class="sun">☀️</span>
+<span class="moon">🌙</span>
 </button>
-<button class="icon-btn" onclick="openSettings()" title="الإعدادات">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-</button>
+<button class="icon-btn active" onclick="toggleSound()" id="sound-btn" title="الصوت">🔊</button>
+<button class="icon-btn" onclick="openSettings()" title="الإعدادات">⚙️</button>
 </div>
 </header>
 
@@ -434,7 +474,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 <div class="weekend-banner" id="weekend-banner">
 <div class="icon">🌙</div>
-<div class="info">
+<div>
 <div class="title">عطلة نهاية الأسبوع — السوق مغلق</div>
 <div class="desc" id="weekend-desc">—</div>
 </div>
@@ -444,15 +484,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 <nav class="tabs">
 <button class="tab active" onclick="switchTab('journal',this)">📊 الحساب</button>
-<button class="tab" onclick="switchTab('analysis',this)">📈 التحليل</button>
-<button class="tab" onclick="switchTab('strategies',this)">📚 الاستراتيجيات</button>
+<button class="tab" onclick="switchTab('stats',this)">📈 الإحصائيات</button>
+<button class="tab" onclick="switchTab('calendar',this)">📅 التقويم</button>
+<button class="tab" onclick="switchTab('notes',this)">📝 مذكرتي</button>
 <button class="tab" onclick="switchTab('market',this)">💹 السوق</button>
 <button class="tab" onclick="switchTab('alerts',this)">🔔 التنبيهات</button>
+<button class="tab" onclick="switchTab('calc',this)">🧮 الحاسبات</button>
 <button class="tab" onclick="switchTab('ai',this)">🤖 المساعد</button>
-<button class="tab" onclick="switchTab('calc',this)">🧮 الحاسبة</button>
 </nav>
 
-<!-- JOURNAL / ACCOUNT PAGE (MT5) -->
+<!-- JOURNAL -->
 <section class="panel active" id="p-journal">
 <div class="account-summary">
 <div class="acc-box balance"><div class="acc-label">الرصيد</div><div class="acc-value" id="acc-balance">$0.00</div></div>
@@ -461,30 +502,25 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="acc-box margin"><div class="acc-label">الهامش المستخدم</div><div class="acc-value" id="acc-margin">$0.00</div></div>
 </div>
 
-<div class="status-box" id="status-box">
-<div class="status-icon" id="status-icon">◈</div>
-<div class="status-info">
-<div class="status-name" id="status-name">—</div>
-<div class="status-text" id="status-text">افتح صفقاتك الأولى لبدء التحليل</div>
-</div>
-</div>
-
-<div class="dash">
-<div class="stat"><div class="stat-v" id="s-total">0</div><div class="stat-l">إجمالي</div></div>
-<div class="stat"><div class="stat-v pos" id="s-wins">0</div><div class="stat-l">رابحة</div></div>
-<div class="stat"><div class="stat-v neg" id="s-losses">0</div><div class="stat-l">خاسرة</div></div>
-<div class="stat"><div class="stat-v" id="s-rate">—</div><div class="stat-l">نسبة النجاح</div></div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem">
+<div class="acc-box"><div class="acc-label">إجمالي</div><div class="acc-value" id="s-total" style="color:var(--calm)">0</div></div>
+<div class="acc-box"><div class="acc-label">رابحة</div><div class="acc-value" id="s-wins" style="color:var(--ok)">0</div></div>
+<div class="acc-box"><div class="acc-label">خاسرة</div><div class="acc-value" id="s-losses" style="color:var(--bad)">0</div></div>
+<div class="acc-box"><div class="acc-label">نسبة النجاح</div><div class="acc-value" id="s-rate" style="color:var(--gold)">—</div></div>
 </div>
 
 <div class="card">
-<div class="card-head"><div><div class="card-title">📈 منحنى الرصيد</div><div class="card-sub">تطور حسابك عبر الزمن</div></div></div>
-<div class="chart-wrap"><canvas id="equity-chart"></canvas></div>
+<div class="card-head"><div><div class="card-title">📈 منحنى الرصيد</div><div class="card-sub">تطور رصيدك بعد كل صفقة مغلقة</div></div></div>
+<div style="position:relative;height:200px"><canvas id="equity-chart"></canvas></div>
 </div>
 
 <div class="card">
 <div class="card-head">
 <div><div class="card-title">📋 الصفقات</div><div class="card-sub">إدارة المراكز المفتوحة والسجل</div></div>
+<div style="display:flex;gap:.4rem;flex-wrap:wrap">
+<button class="btn btn-g btn-sm" onclick="openImportModal()">📥 استيراد MT5 CSV</button>
 <button class="btn btn-buy btn-sm" onclick="openTradeModal()">+ أمر جديد</button>
+</div>
 </div>
 
 <div class="mini-tabs">
@@ -495,18 +531,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="table-wrap">
 <table class="mt5-table">
 <thead>
-<tr id="table-head">
-<th>التذكرة</th>
-<th>الوقت</th>
-<th>الرمز</th>
-<th>النوع</th>
-<th>الحجم</th>
-<th>الفتح</th>
-<th>S/L</th>
-<th>T/P</th>
-<th id="col-close-or-current">الحالي</th>
-<th>P&L</th>
-<th>إجراء</th>
+<tr>
+<th>التذكرة</th><th>الوقت</th><th>الرمز</th><th>النوع</th><th>الحجم</th>
+<th>الفتح</th><th>S/L</th><th>T/P</th><th id="col-current">الحالي</th><th>P&L</th><th>إجراء</th>
 </tr>
 </thead>
 <tbody id="trade-list"></tbody>
@@ -515,19 +542,53 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 </section>
 
-<!-- ANALYSIS -->
-<section class="panel" id="p-analysis">
+<!-- STATISTICS -->
+<section class="panel" id="p-stats">
 <div class="card">
-<div class="card-head"><div><div class="card-title">📊 التحليل المتقدم</div><div class="card-sub">من صفقاتك المغلقة</div></div></div>
-<div class="analysis-grid" id="analysis-grid"></div>
+<div class="card-head"><div><div class="card-title">📈 الإحصائيات الحقيقية</div><div class="card-sub">محسوبة من صفقاتك المغلقة فقط</div></div></div>
+<div class="stats-grid" id="main-stats"></div>
+</div>
+<div class="card"><div class="card-head"><div class="card-title">💱 حسب الرمز</div></div><div id="stats-symbols"></div></div>
+<div class="card"><div class="card-head"><div class="card-title">🎯 حسب النوع</div></div><div id="stats-type"></div></div>
+<div class="card"><div class="card-head"><div class="card-title">⏰ حسب ساعة اليوم</div></div><div id="stats-hours"></div></div>
+<div class="card"><div class="card-head"><div class="card-title">📅 حسب يوم الأسبوع</div></div><div id="stats-days"></div></div>
+<div class="card"><div class="card-head"><div class="card-title">🔥 السلاسل (Streaks)</div></div><div id="stats-streaks"></div></div>
+<div class="card"><div class="card-head"><div class="card-title">🏆 أفضل وأسوأ 5 صفقات</div></div><div id="stats-extremes"></div></div>
+</section>
+
+<!-- CALENDAR -->
+<section class="panel" id="p-calendar">
+<div class="card">
+<div class="cal-header">
+<div><div class="card-title">📅 تقويم الأداء الشهري</div><div class="card-sub">كل يوم بلون حسب نتيجتك</div></div>
+<div class="cal-nav">
+<button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+<div class="cal-month" id="cal-month-label">—</div>
+<button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+</div>
+</div>
+<div class="cal-grid" id="cal-grid"></div>
+<div class="cal-summary" id="cal-summary"></div>
 </div>
 </section>
 
-<!-- STRATEGIES -->
-<section class="panel" id="p-strategies">
+<!-- NOTES -->
+<section class="panel" id="p-notes">
 <div class="card">
-<div class="card-head"><div><div class="card-title">📚 استراتيجياتي</div><div class="card-sub">الإحصائيات تُحسب من صفقاتك</div></div><button class="btn btn-p btn-sm" onclick="openStrategyModal()">+ استراتيجية</button></div>
-<div class="strat-grid" id="strat-grid"></div>
+<div class="card-head">
+<div><div class="card-title">📝 مذكرتي</div><div class="card-sub">ملاحظاتك الشخصية ودروسك</div></div>
+<button class="btn btn-p btn-sm" onclick="openNoteModal()">+ ملاحظة جديدة</button>
+</div>
+
+<div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem">
+<div class="note-template" onclick="openNoteModal('template-daily')">📅 مراجعة يومية</div>
+<div class="note-template" onclick="openNoteModal('template-trade')">🎯 تحليل صفقة</div>
+<div class="note-template" onclick="openNoteModal('template-weekly')">📊 مراجعة أسبوعية</div>
+<div class="note-template" onclick="openNoteModal('template-lesson')">💡 درس مستفاد</div>
+</div>
+
+<input type="text" class="form-input" id="notes-search" placeholder="🔍 ابحث في ملاحظاتك..." oninput="renderNotes()" style="margin-bottom:1rem">
+<div id="notes-list"></div>
 </div>
 </section>
 
@@ -538,16 +599,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div><div class="card-title">💹 السوق المباشر</div><div class="card-sub">Twelve Data — يتحدّث كل 60 ثانية</div></div>
 <button class="btn btn-p btn-sm" onclick="refreshMarket()">🔄 تحديث</button>
 </div>
-<div id="market-list"><div class="empty"><div class="empty-icon">📈</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات</div></div></div>
+<div id="market-list"></div>
 </div>
 </section>
 
 <!-- ALERTS -->
 <section class="panel" id="p-alerts">
 <div class="card">
-<div class="card-head">
-<div><div class="card-title">🔔 تنبيهات الأسعار</div><div class="card-sub">تنبيه صوتي عند وصول السعر لهدفك</div></div>
-</div>
+<div class="card-head"><div><div class="card-title">🔔 تنبيهات الأسعار</div><div class="card-sub">تنبيه صوتي عند وصول السعر لهدفك</div></div></div>
 <div class="form-row">
 <div class="form-group"><label class="form-label">الزوج</label><select class="form-input" id="alert-symbol"></select></div>
 <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="alert-direction">
@@ -561,32 +620,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div style="font-size:.85rem;font-weight:700;margin-bottom:.7rem;color:var(--calm)">📋 التنبيهات النشطة</div>
 <div id="alerts-list"></div>
 </div>
-<div style="font-size:.7rem;color:var(--mute);margin-top:1rem;line-height:1.6;text-align:center">⚠️ التنبيهات تعمل فقط عندما يكون الموقع مفتوحاً</div>
-</div>
-</section>
-
-<!-- AI -->
-<section class="panel" id="p-ai">
-<div class="card">
-<div class="card-head"><div><div class="card-title">🤖 المساعد الذكي</div><div class="card-sub">Gemini AI — يرى بيانات حسابك</div></div><span class="chip dc">● متصل</span></div>
-<div class="ai-chat">
-<div class="ai-body" id="ai-body">
-<div class="msg bot">مرحباً! يمكنني:<br>• تحليل صورة شارت 📷<br>• تحليل أدائك من سجل الصفقات 📊<br>• اقتراح تحسينات 🎯<br><br>جرّب زراً سريعاً!</div>
-</div>
-<div class="preview-strip" id="preview"><img id="preview-img" alt=""><div class="info" id="preview-info"></div><button onclick="clearImg()">✕</button></div>
-<div class="quick-chips">
-<button class="chip-btn" onclick="quickAsk('حلل أدائي')">تحليل أدائي</button>
-<button class="chip-btn" onclick="quickAsk('ما أكبر أخطائي؟')">أخطائي</button>
-<button class="chip-btn" onclick="quickAsk('كيف أتحسن؟')">كيف أتحسن؟</button>
-<button class="chip-btn" onclick="quickAsk('ما أفضل رمز لي؟')">أفضل رمز</button>
-</div>
-<div class="ai-input">
-<button class="ai-attach" onclick="document.getElementById('ai-file').click()">📎</button>
-<input type="file" id="ai-file" accept="image/*" style="display:none" onchange="handleImg(event)">
-<input type="text" id="ai-text" placeholder="اسألني..." onkeypress="if(event.key==='Enter')sendAI()">
-<button class="ai-send" onclick="sendAI()">✉</button>
-</div>
-</div>
 </div>
 </section>
 
@@ -598,8 +631,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div>
 <div class="form-group"><label class="form-label">رأس المال ($)</label><input type="number" class="form-input" id="calc-cap" value="1000"></div>
 <div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="calc-risk" value="1" step="0.1"></div>
-<div class="form-group">
-<label class="form-label">الرمز</label>
+<div class="form-group"><label class="form-label">الرمز</label>
 <select class="form-input" id="calc-symbol">
 <option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
 <option>USD/CHF</option><option>USD/CAD</option><option>AUD/USD</option>
@@ -607,27 +639,25 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <option>GBP/JPY</option><option>AUD/JPY</option><option>XAU/USD</option>
 <option>XAG/USD</option><option>BTC/USD</option><option>ETH/USD</option>
 <option>US30</option><option>NAS100</option><option>SP500</option>
-</select>
-</div>
+</select></div>
 <div class="form-group"><label class="form-label">سعر الدخول</label><input type="number" class="form-input" id="calc-entry" value="1.0850" step="0.0001"></div>
-<div class="form-group"><label class="form-label">وقف الخسارة (S/L)</label><input type="number" class="form-input" id="calc-stop" value="1.0820" step="0.0001"></div>
-<button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPositionSize()">احسب حجم اللوت</button>
+<div class="form-group"><label class="form-label">وقف الخسارة</label><input type="number" class="form-input" id="calc-stop" value="1.0820" step="0.0001"></div>
+<button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPositionSize()">احسب</button>
 </div>
 <div class="card" style="margin:0;background:linear-gradient(155deg,var(--calmS),transparent)">
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">المبلغ المخاطر به</span><strong id="r-risk">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">المسافة (نقاط)</span><strong id="r-pips">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">قيمة النقطة/لوت</span><strong id="r-pipval">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0"><span style="color:var(--soft)">حجم اللوت</span><strong style="color:var(--gold);font-size:1.4rem" id="r-lot">—</strong></div>
+<div class="stat-row"><span class="stat-row-label">المبلغ المخاطر به</span><span class="stat-row-value" id="r-risk">—</span></div>
+<div class="stat-row"><span class="stat-row-label">المسافة (نقاط)</span><span class="stat-row-value" id="r-pips">—</span></div>
+<div class="stat-row"><span class="stat-row-label">قيمة النقطة/لوت</span><span class="stat-row-value" id="r-pipval">—</span></div>
+<div class="stat-row"><span class="stat-row-label">حجم اللوت</span><span class="stat-row-value" id="r-lot" style="color:var(--gold)">—</span></div>
 </div>
 </div>
 </div>
 
 <div class="card">
-<div class="card-head"><div class="card-title">📊 حاسبة القيمة الحالية</div></div>
+<div class="card-head"><div class="card-title">📊 حاسبة الربح/الخسارة</div></div>
 <div class="form-row">
 <div>
-<div class="form-group">
-<label class="form-label">الرمز</label>
+<div class="form-group"><label class="form-label">الرمز</label>
 <select class="form-input" id="pl-symbol">
 <option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option>
 <option>USD/CHF</option><option>USD/CAD</option><option>AUD/USD</option>
@@ -635,21 +665,56 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <option>GBP/JPY</option><option>AUD/JPY</option><option>XAU/USD</option>
 <option>XAG/USD</option><option>BTC/USD</option><option>ETH/USD</option>
 <option>US30</option><option>NAS100</option><option>SP500</option>
-</select>
-</div>
+</select></div>
 <div class="form-group"><label class="form-label">حجم اللوت</label><input type="number" class="form-input" id="pl-lots" value="0.10" step="0.01"></div>
 <div class="form-group"><label class="form-label">سعر الفتح</label><input type="number" class="form-input" id="pl-entry" value="1.0850" step="0.0001"></div>
 <div class="form-group"><label class="form-label">سعر الإغلاق</label><input type="number" class="form-input" id="pl-exit" value="1.0900" step="0.0001"></div>
-<div class="form-group">
-<label class="form-label">الاتجاه</label>
-<select class="form-input" id="pl-dir"><option value="buy">Buy (شراء)</option><option value="sell">Sell (بيع)</option></select>
-</div>
+<div class="form-group"><label class="form-label">الاتجاه</label>
+<select class="form-input" id="pl-dir"><option value="buy">Buy</option><option value="sell">Sell</option></select></div>
 <button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPL()">احسب</button>
 </div>
 <div class="card" style="margin:0;background:linear-gradient(155deg,var(--okS),transparent)">
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">النقاط (Pips)</span><strong id="r2-pips">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--line)"><span style="color:var(--soft)">القيمة لكل نقطة</span><strong id="r2-pipval">—</strong></div>
-<div style="display:flex;justify-content:space-between;padding:.6rem 0"><span style="color:var(--soft)">الربح/الخسارة</span><strong style="font-size:1.4rem" id="r2-pl">—</strong></div>
+<div class="stat-row"><span class="stat-row-label">النقاط (Pips)</span><span class="stat-row-value" id="r2-pips">—</span></div>
+<div class="stat-row"><span class="stat-row-label">القيمة لكل نقطة</span><span class="stat-row-value" id="r2-pipval">—</span></div>
+<div class="stat-row"><span class="stat-row-label">الربح/الخسارة</span><span class="stat-row-value" id="r2-pl" style="font-size:1.2rem">—</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section class="panel" id="p-ai">
+<div class="card">
+<div class="card-head">
+<div>
+<div class="card-title">🤖 المساعد التنظيمي</div>
+<div class="card-sub">يلخص أداءك ويصف صور الشارت — لا يقدم توصيات</div>
+</div>
+</div>
+
+<div class="disclaimer">
+<strong>⚠️ تنبيه مهم:</strong> هذا المساعد <strong>لا يقدم توصيات استثمارية</strong> ولا يتنبأ بالأسعار. وظيفته فقط:
+<div style="margin-top:.4rem">• 📊 تلخيص أدائك من سجل صفقاتك الحقيقي</div>
+<div>• 📷 وصف ما يظهر في صور الشارت (بدون توصيات)</div>
+<div>• 📚 شرح مصطلحات التداول</div>
+</div>
+
+<div class="ai-chat">
+<div class="ai-body" id="ai-body">
+<div class="msg bot">مرحباً! يمكنني:<br>• 📊 تلخيص أدائك من سجل صفقاتك<br>• 📷 وصف ما يظهر في صور الشارت (اتجاه، أنماط — بدون توصيات)<br>• 📚 شرح مصطلحات التداول<br><br>جرّب زراً سريعاً أو ارفع صورة شارت.</div>
+</div>
+<div class="preview-strip" id="preview"><img id="preview-img" alt=""><div class="info" id="preview-info"></div><button onclick="clearImg()">✕</button></div>
+<div class="quick-chips">
+<button class="chip-btn" onclick="quickAsk('لخص أدائي')">لخص أدائي</button>
+<button class="chip-btn" onclick="quickAsk('ما أفضل رمز لي؟')">أفضل رمز</button>
+<button class="chip-btn" onclick="quickAsk('اشرح لي Profit Factor')">ما Profit Factor؟</button>
+<button class="chip-btn" onclick="quickAsk('اشرح Drawdown')">ما Drawdown؟</button>
+</div>
+<div class="ai-input">
+<button class="ai-attach" onclick="document.getElementById('ai-file').click()">📎</button>
+<input type="file" id="ai-file" accept="image/*" style="display:none" onchange="handleImg(event)">
+<input type="text" id="ai-text" placeholder="اسألني..." onkeypress="if(event.key==='Enter')sendAI()">
+<button class="ai-send" onclick="sendAI()">✉</button>
 </div>
 </div>
 </div>
@@ -664,113 +729,87 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <option value="BTC/USD"><option value="ETH/USD"><option value="US30"><option value="NAS100"><option value="SP500">
 </datalist>
 
-<!-- TZ MODAL -->
-<div class="modal-bg" id="tz-modal">
-<div class="modal">
+<!-- MODALS -->
+<div class="modal-bg" id="tz-modal"><div class="modal">
 <div class="modal-head"><div class="modal-title">🌍 اختر منطقتك الزمنية</div><button class="modal-close" onclick="closeModal('tz-modal')">✕</button></div>
-<div style="font-size:.78rem;color:var(--mute);margin-bottom:.8rem;line-height:1.6">اختر مدينتك — ستُعرض الساعة ومواعيد الجلسات بتوقيتك المحلي، مع الحفاظ على التوقيت الأصلي (UTC).</div>
+<div style="font-size:.78rem;color:var(--mute);margin-bottom:.8rem;line-height:1.6">ستُعرض الساعة ومواعيد الجلسات بتوقيتك المحلي، مع الحفاظ على التوقيت الأصلي (UTC).</div>
 <div class="tz-grid" id="tz-grid"></div>
-</div>
-</div>
+</div></div>
 
-<!-- NEW TRADE MODAL -->
-<div class="modal-bg" id="trade-modal">
-<div class="modal">
+<div class="modal-bg" id="trade-modal"><div class="modal">
 <div class="modal-head"><div class="modal-title">🎯 أمر تداول جديد</div><button class="modal-close" onclick="closeModal('trade-modal')">✕</button></div>
-
 <div class="type-toggle">
-<button class="type-btn buy active" id="type-buy" onclick="setTradeType('buy')"><span>▲</span><span>BUY (شراء)</span></button>
-<button class="type-btn sell" id="type-sell" onclick="setTradeType('sell')"><span>▼</span><span>SELL (بيع)</span></button>
+<button class="type-btn buy active" id="type-buy" onclick="setTradeType('buy')"><span>▲</span><span>BUY</span></button>
+<button class="type-btn sell" id="type-sell" onclick="setTradeType('sell')"><span>▼</span><span>SELL</span></button>
 </div>
-
 <div class="form-row">
-<div class="form-group">
-<label class="form-label">الرمز</label>
-<input type="text" class="form-input" id="t-symbol" list="symbols-list" value="EUR/USD" placeholder="اكتب الرمز...">
+<div class="form-group"><label class="form-label">الرمز</label><input type="text" class="form-input" id="t-symbol" list="symbols-list" value="EUR/USD"></div>
+<div class="form-group"><label class="form-label">الحجم (لوت)</label><input type="number" class="form-input" id="t-volume" value="0.10" step="0.01" min="0.01"></div>
 </div>
-<div class="form-group">
-<label class="form-label">الحجم (لوت)</label>
-<input type="number" class="form-input" id="t-volume" value="0.10" step="0.01" min="0.01">
-</div>
-</div>
-
 <div class="form-row">
-<div class="form-group">
-<label class="form-label">سعر الفتح</label>
-<input type="number" class="form-input" id="t-open" value="1.0850" step="0.0001">
+<div class="form-group"><label class="form-label">سعر الفتح</label><input type="number" class="form-input" id="t-open" value="1.0850" step="0.0001"></div>
+<div class="form-group"><label class="form-label">الاستراتيجية/الوسم</label><input type="text" class="form-input" id="t-tag" placeholder="مثال: Breakout" autocomplete="off"></div>
 </div>
-<div class="form-group">
-<label class="form-label">الاستراتيجية (اختياري)</label>
-<select class="form-input" id="t-strat"><option value="">— بدون —</option></select>
-</div>
-</div>
-
 <div class="form-row">
-<div class="form-group"><label class="form-label">وقف الخسارة S/L</label><input type="number" class="form-input" id="t-sl" placeholder="مثال: 1.0820" step="0.0001"></div>
-<div class="form-group"><label class="form-label">الهدف T/P</label><input type="number" class="form-input" id="t-tp" placeholder="مثال: 1.0900" step="0.0001"></div>
+<div class="form-group"><label class="form-label">وقف الخسارة (اختياري)</label><input type="number" class="form-input" id="t-sl" step="0.0001"></div>
+<div class="form-group"><label class="form-label">الهدف (اختياري)</label><input type="number" class="form-input" id="t-tp" step="0.0001"></div>
 </div>
-
 <div class="form-group"><label class="form-label">ملاحظات</label><input type="text" class="form-input" id="t-note" placeholder="سبب الدخول..."></div>
-
-<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:.9rem;margin-bottom:1rem;font-size:.78rem;color:var(--soft);line-height:1.7">
-<div style="color:var(--calm);font-weight:700;margin-bottom:.4rem">💡 معلومات الأمر:</div>
-<div>• BUY = ترتفع العملة → تربح عند صعود السعر</div>
-<div>• SELL = تنخفض العملة → تربح عند هبوط السعر</div>
-<div>• 1.00 لوت = 100,000 وحدة (10$ لكل نقطة)</div>
-<div>• 0.10 لوت = 10,000 وحدة (1$ لكل نقطة)</div>
-</div>
-
 <div class="modal-actions">
 <button class="btn btn-g" onclick="closeModal('trade-modal')">إلغاء</button>
-<button class="btn btn-buy" onclick="saveTrade()">✅ تنفيذ الأمر</button>
+<button class="btn btn-buy" onclick="saveTrade()">✅ تنفيذ</button>
 </div>
-</div>
-</div>
+</div></div>
 
-<!-- CLOSE POSITION MODAL -->
-<div class="modal-bg" id="close-modal">
-<div class="modal">
+<div class="modal-bg" id="close-modal"><div class="modal">
 <div class="modal-head"><div class="modal-title">🔒 إغلاق الصفقة</div><button class="modal-close" onclick="closeModal('close-modal')">✕</button></div>
 <div id="close-info" style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.85rem;line-height:1.9"></div>
 <div class="form-group"><label class="form-label">سعر الإغلاق</label><input type="number" class="form-input" id="close-price" step="0.0001"></div>
-<div style="background:linear-gradient(155deg,var(--okS),transparent);border:1px solid rgba(74,157,126,.3);border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center">
-<div style="font-size:.75rem;color:var(--mute);margin-bottom:.3rem">الربح / الخسارة المتوقعة</div>
-<div id="close-preview" style="font-size:1.5rem;font-weight:800;color:var(--ok)">$0.00</div>
+<div style="background:var(--okS);border:1px solid rgba(74,157,126,.3);border-radius:10px;padding:1rem;margin-bottom:1rem;text-align:center">
+<div style="font-size:.75rem;color:var(--mute);margin-bottom:.3rem">النتيجة المتوقعة</div>
+<div id="close-preview" style="font-size:1.5rem;font-weight:800">$0.00</div>
 </div>
 <div class="modal-actions">
 <button class="btn btn-g" onclick="closeModal('close-modal')">إلغاء</button>
-<button class="btn btn-p" onclick="confirmClose()">🔒 تأكيد الإغلاق</button>
+<button class="btn btn-p" onclick="confirmClose()">🔒 تأكيد</button>
 </div>
-</div>
-</div>
+</div></div>
 
-<!-- STRATEGY MODAL -->
-<div class="modal-bg" id="strat-modal">
-<div class="modal" style="max-width:540px">
-<div class="modal-head"><div class="modal-title" id="strat-modal-title">استراتيجية جديدة</div><button class="modal-close" onclick="closeModal('strat-modal')">✕</button></div>
-<input type="hidden" id="s-id">
-<div class="form-row">
-<div class="form-group"><label class="form-label">الاسم *</label><input type="text" class="form-input" id="s-name"></div>
-<div class="form-group"><label class="form-label">الأيقونة</label><input type="text" class="form-input" id="s-icon" value="⚡" maxlength="2"></div>
+<div class="modal-bg" id="note-modal"><div class="modal">
+<div class="modal-head"><div class="modal-title" id="note-modal-title">📝 ملاحظة جديدة</div><button class="modal-close" onclick="closeModal('note-modal')">✕</button></div>
+<input type="hidden" id="n-id">
+<div class="form-group"><label class="form-label">العنوان *</label><input type="text" class="form-input" id="n-title" placeholder="عنوان مختصر..."></div>
+<div class="form-group"><label class="form-label">المحتوى</label><textarea class="form-input" id="n-content" rows="8" placeholder="اكتب ملاحظاتك..."></textarea></div>
+<div class="form-group"><label class="form-label">الوسوم (افصل بفاصلة)</label><input type="text" class="form-input" id="n-tags" placeholder="مثال: انضباط، لندن، ذهب"></div>
+<div class="form-group">
+<label class="toggle-row" style="cursor:pointer">
+<span class="toggle-label">📌 تثبيت في الأعلى</span>
+<button class="toggle-switch" id="n-pinned" onclick="toggleNotePinned(event)"></button>
+</label>
 </div>
-<div class="form-row">
-<div class="form-group"><label class="form-label">التصنيف</label><select class="form-input" id="s-cat"><option>Breakout</option><option>Trend</option><option>Reversal</option><option>Scalping</option><option>News</option><option>أخرى</option></select></div>
-<div class="form-group"><label class="form-label">الاتجاه</label><select class="form-input" id="s-dir"><option value="buy">▲ Buy</option><option value="sell">▼ Sell</option><option value="both">◆ Both</option></select></div>
+<div class="modal-actions">
+<button class="btn btn-g" onclick="closeModal('note-modal')">إلغاء</button>
+<button class="btn btn-p" onclick="saveNote()">💾 حفظ</button>
 </div>
-<div class="form-row">
-<div class="form-group"><label class="form-label">التايم فريم</label><select class="form-input" id="s-tf"><option>1د</option><option>5د</option><option>15د</option><option>30د</option><option>1س</option><option>4س</option></select></div>
-<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="s-risk" value="1" step="0.1"></div>
-</div>
-<div class="form-group"><label class="form-label">الرموز المفضلة</label><input type="text" class="form-input" id="s-pairs" placeholder="EUR/USD, XAU/USD" autocomplete="off"></div>
-<div class="form-group"><label class="form-label">شروط الدخول</label><textarea class="form-input" id="s-entry"></textarea></div>
-<div class="form-group"><label class="form-label">شروط الخروج</label><textarea class="form-input" id="s-exit"></textarea></div>
-<div class="modal-actions"><button class="btn btn-g" onclick="closeModal('strat-modal')">إلغاء</button><button class="btn btn-p" onclick="saveStrategy()">حفظ</button></div>
-</div>
-</div>
+</div></div>
 
-<!-- SETTINGS MODAL -->
-<div class="modal-bg" id="settings-modal">
-<div class="modal" style="max-width:540px">
+<div class="modal-bg" id="import-modal"><div class="modal">
+<div class="modal-head"><div class="modal-title">📥 استيراد صفقات من MT5 (CSV)</div><button class="modal-close" onclick="closeModal('import-modal')">✕</button></div>
+<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:1rem;margin-bottom:1rem;font-size:.78rem;color:var(--soft);line-height:1.7">
+<strong style="color:var(--calm)">الخطوات:</strong><br>
+1. من MT5: Toolbox → History → Report → Save as CSV<br>
+2. تأكد من وجود الأعمدة: Ticket, Time, Symbol, Type, Volume, Price, S/L, T/P, Profit<br>
+3. ارفع الملف هنا
+</div>
+<input type="file" id="csv-file" accept=".csv,.txt" style="width:100%;padding:.7rem;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-family:inherit;font-size:.85rem">
+<div id="import-preview" style="margin-top:1rem"></div>
+<div class="modal-actions">
+<button class="btn btn-g" onclick="closeModal('import-modal')">إلغاء</button>
+<button class="btn btn-p" onclick="processCSVImport()">📥 استيراد</button>
+</div>
+</div></div>
+
+<div class="modal-bg" id="settings-modal"><div class="modal" style="max-width:540px">
 <div class="modal-head"><div class="modal-title">⚙️ الإعدادات</div><button class="modal-close" onclick="closeModal('settings-modal')">✕</button></div>
 
 <div class="setting-group" id="g-tz">
@@ -779,15 +818,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="setting-info"><div class="setting-title">المنطقة الزمنية</div><div class="setting-desc">اعرض الجلسات بتوقيت مدينتك</div></div>
 <div class="setting-arrow">▼</div>
 </div>
-<div class="setting-body"><div class="setting-content">
-<div class="tz-grid" id="tz-grid-settings"></div>
-</div></div>
+<div class="setting-body"><div class="setting-content"><div class="tz-grid" id="tz-grid-settings"></div></div></div>
 </div>
 
 <div class="setting-group" id="g-bg">
 <div class="setting-header" onclick="toggleGroup('g-bg')">
 <div class="setting-icon bg">🎨</div>
-<div class="setting-info"><div class="setting-title">الخلفية والمظهر</div><div class="setting-desc">اختر الثيم المفضل</div></div>
+<div class="setting-info"><div class="setting-title">الخلفية والمظهر</div><div class="setting-desc">اختر الثيم</div></div>
 <div class="setting-arrow">▼</div>
 </div>
 <div class="setting-body"><div class="setting-content">
@@ -798,13 +835,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="theme-opt theme-4" onclick="setTheme(4,this)"></div>
 <div class="theme-opt theme-5" onclick="setTheme(5,this)"></div>
 </div>
+<div class="toggle-row" style="margin-top:.8rem;border-top:1px solid var(--line)">
+<span class="toggle-label">☀️ الوضع النهاري</span>
+<button class="toggle-switch" id="tg-light" onclick="toggleDarkMode()"></button>
+</div>
 </div></div>
 </div>
 
 <div class="setting-group" id="g-sound">
 <div class="setting-header" onclick="toggleGroup('g-sound')">
 <div class="setting-icon sound">🔊</div>
-<div class="setting-info"><div class="setting-title">الأصوات</div><div class="setting-desc">التحكم في أصوات التنبيهات</div></div>
+<div class="setting-info"><div class="setting-title">الأصوات</div><div class="setting-desc">تنبيهات صوتية</div></div>
 <div class="setting-arrow">▼</div>
 </div>
 <div class="setting-body"><div class="setting-content">
@@ -857,30 +898,31 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="setting-group" id="g-api">
 <div class="setting-header" onclick="toggleGroup('g-api')">
 <div class="setting-icon api">🔑</div>
-<div class="setting-info"><div class="setting-title">مفاتيح API</div><div class="setting-desc">Twelve Data للأسعار الحية</div></div>
+<div class="setting-info"><div class="setting-title">مفاتيح API</div><div class="setting-desc">Twelve Data للأسعار</div></div>
 <div class="setting-arrow">▼</div>
 </div>
 <div class="setting-body"><div class="setting-content">
-<div class="form-group"><label class="form-label">مفتاح Twelve Data</label><input type="password" class="form-input" id="set-td" placeholder="الصق المفتاح هنا..." dir="ltr"></div>
-<div style="font-size:.7rem;color:var(--mute);line-height:1.6">احصل على مفتاح مجاني من <a href="https://twelvedata.com" target="_blank" style="color:var(--calm)">twelvedata.com</a></div>
+<div class="form-group"><label class="form-label">مفتاح Twelve Data</label><input type="password" class="form-input" id="set-td" placeholder="الصق المفتاح..." dir="ltr"></div>
+<div style="font-size:.7rem;color:var(--mute);line-height:1.6">مفتاح مجاني من <a href="https://twelvedata.com" target="_blank" style="color:var(--calm)">twelvedata.com</a></div>
 </div></div>
 </div>
 
 <div class="setting-group" id="g-account">
 <div class="setting-header" onclick="toggleGroup('g-account')">
 <div class="setting-icon data">💰</div>
-<div class="setting-info"><div class="setting-title">الحساب</div><div class="setting-desc">إعدادات الرصيد والرافعة</div></div>
+<div class="setting-info"><div class="setting-title">الحساب</div><div class="setting-desc">الرصيد والرافعة</div></div>
 <div class="setting-arrow">▼</div>
 </div>
 <div class="setting-body"><div class="setting-content">
 <div class="form-row">
-<div class="form-group" style="margin:0"><label class="form-label">الرصيد ($)</label><input type="number" class="form-input" id="set-cap" value="1000"></div>
-<div class="form-group" style="margin:0"><label class="form-label">العملة</label><select class="form-input" id="set-cur"><option value="$">دولار ($)</option><option value="€">يورو (€)</option><option value="£">جنيه (£)</option></select></div>
+<div class="form-group" style="margin:0"><label class="form-label">الرصيد الابتدائي ($)</label><input type="number" class="form-input" id="set-cap" value="1000"></div>
+<div class="form-group" style="margin:0"><label class="form-label">العملة</label><select class="form-input" id="set-cur"><option value="$">$ USD</option><option value="€">€ EUR</option><option value="£">£ GBP</option></select></div>
 </div>
 <div class="form-row" style="margin-top:.8rem">
-<div class="form-group" style="margin:0"><label class="form-label">الرافعة المالية</label><select class="form-input" id="set-leverage"><option value="1">1:1</option><option value="10">1:10</option><option value="30">1:30</option><option value="50">1:50</option><option value="100" selected>1:100</option><option value="200">1:200</option><option value="500">1:500</option></select></div>
+<div class="form-group" style="margin:0"><label class="form-label">الرافعة</label><select class="form-input" id="set-leverage"><option>1:10</option><option>1:30</option><option>1:50</option><option selected>1:100</option><option>1:200</option><option>1:500</option></select></div>
 <div class="form-group" style="margin:0"><label class="form-label">حد الخسارة اليومي ($)</label><input type="number" class="form-input" id="set-loss-limit" value="0" min="0"></div>
 </div>
+<div style="font-size:.68rem;color:var(--mute);margin-top:.4rem">حد الخسارة: 0 = بدون حد</div>
 </div></div>
 </div>
 
@@ -892,7 +934,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 <div class="setting-body"><div class="setting-content">
 <div class="setting-actions">
-<button class="btn btn-g" onclick="exportJSON()">📤 JSON</button>
+<button class="btn btn-g" onclick="exportJSON()">📤 تصدير</button>
 <button class="btn btn-g" onclick="importJSON()">📥 استيراد</button>
 </div>
 <div class="setting-actions full" style="margin-top:.4rem">
@@ -903,19 +945,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 
 <div class="modal-actions"><button class="btn btn-g" onclick="closeModal('settings-modal')">إغلاق</button><button class="btn btn-p" onclick="saveSettings()">💾 حفظ</button></div>
-</div>
-</div>
+</div></div>
 
 <script src="https://js.puter.com/v2/"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
 <script>
 /* ============ HELPERS ============ */
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad2 = n => String(n).padStart(2,'0');
-const fmtMoney = n => (n>=0?'':'-') + Math.abs(n).toFixed(2);
+const fmtMoney = n => Math.abs(n).toFixed(2);
 
 function toast(title, msg='', type='info', dur=3500) {
     const w = $('#toasts');
@@ -927,7 +967,7 @@ function toast(title, msg='', type='info', dur=3500) {
     setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, dur);
 }
 
-/* ============ SYMBOL SPECS (MT5) ============ */
+/* ============ SYMBOL SPECS ============ */
 const SYMBOL_SPECS = {
     'EUR/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
     'GBP/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
@@ -951,86 +991,49 @@ const SYMBOL_SPECS = {
     'NAS100': { pipSize: 0.1, pipValuePerLot: 0.1, decimals: 1, contractSize: 1 },
     'SP500': { pipSize: 0.1, pipValuePerLot: 0.1, decimals: 1, contractSize: 1 }
 };
-
 function getSymbolSpec(symbol) { return SYMBOL_SPECS[symbol] || SYMBOL_SPECS['EUR/USD']; }
 
 function calcPnL(symbol, type, volume, openPrice, closePrice) {
     const spec = getSymbolSpec(symbol);
     const dir = type === 'buy' ? 1 : -1;
-    const priceDiff = (closePrice - openPrice) * dir;
-    return priceDiff * volume * spec.contractSize;
+    return (closePrice - openPrice) * dir * volume * spec.contractSize;
 }
 
 /* ============ TIMEZONES ============ */
 const TIMEZONES = [
-    { city: 'دمشق', flag: '🇸🇾', offset: 3 },
-    { city: 'بيروت', flag: '🇱🇧', offset: 3 },
-    { city: 'عمّان', flag: '🇯🇴', offset: 3 },
-    { city: 'بغداد', flag: '🇮🇶', offset: 3 },
-    { city: 'الرياض', flag: '🇸🇦', offset: 3 },
-    { city: 'الكويت', flag: '🇰🇼', offset: 3 },
-    { city: 'الدوحة', flag: '🇶🇦', offset: 3 },
-    { city: 'المنامة', flag: '🇧🇭', offset: 3 },
-    { city: 'صنعاء', flag: '🇾🇪', offset: 3 },
-    { city: 'مسقط', flag: '🇴🇲', offset: 4 },
-    { city: 'دبي', flag: '🇦🇪', offset: 4 },
-    { city: 'أبوظبي', flag: '🇦🇪', offset: 4 },
-    { city: 'القاهرة', flag: '🇪🇬', offset: 2 },
-    { city: 'الخرطوم', flag: '🇸🇩', offset: 2 },
-    { city: 'طرابلس', flag: '🇱🇾', offset: 2 },
-    { city: 'تونس', flag: '🇹🇳', offset: 1 },
-    { city: 'الجزائر', flag: '🇩🇿', offset: 1 },
-    { city: 'الرباط', flag: '🇲🇦', offset: 1 },
-    { city: 'إستنبول', flag: '🇹🇷', offset: 3 },
-    { city: 'طهران', flag: '🇮🇷', offset: 3.5 },
-    { city: 'كابول', flag: '🇦🇫', offset: 4.5 },
-    { city: 'كراتشي', flag: '🇵🇰', offset: 5 },
-    { city: 'دلهي', flag: '🇮🇳', offset: 5.5 },
-    { city: 'دكا', flag: '🇧🇩', offset: 6 },
-    { city: 'بانكوك', flag: '🇹🇭', offset: 7 },
-    { city: 'جاكرتا', flag: '🇮🇩', offset: 7 },
-    { city: 'سنغافورة', flag: '🇸🇬', offset: 8 },
-    { city: 'هونغ كونغ', flag: '🇭🇰', offset: 8 },
-    { city: 'شنغهاي', flag: '🇨🇳', offset: 8 },
-    { city: 'بكين', flag: '🇨🇳', offset: 8 },
-    { city: 'كوالالمبور', flag: '🇲🇾', offset: 8 },
-    { city: 'طوكيو', flag: '🇯🇵', offset: 9 },
-    { city: 'سول', flag: '🇰🇷', offset: 9 },
-    { city: 'سيدني', flag: '🇦🇺', offset: 10 },
-    { city: 'ملبورن', flag: '🇦🇺', offset: 10 },
-    { city: 'أوكلاند', flag: '🇳🇿', offset: 12 },
-    { city: 'موسكو', flag: '🇷🇺', offset: 3 },
-    { city: 'كييف', flag: '🇺🇦', offset: 2 },
-    { city: 'أثينا', flag: '🇬🇷', offset: 2 },
-    { city: 'روما', flag: '🇮🇹', offset: 1 },
-    { city: 'باريس', flag: '🇫🇷', offset: 1 },
-    { city: 'برلين', flag: '🇩🇪', offset: 1 },
-    { city: 'مدريد', flag: '🇪🇸', offset: 1 },
-    { city: 'أمستردام', flag: '🇳🇱', offset: 1 },
-    { city: 'زيوريخ', flag: '🇨🇭', offset: 1 },
-    { city: 'ستوكهولم', flag: '🇸🇪', offset: 1 },
-    { city: 'لندن', flag: '🇬🇧', offset: 0 },
-    { city: 'دبلن', flag: '🇮🇪', offset: 0 },
-    { city: 'لشبونة', flag: '🇵🇹', offset: 0 },
-    { city: 'نيويورك', flag: '🇺🇸', offset: -5 },
-    { city: 'واشنطن', flag: '🇺🇸', offset: -5 },
-    { city: 'ميامي', flag: '🇺🇸', offset: -5 },
-    { city: 'شيكاغو', flag: '🇺🇸', offset: -6 },
-    { city: 'دالاس', flag: '🇺🇸', offset: -6 },
-    { city: 'دنفر', flag: '🇺🇸', offset: -7 },
-    { city: 'لوس أنجلوس', flag: '🇺🇸', offset: -8 },
-    { city: 'سان فرانسيسكو', flag: '🇺🇸', offset: -8 },
-    { city: 'سياتل', flag: '🇺🇸', offset: -8 },
-    { city: 'فانكوفر', flag: '🇨🇦', offset: -8 },
-    { city: 'تورونتو', flag: '🇨🇦', offset: -5 },
-    { city: 'مونتريال', flag: '🇨🇦', offset: -5 },
-    { city: 'المكسيك', flag: '🇲🇽', offset: -6 },
-    { city: 'ساو باولو', flag: '🇧🇷', offset: -3 },
-    { city: 'ريو دي جانيرو', flag: '🇧🇷', offset: -3 },
-    { city: 'بوينس آيرس', flag: '🇦🇷', offset: -3 },
-    { city: 'جوهانسبرغ', flag: '🇿🇦', offset: 2 },
-    { city: 'لاغوس', flag: '🇳🇬', offset: 1 },
-    { city: 'نيروبي', flag: '🇰🇪', offset: 3 }
+    { city: 'دمشق', flag: '🇸🇾', offset: 3 }, { city: 'بيروت', flag: '🇱🇧', offset: 3 },
+    { city: 'عمّان', flag: '🇯🇴', offset: 3 }, { city: 'بغداد', flag: '🇮🇶', offset: 3 },
+    { city: 'الرياض', flag: '🇸🇦', offset: 3 }, { city: 'الكويت', flag: '🇰🇼', offset: 3 },
+    { city: 'الدوحة', flag: '🇶🇦', offset: 3 }, { city: 'المنامة', flag: '🇧🇭', offset: 3 },
+    { city: 'صنعاء', flag: '🇾🇪', offset: 3 }, { city: 'مسقط', flag: '🇴🇲', offset: 4 },
+    { city: 'دبي', flag: '🇦🇪', offset: 4 }, { city: 'أبوظبي', flag: '🇦🇪', offset: 4 },
+    { city: 'القاهرة', flag: '🇪🇬', offset: 2 }, { city: 'الخرطوم', flag: '🇸🇩', offset: 2 },
+    { city: 'طرابلس', flag: '🇱🇾', offset: 2 }, { city: 'تونس', flag: '🇹🇳', offset: 1 },
+    { city: 'الجزائر', flag: '🇩🇿', offset: 1 }, { city: 'الرباط', flag: '🇲🇦', offset: 1 },
+    { city: 'إستنبول', flag: '🇹🇷', offset: 3 }, { city: 'طهران', flag: '🇮🇷', offset: 3.5 },
+    { city: 'كراتشي', flag: '🇵🇰', offset: 5 }, { city: 'دلهي', flag: '🇮🇳', offset: 5.5 },
+    { city: 'دكا', flag: '🇧🇩', offset: 6 }, { city: 'بانكوك', flag: '🇹🇭', offset: 7 },
+    { city: 'جاكرتا', flag: '🇮🇩', offset: 7 }, { city: 'سنغافورة', flag: '🇸🇬', offset: 8 },
+    { city: 'هونغ كونغ', flag: '🇭🇰', offset: 8 }, { city: 'شنغهاي', flag: '🇨🇳', offset: 8 },
+    { city: 'بكين', flag: '🇨🇳', offset: 8 }, { city: 'كوالالمبور', flag: '🇲🇾', offset: 8 },
+    { city: 'طوكيو', flag: '🇯🇵', offset: 9 }, { city: 'سول', flag: '🇰🇷', offset: 9 },
+    { city: 'سيدني', flag: '🇦🇺', offset: 10 }, { city: 'ملبورن', flag: '🇦🇺', offset: 10 },
+    { city: 'أوكلاند', flag: '🇳🇿', offset: 12 }, { city: 'موسكو', flag: '🇷🇺', offset: 3 },
+    { city: 'كييف', flag: '🇺🇦', offset: 2 }, { city: 'أثينا', flag: '🇬🇷', offset: 2 },
+    { city: 'روما', flag: '🇮🇹', offset: 1 }, { city: 'باريس', flag: '🇫🇷', offset: 1 },
+    { city: 'برلين', flag: '🇩🇪', offset: 1 }, { city: 'مدريد', flag: '🇪🇸', offset: 1 },
+    { city: 'أمستردام', flag: '🇳🇱', offset: 1 }, { city: 'زيوريخ', flag: '🇨🇭', offset: 1 },
+    { city: 'ستوكهولم', flag: '🇸🇪', offset: 1 }, { city: 'لندن', flag: '🇬🇧', offset: 0 },
+    { city: 'دبلن', flag: '🇮🇪', offset: 0 }, { city: 'لشبونة', flag: '🇵🇹', offset: 0 },
+    { city: 'نيويورك', flag: '🇺🇸', offset: -5 }, { city: 'واشنطن', flag: '🇺🇸', offset: -5 },
+    { city: 'ميامي', flag: '🇺🇸', offset: -5 }, { city: 'شيكاغو', flag: '🇺🇸', offset: -6 },
+    { city: 'دالاس', flag: '🇺🇸', offset: -6 }, { city: 'دنفر', flag: '🇺🇸', offset: -7 },
+    { city: 'لوس أنجلوس', flag: '🇺🇸', offset: -8 }, { city: 'سان فرانسيسكو', flag: '🇺🇸', offset: -8 },
+    { city: 'سياتل', flag: '🇺🇸', offset: -8 }, { city: 'فانكوفر', flag: '🇨🇦', offset: -8 },
+    { city: 'تورونتو', flag: '🇨🇦', offset: -5 }, { city: 'مونتريال', flag: '🇨🇦', offset: -5 },
+    { city: 'المكسيك', flag: '🇲🇽', offset: -6 }, { city: 'ساو باولو', flag: '🇧🇷', offset: -3 },
+    { city: 'بوينس آيرس', flag: '🇦🇷', offset: -3 }, { city: 'جوهانسبرغ', flag: '🇿🇦', offset: 2 },
+    { city: 'لاغوس', flag: '🇳🇬', offset: 1 }, { city: 'نيروبي', flag: '🇰🇪', offset: 3 }
 ];
 
 /* ============ STATE ============ */
@@ -1039,34 +1042,40 @@ const DEFAULT_SETTINGS = {
     theme: 1, fontSize: 'md', volume: 70,
     notifEnabled: true, notifOpen: true, notifClose: true, advance: 5,
     lossLimit: 0, twelveDataKey: '',
-    tzOffset: 3, tzCity: 'دمشق', tzFlag: '🇸🇾'
+    tzOffset: 3, tzCity: 'دمشق', tzFlag: '🇸🇾',
+    lightMode: false
 };
 
 const state = {
-    settings: {...DEFAULT_SETTINGS, ...(JSON.parse(localStorage.getItem('tp_settings')||'{}'))},
-    trades: JSON.parse(localStorage.getItem('tp_trades')||'[]'),
-    strategies: JSON.parse(localStorage.getItem('tp_strategies')||'[]'),
-    soundEnabled: JSON.parse(localStorage.getItem('tp_sound') ?? 'true'),
-    notified: JSON.parse(localStorage.getItem('tp_notified')||'{}'),
+    settings: {...DEFAULT_SETTINGS, ...(JSON.parse(localStorage.getItem('masar_settings')||'{}'))},
+    trades: JSON.parse(localStorage.getItem('masar_trades')||'[]'),
+    notes: JSON.parse(localStorage.getItem('masar_notes')||'[]'),
+    soundEnabled: JSON.parse(localStorage.getItem('masar_sound') ?? 'true'),
+    notified: JSON.parse(localStorage.getItem('masar_notified')||'{}'),
     img: null,
     equityChart: null,
     marketData: null,
-    priceAlerts: JSON.parse(localStorage.getItem('tp_alerts')||'[]'),
-    priceHistory: JSON.parse(localStorage.getItem('tp_history')||'{}'),
-    historyCachedAt: 0,
+    priceAlerts: JSON.parse(localStorage.getItem('masar_alerts')||'[]'),
+    priceHistory: JSON.parse(localStorage.getItem('masar_history')||'{}'),
     positionsView: 'open',
     pendingCloseId: null,
-    tradeType: 'buy'
+    tradeType: 'buy',
+    calMonth: new Date().getMonth(),
+    calYear: new Date().getFullYear(),
+    notePinned: false,
+    pendingCSVRows: null,
+    deferredPrompt: null,
+    swRegistration: null
 };
 
 function save() {
-    localStorage.setItem('tp_settings', JSON.stringify(state.settings));
-    localStorage.setItem('tp_trades', JSON.stringify(state.trades));
-    localStorage.setItem('tp_strategies', JSON.stringify(state.strategies));
-    localStorage.setItem('tp_sound', JSON.stringify(state.soundEnabled));
-    localStorage.setItem('tp_notified', JSON.stringify(state.notified));
-    localStorage.setItem('tp_alerts', JSON.stringify(state.priceAlerts));
-    localStorage.setItem('tp_history', JSON.stringify(state.priceHistory));
+    localStorage.setItem('masar_settings', JSON.stringify(state.settings));
+    localStorage.setItem('masar_trades', JSON.stringify(state.trades));
+    localStorage.setItem('masar_notes', JSON.stringify(state.notes));
+    localStorage.setItem('masar_sound', JSON.stringify(state.soundEnabled));
+    localStorage.setItem('masar_notified', JSON.stringify(state.notified));
+    localStorage.setItem('masar_alerts', JSON.stringify(state.priceAlerts));
+    localStorage.setItem('masar_history', JSON.stringify(state.priceHistory));
 }
 
 /* ============ TIME HELPERS ============ */
@@ -1091,29 +1100,28 @@ function updateClock() {
     $('#d-local').textContent = arDate(new Date(utcMs + off*3600000));
     $('#d-utc').textContent = arDate(new Date(Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate())));
     $('#clock-city-label').textContent = state.settings.tzCity || 'دمشق';
-    updateTZButton();
-}
-
-function updateTZButton() {
-    const flag = $('#tz-flag'), label = $('#tz-label');
-    if (flag) flag.textContent = state.settings.tzFlag || '🇸🇾';
-    if (label) label.textContent = state.settings.tzCity || 'دمشق';
+    $('#tz-flag').textContent = state.settings.tzFlag || '🇸🇾';
+    $('#tz-label').textContent = state.settings.tzCity || 'دمشق';
 }
 
 function greeting() {
     const h = new Date().getHours();
     let g, s;
-    if (h>=5&&h<12) {g='صباح الخير'; s='ابدأ يومك بصفاء ذهن — خذ نفساً عميقاً';}
-    else if (h>=12&&h<17) {g='مساء الخير'; s='استمر بتركيزك — لا تتداول وأنت متعب';}
-    else if (h>=17&&h<21) {g='مساء الخير'; s='وقت هادئ للتأمل في صفقاتك';}
-    else {g='مساء النور'; s='الأسواق تنام — أنت أيضاً يحتاج الراحة';}
+    if (h>=5&&h<12) {g='صباح الخير'; s='ابدأ يومك بصفاء ذهن';}
+    else if (h>=12&&h<17) {g='مساء الخير'; s='استمر بتركيزك';}
+    else if (h>=17&&h<21) {g='مساء الخير'; s='وقت هادئ للتأمل';}
+    else {g='مساء النور'; s='الأسواق تنام';}
     $('#greeting').innerHTML = `${g} <strong>أيها المتداول</strong>`;
     $('#greeting-sub').textContent = s;
 }
 
-/* ============ TIMEZONE MODAL ============ */
+/* ============ TIMEZONE ============ */
 function openTZModal() {
-    const grid = $('#tz-grid');
+    renderTZGrid($('#tz-grid'));
+    $('#tz-modal').classList.add('show');
+}
+function renderTZGrid(grid) {
+    if (!grid) return;
     grid.innerHTML = TIMEZONES.map(tz => {
         const active = state.settings.tzCity === tz.city;
         const sign = tz.offset >= 0 ? '+' : '';
@@ -1123,9 +1131,7 @@ function openTZModal() {
             <span class="offset">UTC${sign}${tz.offset}</span>
         </button>`;
     }).join('');
-    $('#tz-modal').classList.add('show');
 }
-
 function selectTZ(city, offset, flag) {
     state.settings.tzCity = city;
     state.settings.tzOffset = offset;
@@ -1133,8 +1139,9 @@ function selectTZ(city, offset, flag) {
     save();
     updateClock();
     renderSessions();
+    renderTZGrid($('#tz-grid-settings'));
     closeModal('tz-modal');
-    toast('✅ تم التغيير', `المنطقة الزمنية: ${city}`, 'success');
+    toast('✅ تم', `التوقيت: ${city}`, 'success');
 }
 
 /* ============ SESSIONS ============ */
@@ -1160,12 +1167,7 @@ function progress(s, utcH) {
 function minsToOpen(s, utcH) { let d = s.open*60 - utcH*60; if (d<=0) d+=1440; return Math.round(d); }
 function minsToClose(s, utcH) { let d = s.close*60 - utcH*60; if (d<=0) d+=1440; return Math.round(d); }
 function fmtMin(m) { const h=Math.floor(m/60), mn=m%60; if (h&&mn) return `${h}س ${mn}د`; if (h) return `${h}س`; return `${mn}د`; }
-
-function isWeekend() {
-    const n = new Date();
-    const day = n.getUTCDay();
-    return day === 6 || day === 0;
-}
+function isWeekend() { const d = new Date().getUTCDay(); return d === 6 || d === 0; }
 
 function renderSessions() {
     const n = new Date();
@@ -1178,11 +1180,10 @@ function renderSessions() {
         const cd = ((s.close + off) % 24 + 24) % 24;
         const o12 = f12(od, 0), c12 = f12(cd, 0);
         const prg = open ? progress(s, utcH) : 0;
-        let cdText;
-        if (weekend) cdText = `<span style="color:var(--warn)">عطلة نهاية الأسبوع</span>`;
-        else cdText = open
-            ? `تُغلق خلال <strong>${fmtMin(minsToClose(s, utcH))}</strong>`
-            : `تفتح خلال <strong>${fmtMin(minsToOpen(s, utcH))}</strong>`;
+        let cdText = weekend
+            ? `<span style="color:var(--warn)">عطلة نهاية الأسبوع</span>`
+            : (open ? `تُغلق خلال <strong>${fmtMin(minsToClose(s, utcH))}</strong>`
+                    : `تفتح خلال <strong>${fmtMin(minsToOpen(s, utcH))}</strong>`);
         const o12u = f12(s.open, 0), c12u = f12(s.close, 0);
         return `<div class="session ${open?'open':''} ${weekend?'closed-weekend':''}">
             <div class="session-head">
@@ -1203,14 +1204,7 @@ function renderSessions() {
             <div class="session-utc">UTC: ${o12u.time}${o12u.period} - ${c12u.time}${c12u.period}</div>
         </div>`;
     }).join('');
-
-    const banner = $('#weekend-banner');
-    if (weekend) {
-        banner.classList.add('visible');
-        $('#weekend-desc').textContent = 'الأسواق العالمية مغلقة من الجمعة 22:00 UTC حتى الأحد 22:00 UTC. عدّادات الجلسات معطلة.';
-    } else {
-        banner.classList.remove('visible');
-    }
+    $('#weekend-banner').classList.toggle('visible', weekend);
 }
 
 /* ============ SOUND ============ */
@@ -1230,7 +1224,7 @@ function beep(f=660, d=250) {
     } catch(e) {}
 }
 
-function checkAlerts() {
+function checkSessionAlerts() {
     if (state.settings.notifEnabled === false) return;
     if (isWeekend()) return;
     const n = new Date();
@@ -1263,43 +1257,33 @@ function switchTab(name, btn) {
     $$('.tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     $$('.panel').forEach(p => p.classList.remove('active'));
-    $(`#p-${name}`).classList.add('active');
+    const p = $('#p-' + name);
+    if (p) p.classList.add('active');
     if (name === 'journal') renderJournal();
-    if (name === 'analysis') renderAnalysis();
-    if (name === 'strategies') renderStrats();
+    if (name === 'stats') renderStatistics();
+    if (name === 'calendar') renderCalendar();
+    if (name === 'notes') renderNotes();
     if (name === 'market') renderMarket();
     if (name === 'alerts') { renderAlertsList(); initAlertSymbols(); }
     if (name === 'calc') { calcPositionSize(); calcPL(); }
 }
 
-/* ============ TRADES (MT5) ============ */
+/* ============ TRADES ============ */
 function getClosedTrades() { return state.trades.filter(t => t.status === 'closed'); }
 function getOpenPositions() { return state.trades.filter(t => t.status === 'open'); }
 
 function getBalance() {
-    // Balance = capital + sum of realized P&L
     const realized = getClosedTrades().reduce((s,t) => s + (t.pnl || 0), 0);
     return state.settings.capital + realized;
 }
-
-function getEquity() {
-    const balance = getBalance();
-    const floating = getOpenPositions().reduce((s,t) => {
-        const current = getCurrentPrice(t.symbol) || t.open;
-        return s + calcPnL(t.symbol, t.type, t.volume, t.open, current);
-    }, 0);
-    return balance + floating;
-}
-
 function getFloatingPnL() {
     return getOpenPositions().reduce((s,t) => {
         const current = getCurrentPrice(t.symbol) || t.open;
         return s + calcPnL(t.symbol, t.type, t.volume, t.open, current);
     }, 0);
 }
-
+function getEquity() { return getBalance() + getFloatingPnL(); }
 function getUsedMargin() {
-    // Margin = (Volume × ContractSize × Price) / Leverage
     const lev = state.settings.leverage || 100;
     return getOpenPositions().reduce((s,t) => {
         const spec = getSymbolSpec(t.symbol);
@@ -1307,64 +1291,38 @@ function getUsedMargin() {
         return s + (t.volume * spec.contractSize * current) / lev;
     }, 0);
 }
-
 function getCurrentPrice(symbol) {
     if (!state.marketData) return null;
     const d = state.marketData[symbol] || state.marketData[symbol.replace('/','')];
-    if (!d || !d.close) return null;
-    return parseFloat(d.close);
-}
-
-function getStats() {
-    const closed = getClosedTrades();
-    const total = closed.length;
-    const wins = closed.filter(t => (t.pnl||0) > 0).length;
-    const losses = closed.filter(t => (t.pnl||0) < 0).length;
-    const rate = total ? (wins/total)*100 : 0;
-    const totalPnL = closed.reduce((s,t) => s + (t.pnl||0), 0);
-    return { total, wins, losses, rate, totalPnL };
-}
-
-function getStatus() {
-    const { total, rate, totalPnL } = getStats();
-    const pct = state.settings.capital ? (totalPnL/state.settings.capital)*100 : 0;
-    if (total < 5) return { key:'weak', icon:'◈', name:'ابدأ', text:`تحتاج ${5-total} صفقة مغلقة لبدء التحليل` };
-    if (pct >= 15 && rate >= 55) return { key:'excellent', icon:'🌟', name:'ممتاز', text:'أداؤك ممتاز! حافظ على استراتيجيتك ولا تتهور.' };
-    if (pct >= 5) return { key:'good', icon:'✅', name:'جيد', text:'أنت على الطريق الصحيح. ركّز على تحسين نقاط الدخول.' };
-    if (pct >= -5) return { key:'weak', icon:'⚠️', name:'ضعيف', text:'الوضع متعادل. راجع آخر 10 صفقات واكتشف الأخطاء.' };
-    return { key:'bad', icon:'🚨', name:'سيئ', text:'توقف! خسائرك كبيرة. راجع استراتيجيتك قبل المتابعة.' };
+    return d && d.close ? parseFloat(d.close) : null;
 }
 
 function renderJournal() {
     const bal = getBalance();
-    const equity = getEquity();
+    const eq = getEquity();
     const floating = getFloatingPnL();
     const margin = getUsedMargin();
     const cur = state.settings.currency;
 
     $('#acc-balance').textContent = `${cur}${fmtMoney(bal)}`;
-    $('#acc-equity').textContent = `${cur}${fmtMoney(equity)}`;
+    $('#acc-equity').textContent = `${cur}${fmtMoney(eq)}`;
     const flEl = $('#acc-floating');
-    flEl.textContent = `${floating>=0?'+':''}${cur}${fmtMoney(Math.abs(floating))}`;
+    flEl.textContent = `${floating>=0?'+':'-'}${cur}${fmtMoney(floating)}`;
     flEl.className = 'acc-value ' + (floating>0?'pos':floating<0?'neg':'');
     $('#acc-margin').textContent = `${cur}${fmtMoney(margin)}`;
 
-    const s = getStats();
-    $('#s-total').textContent = s.total;
-    $('#s-wins').textContent = s.wins;
-    $('#s-losses').textContent = s.losses;
-    $('#s-rate').textContent = s.total ? s.rate.toFixed(1)+'%' : '—';
-
-    const st = getStatus();
-    const box = $('#status-box');
-    box.className = 'status-box ' + st.key;
-    $('#status-icon').textContent = st.icon;
-    $('#status-name').textContent = st.name;
-    $('#status-text').textContent = st.text;
-
-    const open = getOpenPositions();
     const closed = getClosedTrades();
-    $('#open-count').textContent = open.length;
+    const total = closed.length;
+    const wins = closed.filter(t => (t.pnl||0) > 0).length;
+    const losses = closed.filter(t => (t.pnl||0) < 0).length;
+    const rate = total ? (wins/total)*100 : 0;
+
+    $('#s-total').textContent = total;
+    $('#s-wins').textContent = wins;
+    $('#s-losses').textContent = losses;
+    $('#s-rate').textContent = total ? rate.toFixed(1)+'%' : '—';
+
+    $('#open-count').textContent = getOpenPositions().length;
     $('#history-count').textContent = closed.length;
 
     renderTradesTable();
@@ -1384,24 +1342,18 @@ function renderTradesTable() {
     const list = isOpen ? getOpenPositions() : getClosedTrades();
     const cur = state.settings.currency;
 
-    // Update header column title
-    $('#col-close-or-current').textContent = isOpen ? 'الحالي' : 'الإغلاق';
+    $('#col-current').textContent = isOpen ? 'الحالي' : 'الإغلاق';
 
     if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:2.5rem;color:var(--mute)">
-            <div style="font-size:2.5rem;opacity:.3;margin-bottom:.6rem">${isOpen?'🟢':'📜'}</div>
-            <div>${isOpen?'لا توجد مراكز مفتوحة':'لا يوجد سجل صفقات'}</div>
-        </td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="11" style="text-align:center;padding:2rem;color:var(--mute)">${isOpen?'لا توجد مراكز مفتوحة':'لا يوجد سجل'}</td></tr>`;
         return;
     }
 
-    const rows = list.slice().reverse().map(t => {
+    tbody.innerHTML = list.slice().reverse().map(t => {
         const spec = getSymbolSpec(t.symbol);
         const isBuy = t.type === 'buy';
         const current = getCurrentPrice(t.symbol);
-        let pnl = 0;
-        let pnlClass = 'pnl-flat';
-        let currentDisplay = '—';
+        let pnl = 0, pnlClass = 'pnl-flat', currentDisplay = '—';
 
         if (isOpen) {
             if (current) {
@@ -1415,10 +1367,6 @@ function renderTradesTable() {
             currentDisplay = (t.close || 0).toFixed(spec.decimals);
         }
 
-        const statusBadge = isOpen
-            ? '<span class="badge badge-neutral" style="font-size:.65rem">مفتوحة</span>'
-            : `<span class="badge badge-${pnl>0?'buy':'sell'}" style="font-size:.65rem">${pnl>0?'ربح':pnl<0?'خسارة':'تعادل'}</span>`;
-
         return `<tr class="${isBuy?'buy-row':'sell-row'}">
             <td class="ticket">#${esc(t.ticket)}</td>
             <td class="time-col">${esc(t.time)}</td>
@@ -1426,20 +1374,15 @@ function renderTradesTable() {
             <td class="${isBuy?'type-buy':'type-sell'}">${isBuy?'▲ BUY':'▼ SELL'}</td>
             <td>${t.volume.toFixed(2)}</td>
             <td>${t.open.toFixed(spec.decimals)}</td>
-            <td class="sl-price">${t.sl ? t.sl.toFixed(spec.decimals) : '—'}</td>
-            <td class="tp-price">${t.tp ? t.tp.toFixed(spec.decimals) : '—'}</td>
+            <td style="color:var(--bad)">${t.sl ? t.sl.toFixed(spec.decimals) : '—'}</td>
+            <td style="color:var(--ok)">${t.tp ? t.tp.toFixed(spec.decimals) : '—'}</td>
             <td>${currentDisplay}</td>
-            <td class="${pnlClass}">${pnl>=0?'+':''}${cur}${fmtMoney(Math.abs(pnl))}</td>
-            <td>${statusBadge}</td>
-            <td>
-                ${isOpen 
-                    ? `<button class="action-btn close" onclick="openCloseModal('${t.id}')">🔒 إغلاق</button>` 
-                    : `<button class="action-btn del" onclick="deleteTrade('${t.id}')">🗑</button>`}
-            </td>
+            <td class="${pnlClass}">${pnl>=0?'+':'-'}${cur}${fmtMoney(pnl)}</td>
+            <td>${isOpen
+                ? `<button class="action-btn close" onclick="openCloseModal('${t.id}')">🔒</button>`
+                : `<button class="action-btn del" onclick="deleteTrade('${t.id}')">🗑</button>`}</td>
         </tr>`;
     }).join('');
-
-    tbody.innerHTML = rows;
 }
 
 function renderEquityChart() {
@@ -1449,17 +1392,6 @@ function renderEquityChart() {
     const cur = state.settings.currency;
     const closed = getClosedTrades();
 
-    if (!closed.length) {
-        state.equityChart = new Chart(canvas.getContext('2d'), {
-            type: 'line',
-            data: { labels:['البداية'], datasets:[{ label:'الرصيد', data:[state.settings.capital], borderColor:'#6b9bd1', backgroundColor:'rgba(107,155,209,.1)', fill:true, tension:.3, pointRadius:0, borderWidth:2 }] },
-            options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-                scales:{ x:{ticks:{color:'#6b7690',font:{size:10}},grid:{color:'rgba(31,42,68,.5)'}},
-                         y:{ticks:{color:'#6b7690',font:{size:10},callback:v=>cur+v},grid:{color:'rgba(31,42,68,.5)'}} } }
-        });
-        return;
-    }
-
     let bal = state.settings.capital;
     const labels = ['البداية'], data = [bal];
     closed.forEach((t,i) => {
@@ -1467,14 +1399,28 @@ function renderEquityChart() {
         labels.push('#' + (i+1));
         data.push(bal);
     });
-    const isProfit = data[data.length-1] >= data[0];
+    const isProfit = data[data.length-1] >= data[0] || data.length === 1;
+    const lightMode = state.settings.lightMode;
+    const gridColor = lightMode ? 'rgba(200,210,224,.5)' : 'rgba(31,42,68,.4)';
+    const tickColor = lightMode ? '#4a5568' : '#6b7690';
+
     state.equityChart = new Chart(canvas.getContext('2d'), {
         type: 'line',
-        data: { labels, datasets:[{ label:'الرصيد', data, borderColor:isProfit?'#4a9d7e':'#c96b6b', backgroundColor:isProfit?'rgba(74,157,126,.1)':'rgba(201,107,107,.1)', fill:true, tension:.3, pointRadius:0, borderWidth:2 }] },
+        data: { labels, datasets: [{ label:'الرصيد', data, borderColor:isProfit?'#4a9d7e':'#c96b6b', backgroundColor:isProfit?'rgba(74,157,126,.15)':'rgba(201,107,107,.15)', fill:true, tension:.3, pointRadius:0, borderWidth:2 }] },
         options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-            scales:{ x:{ticks:{color:'#6b7690',font:{size:9},maxTicksLimit:8},grid:{color:'rgba(31,42,68,.5)'}},
-                     y:{ticks:{color:'#6b7690',font:{size:10},callback:v=>cur+v},grid:{color:'rgba(31,42,68,.5)'}} } }
+            scales: { x:{ticks:{color:tickColor,font:{size:10},maxTicksLimit:8},grid:{color:gridColor}},
+                      y:{ticks:{color:tickColor,font:{size:10},callback:v=>cur+v},grid:{color:gridColor}} } }
     });
+}
+
+/* ============ LIGHT MODE ============ */
+function toggleDarkMode() {
+    state.settings.lightMode = !state.settings.lightMode;
+    document.body.classList.toggle('light-mode', state.settings.lightMode);
+    $('#tg-light')?.classList.toggle('on', state.settings.lightMode);
+    save();
+    if (state.equityChart) setTimeout(renderEquityChart, 50);
+    toast(state.settings.lightMode ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي', '', 'info', 1500);
 }
 
 /* ============ TRADE MODAL ============ */
@@ -1483,28 +1429,18 @@ function setTradeType(type) {
     $('#type-buy').classList.toggle('active', type === 'buy');
     $('#type-sell').classList.toggle('active', type === 'sell');
 }
-
-function updateStratDropdown() {
-    const sel = $('#t-strat');
-    sel.innerHTML = '<option value="">— بدون —</option>' + state.strategies.map(s => `<option value="${s.id}">${esc(s.icon)} ${esc(s.name)}</option>`).join('');
-}
-
 function openTradeModal() {
     $('#trade-modal').classList.add('show');
     setTradeType('buy');
     $('#t-symbol').value = 'EUR/USD';
     $('#t-volume').value = '0.10';
-    $('#t-open').value = '1.0850';
     $('#t-sl').value = '';
     $('#t-tp').value = '';
     $('#t-note').value = '';
-    updateStratDropdown();
-
-    // Try to fetch current price
-    const price = getCurrentPrice('EUR/USD');
-    if (price) $('#t-open').value = price.toFixed(5);
+    $('#t-tag').value = '';
+    const p = getCurrentPrice('EUR/USD');
+    $('#t-open').value = p ? p.toFixed(5) : '1.0850';
 }
-
 function saveTrade() {
     const symbol = $('#t-symbol').value.trim().toUpperCase();
     const volume = parseFloat($('#t-volume').value);
@@ -1512,11 +1448,11 @@ function saveTrade() {
     const sl = parseFloat($('#t-sl').value) || null;
     const tp = parseFloat($('#t-tp').value) || null;
     const note = $('#t-note').value.trim();
-    const stratId = $('#t-strat').value || null;
+    const tag = $('#t-tag').value.trim();
 
-    if (!symbol) { toast('خطأ','أدخل رمز التداول','warning'); return; }
-    if (!volume || volume <= 0) { toast('خطأ','أدخل حجماً صحيحاً','warning'); return; }
-    if (!open || open <= 0) { toast('خطأ','أدخل سعر فتح صحيح','warning'); return; }
+    if (!symbol) { toast('خطأ', 'أدخل الرمز', 'warning'); return; }
+    if (!volume || volume <= 0) { toast('خطأ', 'حجم غير صحيح', 'warning'); return; }
+    if (!open || open <= 0) { toast('خطأ', 'سعر فتح غير صحيح', 'warning'); return; }
 
     const now = new Date();
     const t12 = f12(now.getHours(), now.getUTCMinutes());
@@ -1524,18 +1460,11 @@ function saveTrade() {
 
     state.trades.push({
         id: 't-' + Date.now(),
-        ticket,
-        symbol,
+        ticket, symbol,
         type: state.tradeType,
-        volume,
-        open,
-        sl,
-        tp,
-        note,
-        stratId,
+        volume, open, sl, tp, note, tag,
         status: 'open',
-        pnl: 0,
-        close: null,
+        pnl: 0, close: null,
         time: `${t12.time} ${t12.period}`,
         openTime: now.toISOString(),
         createdAt: Date.now()
@@ -1543,16 +1472,15 @@ function saveTrade() {
     save();
     closeModal('trade-modal');
     state.positionsView = 'open';
+    $$('.mini-tab').forEach((b,i) => b.classList.toggle('active', i === 0));
     renderJournal();
-    toast('✅ تم تنفيذ الأمر', `#${ticket} · ${symbol}`, 'success');
+    toast('✅ تم', `#${ticket} · ${symbol}`, 'success');
     beep(880, 120);
 }
-
 function openCloseModal(id) {
     const trade = state.trades.find(t => t.id === id);
     if (!trade) return;
     state.pendingCloseId = id;
-
     const spec = getSymbolSpec(trade.symbol);
     const current = getCurrentPrice(trade.symbol) || trade.open;
 
@@ -1560,13 +1488,12 @@ function openCloseModal(id) {
         <div><strong style="color:var(--calm)">التذكرة:</strong> #${esc(trade.ticket)}</div>
         <div><strong style="color:var(--calm)">الرمز:</strong> ${esc(trade.symbol)} · ${trade.type === 'buy' ? '▲ BUY' : '▼ SELL'}</div>
         <div><strong style="color:var(--calm)">الحجم:</strong> ${trade.volume.toFixed(2)} لوت</div>
-        <div><strong style="color:var(--calm)">سعر الفتح:</strong> ${trade.open.toFixed(spec.decimals)}</div>
+        <div><strong style="color:var(--calm)">فتح:</strong> ${trade.open.toFixed(spec.decimals)}</div>
     `;
     $('#close-price').value = current.toFixed(spec.decimals);
     updateClosePreview();
     $('#close-modal').classList.add('show');
 }
-
 function updateClosePreview() {
     const trade = state.trades.find(t => t.id === state.pendingCloseId);
     if (!trade) return;
@@ -1574,10 +1501,9 @@ function updateClosePreview() {
     const pnl = calcPnL(trade.symbol, trade.type, trade.volume, trade.open, close);
     const cur = state.settings.currency;
     const el = $('#close-preview');
-    el.textContent = `${pnl>=0?'+':''}${cur}${fmtMoney(Math.abs(pnl))}`;
+    el.textContent = `${pnl>=0?'+':'-'}${cur}${fmtMoney(pnl)}`;
     el.style.color = pnl >= 0 ? 'var(--ok)' : 'var(--bad)';
 }
-
 function confirmClose() {
     const trade = state.trades.find(t => t.id === state.pendingCloseId);
     if (!trade) return;
@@ -1593,342 +1519,410 @@ function confirmClose() {
     state.positionsView = 'history';
     $$('.mini-tab').forEach((b,i) => b.classList.toggle('active', i === 1));
     renderJournal();
-    const type = pnl >= 0 ? 'success' : 'danger';
-    toast(`${pnl>=0?'✅ ربح':'❌ خسارة'}`, `#${trade.ticket} · ${pnl>=0?'+':'-'}$${Math.abs(pnl).toFixed(2)}`, type);
+    toast(`${pnl>=0?'✅ ربح':'❌ خسارة'}`, `#${trade.ticket} · ${pnl>=0?'+':'-'}${state.settings.currency}${fmtMoney(pnl)}`, pnl >= 0 ? 'success' : 'danger');
     beep(pnl >= 0 ? 880 : 440, 200);
 }
-
 function deleteTrade(id) {
-    if (!confirm('حذف هذه الصفقة من السجل؟')) return;
+    if (!confirm('حذف هذه الصفقة نهائياً؟')) return;
     state.trades = state.trades.filter(t => t.id !== id);
     save();
     renderJournal();
-    toast('تم الحذف','','info');
+    toast('🗑 تم الحذف', '', 'warning', 2000);
 }
 
-/* ============ ANALYSIS ============ */
-function renderAnalysis() {
-    const grid = $('#analysis-grid');
+/* ============ STATISTICS ============ */
+function renderStatistics() {
     const closed = getClosedTrades();
-    if (!closed.length) {
-        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📊</div><div class="empty-text">أغلق صفقات لبدء التحليل</div></div>`;
-        return;
-    }
     const cur = state.settings.currency;
 
-    // By symbol
-    const symMap = {};
+    if (!closed.length) {
+        $('#main-stats').innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📊</div><div class="empty-text">لا توجد صفقات مغلقة بعد</div></div>`;
+        ['#stats-symbols','#stats-type','#stats-hours','#stats-days','#stats-streaks','#stats-extremes'].forEach(s => $(s).innerHTML = '');
+        return;
+    }
+
+    const wins = closed.filter(t => (t.pnl||0) > 0);
+    const losses = closed.filter(t => (t.pnl||0) < 0);
+    const totalPnl = closed.reduce((s,t) => s + (t.pnl||0), 0);
+    const grossWin = wins.reduce((s,t) => s + t.pnl, 0);
+    const grossLoss = Math.abs(losses.reduce((s,t) => s + t.pnl, 0));
+    const pf = grossLoss ? (grossWin/grossLoss) : (grossWin ? 99 : 0);
+    const avgWin = wins.length ? grossWin/wins.length : 0;
+    const avgLoss = losses.length ? grossLoss/losses.length : 0;
+    const winRate = (wins.length/closed.length)*100;
+    const exp = (winRate/100)*avgWin - (1-winRate/100)*avgLoss;
+
+    let bal = state.settings.capital, peak = bal, maxDD = 0, maxDDPct = 0;
+    const returns = [];
     closed.forEach(t => {
-        if (!symMap[t.symbol]) symMap[t.symbol] = { count:0, wins:0, pnl:0 };
-        symMap[t.symbol].count++;
-        if ((t.pnl||0) > 0) symMap[t.symbol].wins++;
-        symMap[t.symbol].pnl += (t.pnl||0);
+        const prev = bal;
+        bal += t.pnl||0;
+        if (prev > 0) returns.push((t.pnl||0)/prev);
+        if (bal > peak) peak = bal;
+        const dd = peak - bal;
+        if (dd > maxDD) { maxDD = dd; maxDDPct = peak ? (dd/peak)*100 : 0; }
     });
+    const avgRet = returns.length ? returns.reduce((a,b)=>a+b,0)/returns.length : 0;
+    const variance = returns.length > 1 ? returns.reduce((a,b)=>a+Math.pow(b-avgRet,2),0)/(returns.length-1) : 0;
+    const stdDev = Math.sqrt(variance);
+    const sharpe = stdDev > 0 ? (avgRet/stdDev) : 0;
 
-    // By type
-    const typeMap = { buy: {count:0, wins:0, pnl:0}, sell: {count:0, wins:0, pnl:0} };
+    $('#main-stats').innerHTML = `
+        <div class="stat-card ${totalPnl>=0?'pos':'neg'}"><div class="stat-icon">💰</div><div class="stat-label">صافي الربح</div><div class="stat-value">${totalPnl>=0?'+':'-'}${cur}${fmtMoney(totalPnl)}</div></div>
+        <div class="stat-card neutral"><div class="stat-icon">📊</div><div class="stat-label">إجمالي الصفقات</div><div class="stat-value">${closed.length}</div></div>
+        <div class="stat-card pos"><div class="stat-icon">🏆</div><div class="stat-label">نسبة النجاح</div><div class="stat-value">${winRate.toFixed(1)}%</div><div class="sub">${wins.length}✅ · ${losses.length}❌</div></div>
+        <div class="stat-card gold"><div class="stat-icon">⚖️</div><div class="stat-label">Profit Factor</div><div class="stat-value">${pf.toFixed(2)}</div><div class="sub">ربح ÷ خسارة</div></div>
+        <div class="stat-card pos"><div class="stat-icon">📈</div><div class="stat-label">متوسط الربح</div><div class="stat-value">${cur}${fmtMoney(avgWin)}</div></div>
+        <div class="stat-card neg"><div class="stat-icon">📉</div><div class="stat-label">متوسط الخسارة</div><div class="stat-value">${cur}${fmtMoney(avgLoss)}</div></div>
+        <div class="stat-card ${exp>=0?'pos':'neg'}"><div class="stat-icon">🎯</div><div class="stat-label">التوقع/صفقة</div><div class="stat-value">${exp>=0?'+':'-'}${cur}${fmtMoney(exp)}</div><div class="sub">Expectancy</div></div>
+        <div class="stat-card warn"><div class="stat-icon">📉</div><div class="stat-label">أقصى تراجع</div><div class="stat-value">${cur}${fmtMoney(maxDD)}</div><div class="sub">${maxDDPct.toFixed(1)}%</div></div>
+        <div class="stat-card neutral"><div class="stat-icon">📐</div><div class="stat-label">Sharpe Ratio</div><div class="stat-value">${sharpe.toFixed(2)}</div><div class="sub">${sharpe > 1 ? 'جيد' : sharpe > 0 ? 'مقبول' : 'ضعيف'}</div></div>
+        <div class="stat-card neutral"><div class="stat-icon">💵</div><div class="stat-label">إجمالي الربح</div><div class="stat-value">${cur}${fmtMoney(grossWin)}</div></div>
+        <div class="stat-card neutral"><div class="stat-icon">💸</div><div class="stat-label">إجمالي الخسارة</div><div class="stat-value">${cur}${fmtMoney(grossLoss)}</div></div>
+        <div class="stat-card ${(avgWin/Math.max(1,avgLoss))>=1?'pos':'neg'}"><div class="stat-icon">⚖️</div><div class="stat-label">نسبة R:R</div><div class="stat-value">${(avgWin/Math.max(1,avgLoss)).toFixed(2)}</div><div class="sub">متوسط</div></div>
+    `;
+
+    const bySym = {};
     closed.forEach(t => {
-        const k = t.type === 'buy' ? 'buy' : 'sell';
-        typeMap[k].count++;
-        if ((t.pnl||0) > 0) typeMap[k].wins++;
-        typeMap[k].pnl += (t.pnl||0);
+        if (!bySym[t.symbol]) bySym[t.symbol] = {n:0, w:0, l:0, pnl:0};
+        bySym[t.symbol].n++;
+        bySym[t.symbol].pnl += t.pnl||0;
+        if ((t.pnl||0) > 0) bySym[t.symbol].w++;
+        else if ((t.pnl||0) < 0) bySym[t.symbol].l++;
     });
-
-    // Streaks
-    let maxWin = 0, maxLoss = 0, curWin = 0, curLoss = 0;
-    closed.forEach(t => {
-        if ((t.pnl||0) > 0) { curWin++; curLoss = 0; maxWin = Math.max(maxWin, curWin); }
-        else if ((t.pnl||0) < 0) { curLoss++; curWin = 0; maxLoss = Math.max(maxLoss, curLoss); }
-    });
-
-    const pnls = closed.map(t => t.pnl || 0);
-    const best = Math.max(...pnls);
-    const worst = Math.min(...pnls);
-
-    const symRows = Object.entries(symMap)
+    $('#stats-symbols').innerHTML = Object.entries(bySym)
         .sort((a,b) => b[1].pnl - a[1].pnl)
-        .slice(0, 8)
-        .map(([name,v]) => {
-            const rate = v.count ? (v.wins/v.count*100).toFixed(0) : 0;
-            return `<div class="analysis-row ${v.pnl>0?'pos':v.pnl<0?'neg':''}">
-                <span>${name}</span>
-                <span>${v.count} · ${rate}% · ${v.pnl>0?'+':''}${cur}${fmtMoney(Math.abs(v.pnl))}</span>
-            </div>`;
-        }).join('');
+        .map(([sym,d]) => `<div class="stat-row">
+            <span class="stat-row-label"><strong>${esc(sym)}</strong> · ${d.n} صفقة (${d.w}✅ ${d.l}❌)</span>
+            <span class="stat-row-value ${d.pnl>0?'pos':d.pnl<0?'neg':''}">${d.pnl>=0?'+':'-'}${cur}${fmtMoney(d.pnl)}</span>
+        </div>`).join('');
 
-    grid.innerHTML = `
-        <div class="analysis-card">
-            <div class="analysis-title">💱 حسب الرمز</div>
-            ${symRows || '<div class="analysis-row"><span>لا بيانات</span><span>—</span></div>'}
+    const buys = closed.filter(t => t.type === 'buy');
+    const sells = closed.filter(t => t.type === 'sell');
+    const bPnl = buys.reduce((s,t) => s+(t.pnl||0), 0);
+    const sPnl = sells.reduce((s,t) => s+(t.pnl||0), 0);
+    const bW = buys.filter(t => (t.pnl||0) > 0).length;
+    const sW = sells.filter(t => (t.pnl||0) > 0).length;
+    $('#stats-type').innerHTML = `
+        <div class="stat-row"><span class="stat-row-label">▲ BUY · ${buys.length} صفقة (${bW}✅)</span><span class="stat-row-value ${bPnl>=0?'pos':'neg'}">${bPnl>=0?'+':'-'}${cur}${fmtMoney(bPnl)}</span></div>
+        <div class="stat-row"><span class="stat-row-label">▼ SELL · ${sells.length} صفقة (${sW}✅)</span><span class="stat-row-value ${sPnl>=0?'pos':'neg'}">${sPnl>=0?'+':'-'}${cur}${fmtMoney(sPnl)}</span></div>
+    `;
+
+    const off = state.settings.tzOffset ?? 3;
+    const byHour = {};
+    closed.forEach(t => {
+        if (!t.openTime) return;
+        const h = ((new Date(t.openTime).getUTCHours() + off) % 24 + 24) % 24;
+        if (!byHour[h]) byHour[h] = {n:0, pnl:0, w:0};
+        byHour[h].n++; byHour[h].pnl += t.pnl||0;
+        if ((t.pnl||0) > 0) byHour[h].w++;
+    });
+    $('#stats-hours').innerHTML = Object.entries(byHour).sort((a,b) => a[0]-b[0]).map(([h,d]) => {
+        const t12 = f12(parseInt(h), 0);
+        return `<div class="stat-row">
+            <span class="stat-row-label">🕐 ${t12.time} ${t12.period} · ${d.n} صفقة (${d.w}✅)</span>
+            <span class="stat-row-value ${d.pnl>0?'pos':d.pnl<0?'neg':''}">${d.pnl>=0?'+':'-'}${cur}${fmtMoney(d.pnl)}</span>
+        </div>`;
+    }).join('') || '<div class="empty"><div class="empty-text">لا توجد بيانات</div></div>';
+
+    const byDay = {};
+    closed.forEach(t => {
+        if (!t.openTime) return;
+        const d = new Date(t.openTime).getUTCDay();
+        if (!byDay[d]) byDay[d] = {n:0, pnl:0, w:0};
+        byDay[d].n++; byDay[d].pnl += t.pnl||0;
+        if ((t.pnl||0) > 0) byDay[d].w++;
+    });
+    $('#stats-days').innerHTML = Object.entries(byDay).sort((a,b) => a[0]-b[0]).map(([d,data]) => `
+        <div class="stat-row">
+            <span class="stat-row-label">📅 ${AR_DAYS[parseInt(d)]} · ${data.n} صفقة (${data.w}✅)</span>
+            <span class="stat-row-value ${data.pnl>0?'pos':data.pnl<0?'neg':''}">${data.pnl>=0?'+':'-'}${cur}${fmtMoney(data.pnl)}</span>
         </div>
-        <div class="analysis-card">
-            <div class="analysis-title">🎯 حسب النوع</div>
-            <div class="analysis-row ${typeMap.buy.pnl>0?'pos':'neg'}"><span>▲ BUY</span><span>${typeMap.buy.count} · ${typeMap.buy.pnl>=0?'+':''}${cur}${fmtMoney(Math.abs(typeMap.buy.pnl))}</span></div>
-            <div class="analysis-row ${typeMap.sell.pnl>0?'pos':'neg'}"><span>▼ SELL</span><span>${typeMap.sell.count} · ${typeMap.sell.pnl>=0?'+':''}${cur}${fmtMoney(Math.abs(typeMap.sell.pnl))}</span></div>
+    `).join('') || '<div class="empty"><div class="empty-text">لا توجد بيانات</div></div>';
+
+    const sorted = [...closed].sort((a,b) => (a.closeTime||a.createdAt||0) - (b.closeTime||b.createdAt||0));
+    let maxWinStreak = 0, maxLossStreak = 0, curWinStreak = 0, curLossStreak = 0;
+    sorted.forEach(t => {
+        if ((t.pnl||0) > 0) { curWinStreak++; curLossStreak = 0; if (curWinStreak > maxWinStreak) maxWinStreak = curWinStreak; }
+        else if ((t.pnl||0) < 0) { curLossStreak++; curWinStreak = 0; if (curLossStreak > maxLossStreak) maxLossStreak = curLossStreak; }
+    });
+    $('#stats-streaks').innerHTML = `
+        <div class="stat-row"><span class="stat-row-label">🔥 أطول سلسلة ربح</span><span class="stat-row-value pos">${maxWinStreak} صفقات</span></div>
+        <div class="stat-row"><span class="stat-row-label">❄️ أطول سلسلة خسارة</span><span class="stat-row-value neg">${maxLossStreak} صفقات</span></div>
+        <div class="stat-row"><span class="stat-row-label">📊 السلسلة الحالية</span><span class="stat-row-value ${curWinStreak>0?'pos':'neg'}">${curWinStreak>0?curWinStreak+' ربح':curLossStreak+' خسارة'}</span></div>
+    `;
+
+    const sorted2 = [...closed].sort((a,b) => (b.pnl||0) - (a.pnl||0));
+    const top5 = sorted2.slice(0,5);
+    const bottom5 = sorted2.slice(-5).reverse();
+    $('#stats-extremes').innerHTML = `
+        <div style="margin-bottom:.8rem"><div style="font-size:.78rem;color:var(--ok);font-weight:700;margin-bottom:.4rem">🏆 أفضل 5 صفقات</div>
+        ${top5.map(t => `<div class="stat-row"><span class="stat-row-label">${esc(t.symbol)} · #${esc(t.ticket)} · ${esc(t.time)}</span><span class="stat-row-value pos">+${cur}${fmtMoney(t.pnl)}</span></div>`).join('')}
         </div>
-        <div class="analysis-card">
-            <div class="analysis-title">🔥 Streaks</div>
-            <div class="analysis-row"><span>أطول ربح متتالي</span><span style="color:var(--ok)">${maxWin} صفقة</span></div>
-            <div class="analysis-row"><span>أطول خسارة متتالية</span><span style="color:var(--bad)">${maxLoss} صفقة</span></div>
-        </div>
-        <div class="analysis-card">
-            <div class="analysis-title">🎯 صفقات استثنائية</div>
-            <div class="analysis-row pos"><span>🏆 أفضل صفقة</span><span>+${cur}${fmtMoney(best)}</span></div>
-            <div class="analysis-row neg"><span>💀 أسوأ صفقة</span><span>${cur}${fmtMoney(Math.abs(worst))}</span></div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line)"><div style="font-size:.78rem;color:var(--bad);font-weight:700;margin-bottom:.4rem">💔 أسوأ 5 صفقات</div>
+        ${bottom5.map(t => `<div class="stat-row"><span class="stat-row-label">${esc(t.symbol)} · #${esc(t.ticket)} · ${esc(t.time)}</span><span class="stat-row-value neg">-${cur}${fmtMoney(t.pnl)}</span></div>`).join('')}
         </div>
     `;
 }
 
-/* ============ STRATEGIES ============ */
-function stratStats(id) {
-    const trades = getClosedTrades().filter(t => t.stratId === id);
-    const total = trades.length;
-    const wins = trades.filter(t => (t.pnl||0)>0).length;
-    const rate = total ? (wins/total)*100 : 0;
-    const netPnL = trades.reduce((s,t) => s + (t.pnl||0), 0);
-    return { total, wins, losses: total-wins, rate, netPnL };
+/* ============ CALENDAR ============ */
+function changeMonth(dir) {
+    state.calMonth += dir;
+    if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
+    if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
+    renderCalendar();
+}
+function renderCalendar() {
+    const y = state.calYear, m = state.calMonth;
+    $('#cal-month-label').textContent = `${AR_MONTHS[m]} ${y}`;
+
+    const first = new Date(y, m, 1);
+    const daysInMonth = new Date(y, m+1, 0).getDate();
+    const startDow = first.getDay();
+
+    const closed = getClosedTrades();
+    const dayPnl = {};
+    closed.forEach(t => {
+        if (!t.closeTime) return;
+        const d = new Date(t.closeTime);
+        if (d.getFullYear() !== y || d.getMonth() !== m) return;
+        const day = d.getDate();
+        dayPnl[day] = (dayPnl[day] || 0) + (t.pnl||0);
+    });
+
+    const cur = state.settings.currency;
+    const today = new Date();
+
+    let html = '';
+    ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'].forEach(d => html += `<div class="cal-dow">${d}</div>`);
+    for (let i = 0; i < startDow; i++) html += `<div class="cal-day empty"></div>`;
+
+    let monthTotal = 0, winDays = 0, lossDays = 0;
+    for (let d = 1; d <= daysInMonth; d++) {
+        const pnl = dayPnl[d] || 0;
+        const hasTrade = dayPnl[d] !== undefined;
+        const cls = !hasTrade ? '' : pnl > 0 ? 'win' : pnl < 0 ? 'loss' : 'breakeven';
+        const isToday = today.getFullYear() === y && today.getMonth() === m && today.getDate() === d;
+        const pnlText = hasTrade ? `${pnl>=0?'+':'-'}${Math.abs(pnl).toFixed(0)}` : '';
+        html += `<div class="cal-day ${cls} ${isToday?'today':''}">
+            <div class="day-num">${d}</div>
+            ${pnlText ? `<div class="day-pnl">${cur}${pnlText}</div>` : ''}
+        </div>`;
+        if (hasTrade) {
+            monthTotal += pnl;
+            if (pnl > 0) winDays++;
+            else if (pnl < 0) lossDays++;
+        }
+    }
+    $('#cal-grid').innerHTML = html;
+
+    $('#cal-summary').innerHTML = `
+        <div class="cal-sum-item"><div class="cal-sum-label">صافي الشهر</div><div class="cal-sum-value ${monthTotal>=0?'pos':'neg'}">${monthTotal>=0?'+':'-'}${cur}${fmtMoney(monthTotal)}</div></div>
+        <div class="cal-sum-item"><div class="cal-sum-label">أيام رابحة</div><div class="cal-sum-value pos">${winDays}</div></div>
+        <div class="cal-sum-item"><div class="cal-sum-label">أيام خاسرة</div><div class="cal-sum-value neg">${lossDays}</div></div>
+    `;
 }
 
-function renderStrats() {
-    const grid = $('#strat-grid');
-    if (!state.strategies.length) {
-        grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📚</div><div class="empty-text">لا توجد استراتيجيات</div><button class="btn btn-p btn-sm" style="margin-top:1rem" onclick="openStrategyModal()">+ استراتيجية</button></div>`;
+/* ============ NOTES ============ */
+const NOTE_TEMPLATES = {
+    'template-daily': { title: 'مراجعة يومية', content: '📅 التاريخ:\n\n✅ ما نجح:\n- \n\n❌ ما فشل:\n- \n\n💡 درس اليوم:\n- \n\n🎯 خطة الغد:\n- ', tags: 'مراجعة، يومي' },
+    'template-trade': { title: 'تحليل صفقة', content: '🎯 الرمز:\n📊 الاتجاه:\n💰 النتيجة:\n\n✅ السبب:\n- \n\n⚠️ الأخطاء:\n- \n\n💡 الدرس:\n- ', tags: 'صفقة، تحليل' },
+    'template-weekly': { title: 'مراجعة أسبوعية', content: '📊 الأسبوع من __ إلى __\n\n📈 الأداء:\n- عدد الصفقات:\n- نسبة النجاح:\n- صافي الربح:\n\n✅ نقاط القوة:\n- \n\n⚠️ نقاط الضعف:\n- \n\n🎯 خطة الأسبوع القادم:\n- ', tags: 'مراجعة، أسبوعي' },
+    'template-lesson': { title: 'درس مستفاد', content: '💡 الدرس:\n\n📝 السياق:\n\n🎯 التطبيق:\n', tags: 'درس' }
+};
+
+function renderNotes() {
+    const query = ($('#notes-search')?.value || '').toLowerCase();
+    let list = [...state.notes];
+    if (query) list = list.filter(n => (n.title + ' ' + n.content + ' ' + (n.tags||[]).join(' ')).toLowerCase().includes(query));
+    list.sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0) || b.createdAt - a.createdAt);
+
+    const el = $('#notes-list');
+    if (!list.length) {
+        el.innerHTML = `<div class="empty"><div class="empty-icon">📝</div><div class="empty-text">${query?'لا نتائج':'لا ملاحظات بعد'}</div></div>`;
         return;
     }
-    const cur = state.settings.currency;
-    grid.innerHTML = state.strategies.map(s => {
-        const st = stratStats(s.id);
-        const dirClass = s.dir==='buy'?'dc':s.dir==='sell'?'dp':'db';
-        const dirLabel = s.dir==='buy'?'▲ Buy':s.dir==='sell'?'▼ Sell':'◆ Both';
-        return `<div class="strat">
-            <div class="strat-head">
-                <div class="strat-title"><span class="strat-icon">${esc(s.icon)}</span><span class="strat-name">${esc(s.name)}</span></div>
+    el.innerHTML = list.map(n => {
+        const date = new Date(n.createdAt);
+        const dateStr = `${date.getDate()} ${AR_MONTHS[date.getMonth()]}`;
+        return `<div class="note-card ${n.pinned?'pinned':''}">
+            <div class="note-head">
+                <div class="note-title">${esc(n.title)}</div>
+                <div class="note-date">${dateStr}</div>
             </div>
-            <div class="strat-meta">
-                <span class="chip">${esc(s.cat)}</span>
-                <span class="chip ${dirClass}">${dirLabel}</span>
-                <span class="chip">${esc(s.tf)}</span>
-                <span class="chip">⚠️ ${s.risk}%</span>
-            </div>
-            <div class="strat-stats">
-                <div class="strat-stat"><div class="strat-stat-v">${st.total}</div><div class="strat-stat-l">صفقات</div></div>
-                <div class="strat-stat"><div class="strat-stat-v ${st.rate>=50?'pos':st.total?'neg':''}">${st.total?st.rate.toFixed(0)+'%':'—'}</div><div class="strat-stat-l">نسبة ربح</div></div>
-                <div class="strat-stat"><div class="strat-stat-v ${st.netPnL>0?'pos':st.netPnL<0?'neg':''}">${st.netPnL>0?'+':''}${cur}${fmtMoney(Math.abs(st.netPnL))}</div><div class="strat-stat-l">صافي</div></div>
-            </div>
-            <div class="strat-actions">
-                <button class="btn btn-g" onclick="openStrategyModal('${s.id}')">✏️</button>
-                <button class="btn btn-g" onclick="deleteStrategy('${s.id}')" style="color:var(--bad)">🗑</button>
+            <div class="note-preview">${esc(n.content).replace(/\n/g,'<br>')}</div>
+            ${n.tags && n.tags.length ? `<div class="note-tags">${n.tags.map(t => `<span class="note-tag">${esc(t)}</span>`).join('')}</div>` : ''}
+            <div class="note-actions">
+                <button onclick="editNote('${n.id}')">✏️ تعديل</button>
+                <button class="pin" onclick="togglePin('${n.id}')">${n.pinned?'📌 إلغاء التثبيت':'📌 تثبيت'}</button>
+                <button class="del" onclick="deleteNote('${n.id}')">🗑 حذف</button>
             </div>
         </div>`;
     }).join('');
 }
+function openNoteModal(templateId) {
+    const tpl = templateId && NOTE_TEMPLATES[templateId];
+    $('#n-id').value = '';
+    $('#n-title').value = tpl ? tpl.title : '';
+    $('#n-content').value = tpl ? tpl.content : '';
+    $('#n-tags').value = tpl ? tpl.tags : '';
+    state.notePinned = false;
+    $('#n-pinned').classList.remove('on');
+    $('#note-modal-title').textContent = '📝 ملاحظة جديدة';
+    $('#note-modal').classList.add('show');
+    setTimeout(() => $('#n-title').focus(), 100);
+}
+function editNote(id) {
+    const n = state.notes.find(x => x.id === id);
+    if (!n) return;
+    $('#n-id').value = n.id;
+    $('#n-title').value = n.title;
+    $('#n-content').value = n.content;
+    $('#n-tags').value = (n.tags||[]).join('، ');
+    state.notePinned = !!n.pinned;
+    $('#n-pinned').classList.toggle('on', state.notePinned);
+    $('#note-modal-title').textContent = '✏️ تعديل الملاحظة';
+    $('#note-modal').classList.add('show');
+}
+function toggleNotePinned(e) {
+    e.preventDefault();
+    state.notePinned = !state.notePinned;
+    $('#n-pinned').classList.toggle('on', state.notePinned);
+}
+function saveNote() {
+    const id = $('#n-id').value;
+    const title = $('#n-title').value.trim();
+    const content = $('#n-content').value.trim();
+    const tags = $('#n-tags').value.split(/[,،]/).map(s => s.trim()).filter(Boolean);
 
-function openStrategyModal(editId) {
-    $('#strat-modal').classList.add('show');
-    if (editId) {
-        const s = state.strategies.find(x => x.id === editId);
-        if (s) {
-            $('#strat-modal-title').textContent = 'تعديل استراتيجية';
-            $('#s-id').value = s.id;
-            $('#s-name').value = s.name;
-            $('#s-icon').value = s.icon;
-            $('#s-cat').value = s.cat;
-            $('#s-dir').value = s.dir;
-            $('#s-tf').value = s.tf;
-            $('#s-risk').value = s.risk;
-            $('#s-pairs').value = s.pairs;
-            $('#s-entry').value = s.entry;
-            $('#s-exit').value = s.exit;
-            return;
-        }
+    if (!title) { toast('⚠️', 'أدخل عنواناً', 'warning'); return; }
+
+    if (id) {
+        const n = state.notes.find(x => x.id === id);
+        if (n) { n.title = title; n.content = content; n.tags = tags; n.pinned = state.notePinned; n.updatedAt = Date.now(); }
+    } else {
+        state.notes.push({ id: 'n-' + Date.now(), title, content, tags, pinned: state.notePinned, createdAt: Date.now() });
     }
-    $('#strat-modal-title').textContent = 'استراتيجية جديدة';
-    ['s-id','s-name','s-pairs','s-entry','s-exit'].forEach(id => $('#'+id).value = '');
-    $('#s-icon').value = '⚡';
-    $('#s-cat').value = 'Breakout';
-    $('#s-dir').value = 'buy';
-    $('#s-tf').value = '5د';
-    $('#s-risk').value = '1';
-}
-
-function saveStrategy() {
-    const name = $('#s-name').value.trim();
-    if (!name) { toast('خطأ','الاسم مطلوب','warning'); return; }
-    const id = $('#s-id').value || ('s-' + Date.now());
-    const strat = {
-        id, name,
-        icon: $('#s-icon').value || '⚡',
-        cat: $('#s-cat').value,
-        dir: $('#s-dir').value,
-        tf: $('#s-tf').value,
-        risk: parseFloat($('#s-risk').value) || 1,
-        pairs: $('#s-pairs').value.trim(),
-        entry: $('#s-entry').value.trim(),
-        exit: $('#s-exit').value.trim(),
-        createdAt: Date.now()
-    };
-    const idx = state.strategies.findIndex(s => s.id === id);
-    if (idx >= 0) state.strategies[idx] = strat;
-    else state.strategies.push(strat);
     save();
-    closeModal('strat-modal');
-    renderStrats();
-    updateStratDropdown();
-    toast('✅ تم الحفظ', name, 'success');
+    closeModal('note-modal');
+    renderNotes();
+    toast('✅ تم', 'تم حفظ الملاحظة', 'success');
 }
-
-function deleteStrategy(id) {
-    if (!confirm('حذف الاستراتيجية؟')) return;
-    state.strategies = state.strategies.filter(s => s.id !== id);
-    state.trades.forEach(t => { if (t.stratId === id) t.stratId = null; });
+function togglePin(id) {
+    const n = state.notes.find(x => x.id === id);
+    if (!n) return;
+    n.pinned = !n.pinned;
     save();
-    renderStrats();
-    updateStratDropdown();
-    toast('تم الحذف','','info');
+    renderNotes();
 }
-
-/* ============ MARKET (Twelve Data + Sparklines) ============ */
-const MARKET_SYMBOLS = [
-    {name:'EUR/USD', symbol:'EUR/USD'},
-    {name:'GBP/USD', symbol:'GBP/USD'},
-    {name:'USD/JPY', symbol:'USD/JPY'},
-    {name:'XAU/USD', symbol:'XAU/USD'},
-    {name:'BTC/USD', symbol:'BTC/USD'}
-];
-
-function drawSparkline(prices, color) {
-    if (!prices || prices.length < 2) return '';
-    const w = 80, h = 30;
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    const range = max - min || 1;
-    const step = w / (prices.length - 1);
-    const points = prices.map((p, i) => {
-        const x = i * step;
-        const y = h - ((p - min) / range) * (h - 6) - 3;
-        return `${x.toFixed(1)},${y.toFixed(1)}`;
-    }).join(' ');
-    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-        <polyline points="${points}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-}
-
-async function fetchPriceHistory() {
-    const key = state.settings.twelveDataKey;
-    if (!key) return;
-    if (Date.now() - state.historyCachedAt < 3600000 && Object.keys(state.priceHistory).length) return;
-    for (const m of MARKET_SYMBOLS) {
-        try {
-            const url = `https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(m.symbol)}&interval=1h&outputsize=24&apikey=${encodeURIComponent(key)}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data.values && Array.isArray(data.values)) {
-                state.priceHistory[m.symbol] = data.values
-                    .slice().reverse()
-                    .map(v => parseFloat(v.close))
-                    .filter(n => !isNaN(n));
-            }
-        } catch (e) { console.warn('History failed:', m.symbol); }
-    }
-    state.historyCachedAt = Date.now();
+function deleteNote(id) {
+    if (!confirm('حذف هذه الملاحظة؟')) return;
+    state.notes = state.notes.filter(n => n.id !== id);
     save();
+    renderNotes();
+    toast('🗑 تم الحذف', '', 'warning', 1800);
 }
+
+/* ============ MARKET ============ */
+const MARKET_SYMBOLS = ['EUR/USD','GBP/USD','USD/JPY','XAU/USD','BTC/USD','US30'];
 
 async function refreshMarket() {
     const key = state.settings.twelveDataKey;
     const list = $('#market-list');
+
     if (!key) {
-        list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات</div></div>`;
+        list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">أضف مفتاح Twelve Data من الإعدادات لعرض الأسعار</div></div>`;
         return;
     }
-    list.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><div class="empty-text">جاري التحميل...</div></div>`;
+    list.innerHTML = `<div class="empty"><div class="empty-text">⏳ جاري التحميل...</div></div>`;
+
     try {
-        await fetchPriceHistory();
-        const symbols = MARKET_SYMBOLS.map(s => s.symbol).join(',');
-        const url = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbols)}&apikey=${encodeURIComponent(key)}`;
+        const symbolsStr = MARKET_SYMBOLS.join(',');
+        const url = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbolsStr)}&apikey=${key}`;
         const res = await fetch(url);
         const data = await res.json();
-        state.marketData = data;
+        const arr = Array.isArray(data) ? data : Object.values(data);
+
+        if (arr[0]?.code === 401 || arr[0]?.code === 429) {
+            list.innerHTML = `<div class="empty"><div class="empty-text">⚠️ ${esc(arr[0].message)}</div></div>`;
+            return;
+        }
+
+        state.marketData = {};
+        arr.forEach(d => {
+            if (!d || !d.symbol) return;
+            state.marketData[d.symbol] = d;
+            if (!state.priceHistory[d.symbol]) state.priceHistory[d.symbol] = [];
+            if (d.close) {
+                state.priceHistory[d.symbol].push(parseFloat(d.close));
+                if (state.priceHistory[d.symbol].length > 30) state.priceHistory[d.symbol].shift();
+            }
+        });
+        save();
         renderMarket();
         checkPriceAlerts();
         renderJournal();
     } catch(e) {
-        list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-text">فشل التحميل: ${esc(e.message)}</div></div>`;
+        list.innerHTML = `<div class="empty"><div class="empty-text">⚠️ فشل الاتصال: ${esc(e.message)}</div></div>`;
     }
+}
+
+function sparkline(points, up) {
+    if (!points || points.length < 2) return '';
+    const min = Math.min(...points), max = Math.max(...points);
+    const range = max - min || 1;
+    const w = 80, h = 30;
+    const step = w / (points.length - 1);
+    const path = points.map((v,i) => {
+        const x = i*step;
+        const y = h - ((v-min)/range)*h;
+        return `${i===0?'M':'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+    const color = up ? '#4a9d7e' : '#c96b6b';
+    return `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><path d="${path}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
 function renderMarket() {
     const list = $('#market-list');
-    const key = state.settings.twelveDataKey;
-    if (!key) {
-        list.innerHTML = `<div class="empty"><div class="empty-icon">🔑</div><div class="empty-text">أضف مفتاح Twelve Data في الإعدادات</div></div>`;
+    if (!state.marketData || !Object.keys(state.marketData).length) {
+        list.innerHTML = `<div class="empty"><div class="empty-icon">💹</div><div class="empty-text">اضغط 🔄 تحديث لعرض الأسعار</div></div>`;
         return;
     }
-    if (!state.marketData) {
-        list.innerHTML = `<div class="empty"><div class="empty-icon">📈</div><div class="empty-text">اضغط "🔄 تحديث" لجلب الأسعار</div></div>`;
-        return;
-    }
-    const data = state.marketData;
-    const rows = MARKET_SYMBOLS.map(m => {
-        const d = data[m.symbol] || data[m.symbol.replace('/','')];
-        if (!d || !d.close) return '';
-        const close = parseFloat(d.close);
-        const changePct = parseFloat(d.percent_change) || 0;
-        const isPos = changePct >= 0;
-        const history = state.priceHistory[m.symbol] || [];
-        const sparkColor = isPos ? '#4a9d7e' : '#c96b6b';
-        const spark = history.length >= 2 ? drawSparkline(history, sparkColor) : '';
-        const hasAlert = state.priceAlerts.some(a => a.symbol === m.symbol && a.enabled && !a.triggered);
-        const triggeredAlert = state.priceAlerts.some(a => a.symbol === m.symbol && a.triggered);
+    list.innerHTML = MARKET_SYMBOLS.map(sym => {
+        const d = state.marketData[sym];
+        if (!d) return '';
+        const price = parseFloat(d.close);
+        const change = parseFloat(d.percent_change || 0);
+        const up = change >= 0;
+        const hist = state.priceHistory[sym] || [];
         return `<div class="market-price">
-            <span class="market-symbol">${esc(m.name)} ${hasAlert ? '🔔' : triggeredAlert ? '✅' : ''}</span>
-            <div style="display:flex;align-items:center;gap:.7rem">
-                <div class="sparkline-wrap">${spark}</div>
-                <div style="text-align:left;min-width:80px">
-                    <div class="market-val">${close.toFixed(close>100?2:4)}</div>
-                    <div class="market-change ${isPos?'pos':'neg'}">${isPos?'+':''}${changePct.toFixed(2)}%</div>
-                </div>
+            <div>
+                <div class="market-symbol">${esc(sym)}</div>
+                <div class="market-change ${up?'pos':'neg'}">${up?'+':''}${change.toFixed(2)}%</div>
             </div>
-        </div>`;
-    }).filter(Boolean).join('');
-    list.innerHTML = rows || '<div class="empty">لا توجد بيانات</div>';
-}
-
-/* ============ PRICE ALERTS ============ */
-function initAlertSymbols() {
-    const sel = $('#alert-symbol');
-    if (!sel || sel.options.length) return;
-    sel.innerHTML = MARKET_SYMBOLS.map(m => `<option value="${m.symbol}">${esc(m.name)}</option>`).join('');
-}
-
-function renderAlertsList() {
-    const list = $('#alerts-list');
-    if (!list) return;
-    if (!state.priceAlerts.length) {
-        list.innerHTML = '<div class="empty" style="padding:1.5rem"><div class="empty-icon" style="font-size:2rem">🔔</div><div class="empty-text">لا توجد تنبيهات بعد</div></div>';
-        return;
-    }
-    list.innerHTML = state.priceAlerts.map(a => {
-        const dirText = a.direction === 'above' ? '⬆️ يصل إلى' : '⬇️ ينزل إلى';
-        const statusText = a.triggered ? '✅ تم' : a.enabled ? '⏳ نشط' : '⏸️ متوقف';
-        return `<div class="alert-item ${a.triggered?'triggered':''} ${!a.enabled?'disabled':''}">
-            <div class="alert-info">
-                <div class="alert-symbol">${esc(a.symbol)}</div>
-                <div class="alert-detail">${dirText} <strong>${a.target}</strong> · ${statusText}</div>
-            </div>
-            <div class="alert-actions">
-                <button class="alert-toggle ${a.enabled?'on':''}" onclick="toggleAlertActive('${a.id}')"></button>
-                <button class="icon-mini del" onclick="deletePriceAlert('${a.id}')" style="width:32px;height:32px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--soft);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem">🗑</button>
+            <div class="sparkline-wrap">${sparkline(hist, up)}</div>
+            <div style="text-align:left">
+                <div class="market-val">${price.toFixed(price>100?2:4)}</div>
+                <div style="font-size:.65rem;color:var(--mute)">${d.currency||''}</div>
             </div>
         </div>`;
     }).join('');
 }
 
+/* ============ ALERTS ============ */
+function initAlertSymbols() {
+    const sel = $('#alert-symbol');
+    if (sel.options.length) return;
+    sel.innerHTML = MARKET_SYMBOLS.concat(Object.keys(SYMBOL_SPECS).slice(0, 12))
+        .filter((v,i,a) => a.indexOf(v) === i)
+        .map(s => `<option value="${s}">${s}</option>`).join('');
+}
 function addPriceAlert() {
     const symbol = $('#alert-symbol').value;
     const direction = $('#alert-direction').value;
     const target = parseFloat($('#alert-target').value);
-    if (!symbol || !target || target <= 0) { toast('خطأ', 'أدخل سعراً صحيحاً', 'warning'); return; }
+    if (!symbol || !target) { toast('⚠️', 'أكمل البيانات', 'warning'); return; }
+
     state.priceAlerts.push({
         id: 'a-' + Date.now(),
         symbol, direction, target,
@@ -1938,50 +1932,65 @@ function addPriceAlert() {
     save();
     $('#alert-target').value = '';
     renderAlertsList();
-    toast('✅ تم إضافة التنبيه', `${symbol} → ${target}`, 'success');
-    beep(880, 100);
+    toast('🔔 تم', `تنبيه ${symbol} @ ${target}`, 'success');
 }
-
-function deletePriceAlert(id) {
-    state.priceAlerts = state.priceAlerts.filter(a => a.id !== id);
+function renderAlertsList() {
+    const el = $('#alerts-list');
+    if (!state.priceAlerts.length) {
+        el.innerHTML = `<div class="empty" style="padding:1.5rem"><div class="empty-text">لا تنبيهات نشطة</div></div>`;
+        return;
+    }
+    el.innerHTML = state.priceAlerts.map(a => {
+        const current = getCurrentPrice(a.symbol);
+        const dir = a.direction === 'above' ? '⬆️' : '⬇️';
+        return `<div class="alert-item ${a.triggered?'triggered':''} ${!a.enabled?'disabled':''}">
+            <div class="alert-info">
+                <div class="alert-symbol">${dir} ${esc(a.symbol)}</div>
+                <div class="alert-detail">الهدف: <strong>${a.target}</strong>${current?` · الحالي: ${current.toFixed(4)}`:''}</div>
+            </div>
+            <div class="alert-actions">
+                <button class="alert-toggle ${a.enabled?'on':''}" onclick="toggleAlert('${a.id}')"></button>
+                <button class="action-btn del" onclick="deleteAlert('${a.id}')">🗑</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+function toggleAlert(id) {
+    const a = state.priceAlerts.find(x => x.id === id);
+    if (!a) return;
+    a.enabled = !a.enabled;
+    if (a.enabled) a.triggered = false;
     save();
     renderAlertsList();
-    toast('تم الحذف', '', 'info');
 }
-
-function toggleAlertActive(id) {
-    const a = state.priceAlerts.find(x => x.id === id);
-    if (a) {
-        a.enabled = !a.enabled;
-        if (a.enabled) a.triggered = false;
-        save();
-        renderAlertsList();
-    }
+function deleteAlert(id) {
+    state.priceAlerts = state.priceAlerts.filter(x => x.id !== id);
+    save();
+    renderAlertsList();
 }
-
 function checkPriceAlerts() {
     if (!state.marketData) return;
-    let anyTriggered = false;
+    let changed = false;
     state.priceAlerts.forEach(a => {
         if (!a.enabled || a.triggered) return;
-        const d = state.marketData[a.symbol] || state.marketData[a.symbol.replace('/','')];
-        if (!d || !d.close) return;
-        const price = parseFloat(d.close);
-        const hit = (a.direction === 'above' && price >= a.target) ||
-                    (a.direction === 'below' && price <= a.target);
+        const price = getCurrentPrice(a.symbol);
+        if (!price) return;
+        const hit = a.direction === 'above' ? price >= a.target : price <= a.target;
         if (hit) {
             a.triggered = true;
-            anyTriggered = true;
-            beep(1200, 500);
-            setTimeout(() => beep(1000, 500), 250);
-            setTimeout(() => beep(1200, 500), 500);
-            toast(`🔔 تنبيه: ${a.symbol}`, `وصل السعر إلى ${price.toFixed(4)} (الهدف: ${a.target})`, 'success', 12000);
+            changed = true;
+            beep(1046, 400);
+            setTimeout(() => beep(1318, 300), 200);
+            toast(`🔔 ${a.symbol}`, `وصل إلى ${a.target} (الحالي ${price.toFixed(4)})`, 'warning', 10000);
+            if (Notification.permission === 'granted') {
+                new Notification('مسار — تنبيه', { body: `${a.symbol} @ ${a.target}`, icon: 'icon.svg' });
+            }
         }
     });
-    if (anyTriggered) { save(); renderAlertsList(); }
+    if (changed) { save(); renderAlertsList(); }
 }
 
-/* ============ CALCULATORS (MT5 Style) ============ */
+/* ============ CALCULATOR ============ */
 function calcPositionSize() {
     const cap = parseFloat($('#calc-cap').value) || 0;
     const riskPct = parseFloat($('#calc-risk').value) || 0;
@@ -1989,390 +1998,500 @@ function calcPositionSize() {
     const entry = parseFloat($('#calc-entry').value) || 0;
     const stop = parseFloat($('#calc-stop').value) || 0;
     const spec = getSymbolSpec(symbol);
-    const cur = state.settings.currency;
 
-    const riskAmount = cap * (riskPct / 100);
+    const riskAmount = cap * (riskPct/100);
     const pips = Math.abs(entry - stop) / spec.pipSize;
-    const lotSize = pips > 0 ? riskAmount / (pips * spec.pipValuePerLot) : 0;
 
-    $('#r-risk').textContent = `${cur}${riskAmount.toFixed(2)}`;
+    let pipValuePerLot = spec.pipValuePerLot;
+    if (symbol === 'XAU/USD') pipValuePerLot = 10;
+    if (symbol === 'XAG/USD') pipValuePerLot = 50;
+    if (['BTC/USD','ETH/USD'].includes(symbol)) pipValuePerLot = 1;
+
+    const lots = (pips > 0 && pipValuePerLot > 0) ? riskAmount / (pips * pipValuePerLot) : 0;
+
+    $('#r-risk').textContent = cur0(riskAmount);
     $('#r-pips').textContent = pips.toFixed(1);
-    $('#r-pipval').textContent = `${cur}${spec.pipValuePerLot}`;
-    $('#r-lot').textContent = lotSize > 0 ? lotSize.toFixed(2) : '—';
+    $('#r-pipval').textContent = cur0(pipValuePerLot);
+    $('#r-lot').textContent = lots > 0 ? lots.toFixed(2) : '—';
 }
+function cur0(n) { return state.settings.currency + Math.abs(n).toFixed(2); }
 
 function calcPL() {
     const symbol = $('#pl-symbol').value;
-    const volume = parseFloat($('#pl-lots').value) || 0;
+    const lots = parseFloat($('#pl-lots').value) || 0;
     const entry = parseFloat($('#pl-entry').value) || 0;
     const exit = parseFloat($('#pl-exit').value) || 0;
-    const dir = $('#pl-dir').value;
-
+    const dir = $('#pl-dir').value === 'buy' ? 1 : -1;
     const spec = getSymbolSpec(symbol);
-    const cur = state.settings.currency;
-    const pips = Math.abs(exit - entry) / spec.pipSize;
-    const pnl = calcPnL(symbol, dir, volume, entry, exit);
-    const pipVal = volume * spec.pipValuePerLot;
+
+    const pips = ((exit - entry) * dir) / spec.pipSize;
+    let pipValuePerLot = spec.pipValuePerLot;
+    if (symbol === 'XAU/USD') pipValuePerLot = 10;
+    if (symbol === 'XAG/USD') pipValuePerLot = 50;
+    if (['BTC/USD','ETH/USD'].includes(symbol)) pipValuePerLot = 1;
+
+    const pl = pips * pipValuePerLot * lots;
+    const pipValueTotal = pipValuePerLot * lots;
 
     $('#r2-pips').textContent = pips.toFixed(1);
-    $('#r2-pipval').textContent = `${cur}${pipVal.toFixed(2)}`;
-    const plEl = $('#r2-pl');
-    plEl.textContent = `${pnl>=0?'+':'-'}${cur}${fmtMoney(Math.abs(pnl))}`;
-    plEl.style.color = pnl >= 0 ? 'var(--ok)' : 'var(--bad)';
+    $('#r2-pipval').textContent = cur0(pipValueTotal);
+    const el = $('#r2-pl');
+    el.textContent = `${pl>=0?'+':'-'}${state.settings.currency}${Math.abs(pl).toFixed(2)}`;
+    el.style.color = pl >= 0 ? 'var(--ok)' : 'var(--bad)';
 }
 
-/* ============ AI CHAT ============ */
-function addMsg(html, who='bot') {
-    const b = $('#ai-body');
-    const el = document.createElement('div');
-    el.className = 'msg ' + who;
-    if (who === 'user') el.textContent = html;
-    else el.innerHTML = html;
-    b.appendChild(el);
-    b.scrollTop = b.scrollHeight;
-}
-
-function typing() {
-    const b = $('#ai-body');
-    const el = document.createElement('div');
-    el.className = 'msg bot';
-    el.id = 'typing-ind';
-    el.innerHTML = '<span style="color:var(--calm)">●</span> <span style="color:var(--mute)">●</span> ●';
-    b.appendChild(el);
-    b.scrollTop = b.scrollHeight;
-}
-function stopTyping() { const t = $('#typing-ind'); if (t) t.remove(); }
-
+/* ============ AI ASSISTANT ============ */
+function quickAsk(text) { $('#ai-text').value = text; sendAI(); }
 function handleImg(e) {
-    const f = e.target.files[0];
-    if (!f) return;
-    if (f.size > 5*1024*1024) { toast('حجم كبير','الحد 5MB','warning'); return; }
-    const r = new FileReader();
-    r.onload = ev => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
         state.img = ev.target.result;
-        $('#preview-img').src = ev.target.result;
-        $('#preview-info').textContent = f.name;
+        $('#preview-img').src = state.img;
+        $('#preview-info').textContent = `${file.name} · ${(file.size/1024).toFixed(0)} KB`;
         $('#preview').classList.add('show');
     };
-    r.readAsDataURL(f);
-    e.target.value = '';
+    reader.readAsDataURL(file);
 }
-
-function clearImg() { state.img = null; $('#preview').classList.remove('show'); }
-function quickAsk(t) { $('#ai-text').value = t; sendAI(); }
-
-function buildContext() {
-    const st = getStats();
-    const bal = getBalance();
-    const equity = getEquity();
-    const floating = getFloatingPnL();
-    const status = getStatus();
+function clearImg() {
+    state.img = null;
+    $('#preview').classList.remove('show');
+    $('#ai-file').value = '';
+}
+function addMsg(text, who = 'bot', img = null) {
+    const body = $('#ai-body');
+    const div = document.createElement('div');
+    div.className = 'msg ' + who;
+    div.innerHTML = esc(text).replace(/\n/g,'<br>') + (img ? `<img src="${img}">` : '');
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+    return div;
+}
+function getPerfSummary() {
+    const closed = getClosedTrades();
+    if (!closed.length) return 'لا توجد صفقات مغلقة بعد.';
+    const wins = closed.filter(t => (t.pnl||0) > 0).length;
+    const total = closed.length;
+    const pnl = closed.reduce((s,t) => s + (t.pnl||0), 0);
     const cur = state.settings.currency;
-    const last5 = getClosedTrades().slice(-5).map(t =>
-        `${t.symbol} ${t.type==='buy'?'BUY':'SELL'} ${(t.pnl||0)>=0?'ربح':'خسارة'}`
-    ).join(' | ') || 'لا يوجد';
-    const openCount = getOpenPositions().length;
-
-    return `[سياق المتداول]
-- الرصيد: ${cur}${bal.toFixed(2)}
-- حقوق الملكية: ${cur}${equity.toFixed(2)}
-- العائم P&L: ${floating>=0?'+':''}${cur}${floating.toFixed(2)}
-- الصفقات المفتوحة: ${openCount}
-- الصفقات المغلقة: ${st.total} (${st.wins}W/${st.losses}L) · نسبة ${st.rate.toFixed(1)}%
-- حالة الحساب: ${status.name}
-- آخر 5: ${last5}
-
-[التعليمات]
-أنت مساعد تداول محترف. أجب بالعربية. كن مختصراً ومباشراً.
-لا تعطي وعوداً بأرباح. اذكر المخاطر.
-
-[السؤال]`;
+    const bySym = {};
+    closed.forEach(t => { bySym[t.symbol] = (bySym[t.symbol]||0) + (t.pnl||0); });
+    const bestSym = Object.entries(bySym).sort((a,b) => b[1]-a[1])[0];
+    return `📊 ملخص أدائك الحقيقي:\n• إجمالي الصفقات: ${total}\n• الرابحة: ${wins} (${(wins/total*100).toFixed(1)}%)\n• صافي الربح/الخسارة: ${pnl>=0?'+':'-'}${cur}${Math.abs(pnl).toFixed(2)}\n• الرصيد الحالي: ${cur}${getBalance().toFixed(2)}\n• أفضل رمز: ${bestSym ? bestSym[0] + ' (' + (bestSym[1]>=0?'+':'-') + cur + Math.abs(bestSym[1]).toFixed(2) + ')' : '—'}`;
 }
-
 async function sendAI() {
     const input = $('#ai-text');
     const text = input.value.trim();
-    const hasImg = !!state.img;
-    if (!text && !hasImg) return;
-    addMsg(text || '(صورة)', 'user');
+    if (!text && !state.img) return;
+
+    addMsg(text || '🖼️ صورة مرفقة', 'user', state.img);
     input.value = '';
-    const img = state.img;
+    const imgToSend = state.img;
     clearImg();
-    typing();
+
+    const thinking = addMsg('...', 'bot');
+
     try {
-        if (typeof puter === 'undefined' || !puter.ai) throw new Error('Puter.js غير محمّل');
-        let res;
-        if (img) {
-            const prompt = text || 'حلل هذا الشارت الفني بالتفصيل بالعربية.';
-            res = await puter.ai.chat(prompt, img, {model:'google/gemini-2.5-flash'});
+        if (!window.puter || !puter.ai) throw new Error('puter.js غير محمّل');
+
+        let prompt;
+        if (text.includes('أدائي') || text.includes('أداء') || text.includes('لخص')) {
+            prompt = `أنت مساعد تنظيمي محايد. المستخدم يسأل عن أدائه. إليك ملخصه الحقيقي:\n\n${getPerfSummary()}\n\nقدم تلخيصاً منظماً وموضوعياً. ممنوع تماماً: توصيات شراء/بيع، تنبؤ بالأسعار، أو أي نصائح استثمارية.`;
         } else {
-            const ctx = buildContext() + '\n' + text;
-            res = await puter.ai.chat(ctx, {model:'google/gemini-2.5-flash'});
+            prompt = `أنت مساعد تنظيمي لتاجر. مهمتك: تلخيص، وصف ما في الصور، شرح مصطلحات فقط.
+
+قواعد صارمة:
+1. ممنوع تماماً تقديم توصيات شراء/بيع
+2. ممنوع التنبؤ بالأسعار
+3. ممنوع إعطاء إشارات دخول/خروج
+4. ممنوع نصائح استثمارية
+5. إن سأل المستخدم عن توصية قل بوضوح: "لا أقدم توصيات. يمكنني شرح مفهوم أو تلخيص أدائك فقط"
+
+عند وصف صورة شارت: صف فقط ما تراه (اتجاه عام، أنماط، مستويات). لا تقل "اشتر" أو "بع".
+
+سؤال المستخدم: ${text}`;
         }
-        stopTyping();
-        let out = '';
-        if (typeof res === 'string') out = res;
-        else if (res?.message?.content) {
-            if (typeof res.message.content === 'string') out = res.message.content;
-            else if (Array.isArray(res.message.content)) out = res.message.content.map(c => c.text || '').join('\n');
-        } else if (res?.text) out = res.text;
-        else out = JSON.stringify(res).substring(0, 800);
-        const html = esc(out).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-        addMsg(html, 'bot');
-        beep(880, 80);
-    } catch(err) {
-        stopTyping();
-        addMsg(`⚠️ خطأ: ${esc(err.message)}`, 'bot');
+
+        let reply;
+        if (imgToSend) {
+            reply = await puter.ai.chat(prompt, imgToSend);
+        } else {
+            reply = await puter.ai.chat(prompt);
+        }
+
+        const replyText = typeof reply === 'string' ? reply : (reply?.message?.content || reply?.text || String(reply));
+        thinking.innerHTML = esc(replyText).replace(/\n/g,'<br>');
+    } catch(e) {
+        thinking.innerHTML = `⚠️ تعذّر الاتصال بالمساعد: ${esc(e.message)}<br><span style="font-size:.75rem;color:var(--mute)">تأكد من اتصالك بالإنترنت.</span>`;
     }
+    $('#ai-body').scrollTop = $('#ai-body').scrollHeight;
 }
 
-/* ============ SETTINGS ============ */
-function toggleGroup(id) {
-    const el = $('#' + id);
-    const isOpen = el.classList.contains('open');
-    $$('.setting-group').forEach(g => g.classList.remove('open'));
-    if (!isOpen) el.classList.add('open');
-    if (id === 'g-tz') renderTZSettings();
+/* ============ CSV IMPORT ============ */
+function openImportModal() {
+    $('#csv-file').value = '';
+    $('#import-preview').innerHTML = '';
+    state.pendingCSVRows = null;
+    $('#import-modal').classList.add('show');
+}
+function parseCSVLine(line) {
+    const out = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; continue; }
+        if (c === ',' && !inQ) { out.push(cur); cur = ''; continue; }
+        cur += c;
+    }
+    out.push(cur);
+    return out.map(s => s.trim());
+}
+document.addEventListener('change', e => {
+    if (e.target.id !== 'csv-file') return;
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        const text = ev.target.result;
+        const lines = text.split(/\r?\n/).filter(l => l.trim());
+        if (lines.length < 2) { $('#import-preview').innerHTML = '⚠️ ملف فارغ'; return; }
+        const headers = parseCSVLine(lines[0]);
+        const rows = lines.slice(1).map(l => {
+            const cells = parseCSVLine(l);
+            const obj = {};
+            headers.forEach((h,i) => obj[h] = cells[i]);
+            return obj;
+        });
+        state.pendingCSVRows = rows;
+        $('#import-preview').innerHTML = `<div style="background:var(--okS);border:1px solid rgba(74,157,126,.3);border-radius:10px;padding:.8rem;font-size:.78rem">✅ تم قراءة ${rows.length} صف · الأعمدة: ${headers.slice(0,8).join(', ')}${headers.length>8?'...':''}</div>`;
+    };
+    reader.readAsText(file);
+});
+function processCSVImport() {
+    if (!state.pendingCSVRows) { toast('⚠️', 'اختر ملف CSV أولاً', 'warning'); return; }
+    const rows = state.pendingCSVRows;
+    let imported = 0, skipped = 0;
+
+    rows.forEach(r => {
+        const symbol = (r.Symbol || r.symbol || '').toUpperCase();
+        const typeRaw = (r.Type || r.type || '').toLowerCase();
+        const volume = parseFloat(r.Volume || r.volume);
+        const open = parseFloat(r.Price || r.price || r['Open Price']);
+        const profit = parseFloat(r.Profit || r.profit);
+        const ticket = r.Ticket || r.ticket || String(Date.now()).slice(-8);
+
+        if (!symbol || !volume || !open) { skipped++; return; }
+        if (state.trades.some(t => t.ticket === ticket)) { skipped++; return; }
+
+        const type = typeRaw.includes('sell') || typeRaw === 's' ? 'sell' : 'buy';
+        const sl = parseFloat(r['S/L'] || r.SL || 0) || null;
+        const tp = parseFloat(r['T/P'] || r.TP || 0) || null;
+        const isClosed = !isNaN(profit);
+        const timeStr = r['Open Time'] || r.Time || r.time || '';
+        const closeTime = r['Close Time'] || '';
+
+        state.trades.push({
+            id: 'csv-' + Date.now() + '-' + Math.random().toString(36).slice(2,6),
+            ticket: String(ticket),
+            symbol, type, volume, open, sl, tp,
+            note: '', tag: 'imported',
+            status: isClosed ? 'closed' : 'open',
+            pnl: isClosed ? profit : 0,
+            close: isClosed ? parseFloat(r['Close Price'] || r['Close'] || open) : null,
+            time: timeStr.split(' ').slice(1).join(' ') || '—',
+            openTime: timeStr ? new Date(timeStr).toISOString() : new Date().toISOString(),
+            closeTime: closeTime ? new Date(closeTime).toISOString() : (isClosed ? new Date().toISOString() : null),
+            createdAt: Date.now()
+        });
+        imported++;
+    });
+
+    save();
+    closeModal('import-modal');
+    renderJournal();
+    toast('📥 استيراد', `${imported} صفقة مستوردة · ${skipped} متجاهلة`, 'success', 5000);
 }
 
-function renderTZSettings() {
-    const grid = $('#tz-grid-settings');
-    if (!grid) return;
-    grid.innerHTML = TIMEZONES.map(tz => {
-        const active = state.settings.tzCity === tz.city;
-        const sign = tz.offset >= 0 ? '+' : '';
-        return `<button class="tz-option ${active?'active':''}" onclick="selectTZ('${tz.city}', ${tz.offset}, '${tz.flag}')">
-            <span class="flag">${tz.flag}</span>
-            <span class="city">${esc(tz.city)}</span>
-            <span class="offset">UTC${sign}${tz.offset}</span>
-        </button>`;
-    }).join('');
-}
-
-function updateToggles() {
+/* ============ MODALS / SETTINGS ============ */
+function closeModal(id) { $('#' + id).classList.remove('show'); }
+function openSettings() {
     $('#tg-sound').classList.toggle('on', state.soundEnabled);
     $('#tg-notif').classList.toggle('on', state.settings.notifEnabled !== false);
     $('#tg-no').classList.toggle('on', state.settings.notifOpen !== false);
     $('#tg-nc').classList.toggle('on', state.settings.notifClose !== false);
+    $('#tg-light')?.classList.toggle('on', state.settings.lightMode);
+    $('#vol-slider').value = state.settings.volume;
+    $('#vol-val').textContent = state.settings.volume + '%';
+    $('#set-cap').value = state.settings.capital;
+    $('#set-cur').value = state.settings.currency;
+    $('#set-leverage').value = '1:' + state.settings.leverage;
+    $('#set-loss-limit').value = state.settings.lossLimit || 0;
+    $('#set-td').value = state.settings.twelveDataKey || '';
+    $$('.theme-opt').forEach((el,i) => el.classList.toggle('active', i+1 === state.settings.theme));
+    ['sm','md','lg'].forEach(s => $('#font-'+s)?.classList.toggle('active', s === state.settings.fontSize));
+    $$('.advance-chip').forEach(el => el.classList.toggle('active', el.textContent.trim().startsWith(state.settings.advance)));
+    $('#adv-val').textContent = state.settings.advance + ' دقائق';
+    renderTZGrid($('#tz-grid-settings'));
+    $('#settings-modal').classList.add('show');
 }
-
+function toggleGroup(id) { $('#' + id).classList.toggle('open'); }
 function toggleSetting(key) {
     if (key === 'sound') {
         state.soundEnabled = !state.soundEnabled;
-        save(); updateToggles();
-        if (state.soundEnabled) beep(880, 100);
+        $('#tg-sound').classList.toggle('on', state.soundEnabled);
+        $('#sound-btn').classList.toggle('active', state.soundEnabled);
     } else if (key === 'notif') {
         state.settings.notifEnabled = state.settings.notifEnabled === false;
-        save(); updateToggles();
+        $('#tg-notif').classList.toggle('on', state.settings.notifEnabled);
     } else if (key === 'notifOpen') {
         state.settings.notifOpen = state.settings.notifOpen === false;
-        save(); updateToggles();
+        $('#tg-no').classList.toggle('on', state.settings.notifOpen);
     } else if (key === 'notifClose') {
         state.settings.notifClose = state.settings.notifClose === false;
-        save(); updateToggles();
+        $('#tg-nc').classList.toggle('on', state.settings.notifClose);
     }
-}
-
-function setVolume(v) {
-    state.settings.volume = parseInt(v);
-    $('#vol-val').textContent = v + '%';
     save();
 }
-
+function toggleSound() {
+    state.soundEnabled = !state.soundEnabled;
+    $('#sound-btn').classList.toggle('active', state.soundEnabled);
+    save();
+    if (state.soundEnabled) beep(880, 150);
+    toast(state.soundEnabled ? '🔊 الصوت مفعّل' : '🔇 الصوت مغلق', '', 'info', 1800);
+}
+function setVolume(v) { state.settings.volume = parseInt(v); $('#vol-val').textContent = v + '%'; save(); }
+function testSound() {
+    beep(660, 150);
+    setTimeout(() => beep(880, 150), 200);
+    setTimeout(() => beep(1100, 250), 400);
+}
 function setAdvance(min, btn) {
     state.settings.advance = min;
-    $('#adv-val').textContent = min + ' دقائق';
-    $$('.advance-chip').forEach(c => c.classList.remove('active'));
+    $$('.advance-chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    $('#adv-val').textContent = min + ' دقائق';
     save();
 }
-
-function testSound() {
-    beep(880, 200);
-    setTimeout(() => beep(660, 200), 300);
-    toast('🔊 اختبار','سمعت الصوت؟','success',2000);
-}
-
 function setTheme(n, el) {
-    document.body.className = document.body.className.replace(/theme-\d+/g,'').trim();
-    if (n !== 1) document.body.classList.add('theme-' + n);
     state.settings.theme = n;
+    document.body.classList.remove('theme-2','theme-3','theme-4','theme-5');
+    if (n > 1) document.body.classList.add('theme-' + n);
+    $$('.theme-opt').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
     save();
-    $$('.theme-opt').forEach(t => t.classList.remove('active'));
-    if (el) el.classList.add('active');
 }
-
 function setFontSize(size) {
+    state.settings.fontSize = size;
     document.body.classList.remove('font-sm','font-lg');
     if (size === 'sm') document.body.classList.add('font-sm');
-    else if (size === 'lg') document.body.classList.add('font-lg');
-    state.settings.fontSize = size;
+    if (size === 'lg') document.body.classList.add('font-lg');
+    ['sm','md','lg'].forEach(s => $('#font-'+s)?.classList.toggle('active', s === size));
     save();
-    $$('.font-btn').forEach(b => b.classList.remove('active'));
-    $('#font-' + size).classList.add('active');
 }
-
-function openSettings() {
-    $('#set-cap').value = state.settings.capital;
-    $('#set-cur').value = state.settings.currency;
-    $('#set-leverage').value = state.settings.leverage || 100;
-    $('#set-loss-limit').value = state.settings.lossLimit || 0;
-    $('#set-td').value = state.settings.twelveDataKey || '';
-    $('#vol-slider').value = state.settings.volume;
-    $('#vol-val').textContent = state.settings.volume + '%';
-    const adv = state.settings.advance;
-    $('#adv-val').textContent = adv + ' دقائق';
-    $$('.advance-chip').forEach(c => c.classList.toggle('active', parseInt(c.textContent) === adv));
-    const fs = state.settings.fontSize;
-    $$('.font-btn').forEach(b => b.classList.remove('active'));
-    $('#font-' + fs).classList.add('active');
-    $$('.theme-opt').forEach((t,i) => t.classList.toggle('active', i+1 === state.settings.theme));
-    updateToggles();
-    $$('.setting-group').forEach(g => g.classList.remove('open'));
-    renderTZSettings();
-    $('#settings-modal').classList.add('show');
-}
-
 function saveSettings() {
     state.settings.capital = parseFloat($('#set-cap').value) || 1000;
     state.settings.currency = $('#set-cur').value;
-    state.settings.leverage = parseInt($('#set-leverage').value) || 100;
+    state.settings.leverage = parseInt($('#set-leverage').value.replace('1:','')) || 100;
     state.settings.lossLimit = parseFloat($('#set-loss-limit').value) || 0;
     state.settings.twelveDataKey = $('#set-td').value.trim();
     save();
     closeModal('settings-modal');
     renderJournal();
-    renderStrats();
-    toast('✅ تم الحفظ','الإعدادات محدّثة','success');
+    toast('✅ تم', 'تم حفظ الإعدادات', 'success');
+    if (state.settings.twelveDataKey) refreshMarket();
 }
 
+/* ============ EXPORT / IMPORT / RESET ============ */
 function exportJSON() {
-    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, priceAlerts:state.priceAlerts, exportedAt:new Date().toISOString(), version:'2.0' };
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const data = {
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        settings: state.settings,
+        trades: state.trades,
+        notes: state.notes,
+        alerts: state.priceAlerts
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `masar-backup-${Date.now()}.json`;
-    document.body.appendChild(a); a.click(); a.remove();
+    a.download = `masar-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
     URL.revokeObjectURL(url);
-    toast('✅ تم التصدير','','success');
+    toast('📤 تم', 'تم تصدير البيانات', 'success');
 }
-
 function importJSON() { $('#import-file').click(); }
-
 function handleImport(e) {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = ev => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
         try {
             const data = JSON.parse(ev.target.result);
-            if (!data.settings && !data.trades) throw new Error('ملف غير صالح');
-            if (!confirm('سيتم استبدال بياناتك. متابعة؟')) return;
-            state.settings = {...DEFAULT_SETTINGS, ...data.settings};
-            state.trades = data.trades || [];
-            state.strategies = data.strategies || [];
-            state.priceAlerts = data.priceAlerts || [];
+            if (!confirm('سيتم استبدال البيانات الحالية. متابعة؟')) return;
+            if (data.settings) { state.settings = { ...DEFAULT_SETTINGS, ...data.settings }; }
+            if (Array.isArray(data.trades)) state.trades = data.trades;
+            if (Array.isArray(data.notes)) state.notes = data.notes;
+            if (Array.isArray(data.alerts)) state.priceAlerts = data.alerts;
             save();
-            applyAllSettings();
-            renderJournal(); renderStrats(); updateStratDropdown(); renderAlertsList();
+            applySettingsOnLoad();
+            renderJournal();
+            renderNotes();
+            renderAlertsList();
             closeModal('settings-modal');
-            toast('✅ تم الاستيراد','','success');
-        } catch(err) { toast('❌ فشل','ملف غير صالح','danger'); }
+            toast('📥 تم', 'تم استيراد البيانات بنجاح', 'success');
+        } catch(err) {
+            toast('⚠️', 'ملف غير صالح', 'danger');
+        }
     };
-    r.readAsText(f);
+    reader.readAsText(file);
     e.target.value = '';
 }
-
 function resetAll() {
-    if (!confirm('مسح كل البيانات؟ لا يمكن التراجع!')) return;
-    if (!confirm('تأكيد نهائي؟')) return;
+    if (!confirm('⚠️ سيتم حذف جميع الصفقات والملاحظات والتنبيهات والإعدادات. متأكد؟')) return;
+    if (!confirm('⚠️ تأكيد أخير: لا يمكن التراجع!')) return;
     localStorage.clear();
     location.reload();
 }
 
-function applyAllSettings() {
-    document.body.className = '';
-    if (state.settings.theme !== 1) document.body.classList.add('theme-' + state.settings.theme);
+/* ============ PWA ============ */
+function initPWA() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+            .then(reg => {
+                state.swRegistration = reg;
+                console.log('✅ SW registered:', reg.scope);
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker?.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            toast('🔄 تحديث متاح', 'أعد تحميل الصفحة للحصول على آخر نسخة', 'info', 8000);
+                        }
+                    });
+                });
+            })
+            .catch(err => console.warn('⚠️ SW فشل:', err));
+    }
+
+    window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        state.deferredPrompt = e;
+        $('#install-btn').classList.add('show');
+    });
+
+    window.addEventListener('appinstalled', () => {
+        state.deferredPrompt = null;
+        $('#install-btn').classList.remove('show');
+        toast('✅ تم التثبيت', 'يمكنك فتح مسار من سطح المكتب', 'success', 5000);
+    });
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        $('#install-btn').classList.remove('show');
+    }
+
+    window.addEventListener('online', () => updateNetStatus(true));
+    window.addEventListener('offline', () => updateNetStatus(false));
+    updateNetStatus(navigator.onLine);
+}
+
+function installPWA() {
+    if (!state.deferredPrompt) {
+        toast('ℹ️', 'التطبيق مثبّت بالفعل أو المتصفح لا يدعم التثبيت', 'info', 4000);
+        return;
+    }
+    state.deferredPrompt.prompt();
+    state.deferredPrompt.userChoice.then(choice => {
+        if (choice.outcome === 'accepted') toast('✅', 'جاري التثبيت...', 'success', 3000);
+        state.deferredPrompt = null;
+        $('#install-btn').classList.remove('show');
+    });
+}
+
+function updateNetStatus(isOnline) {
+    const el = $('#net-status');
+    const txt = $('#net-text');
+    if (!el) return;
+    el.classList.toggle('offline', !isOnline);
+    el.classList.toggle('online', isOnline);
+    txt.textContent = isOnline ? 'متصل' : 'غير متصل — يعمل من الذاكرة';
+    el.classList.add('show');
+    if (isOnline) setTimeout(() => el.classList.remove('show'), 3000);
+    if (isOnline && state.settings.twelveDataKey) refreshMarket();
+}
+
+function handlePWAAction() {
+    const params = new URLSearchParams(location.search);
+    const action = params.get('action');
+    if (action === 'new-trade') {
+        setTimeout(() => { switchTab('journal', $$('.tab')[0]); openTradeModal(); }, 500);
+    } else if (action === 'notes') {
+        setTimeout(() => switchTab('notes', $$('.tab')[3]), 500);
+    }
+    if (action) history.replaceState({}, '', location.pathname);
+}
+
+/* ============ APPLY SETTINGS ============ */
+function applySettingsOnLoad() {
+    document.body.classList.remove('theme-2','theme-3','theme-4','theme-5','font-sm','font-lg','light-mode');
+    if (state.settings.theme > 1) document.body.classList.add('theme-' + state.settings.theme);
     if (state.settings.fontSize === 'sm') document.body.classList.add('font-sm');
-    else if (state.settings.fontSize === 'lg') document.body.classList.add('font-lg');
+    if (state.settings.fontSize === 'lg') document.body.classList.add('font-lg');
+    if (state.settings.lightMode) document.body.classList.add('light-mode');
     $('#sound-btn').classList.toggle('active', state.soundEnabled);
+    updateClock();
+    renderSessions();
 }
-
-function closeModal(id) { $('#' + id).classList.remove('show'); }
-document.addEventListener('click', e => { if (e.target.classList.contains('modal-bg')) e.target.classList.remove('show'); });
-
-function toggleSound() {
-    state.soundEnabled = !state.soundEnabled;
-    save();
-    $('#sound-btn').classList.toggle('active', state.soundEnabled);
-    toast(state.soundEnabled?'🔔 مفعّل':'🔕 مغلق','',state.soundEnabled?'success':'info',2000);
-    if (state.soundEnabled) beep(880, 100);
-}
-
-/* Update close preview listener */
-document.addEventListener('input', e => {
-    if (e.target.id === 'close-price') updateClosePreview();
-});
 
 /* ============ INIT ============ */
 function init() {
-    applyAllSettings();
-
-    updateClock(); setInterval(updateClock, 1000);
-    greeting(); setInterval(greeting, 60000);
-    renderSessions(); setInterval(renderSessions, 30000);
-    checkAlerts(); setInterval(checkAlerts, 60000);
-
+    applySettingsOnLoad();
+    greeting();
     renderJournal();
-    renderStrats();
-    updateStratDropdown();
-    updateTZButton();
+    renderNotes();
+    renderAlertsList();
     initAlertSymbols();
-    calcPositionSize();
-    calcPL();
+    $('#close-price')?.addEventListener('input', updateClosePreview);
+
+    initPWA();
+    handlePWAAction();
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') $$('.modal-bg.show').forEach(m => m.classList.remove('show'));
+    });
+    $$('.modal-bg').forEach(m => {
+        m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
+    });
+
+    setInterval(updateClock, 1000);
+    setInterval(renderSessions, 30000);
+    setInterval(checkSessionAlerts, 30000);
+    setInterval(greeting, 60000);
 
     if (state.settings.twelveDataKey) {
         refreshMarket();
         setInterval(refreshMarket, 60000);
     }
+    setInterval(() => {
+        if (state.priceAlerts.some(a => a.enabled && !a.triggered)) {
+            if (!state.marketData && state.settings.twelveDataKey) refreshMarket();
+            else checkPriceAlerts();
+        }
+    }, 30000);
 
-    setTimeout(() => {
-        const h = new Date().getHours();
-        let title, msg;
-        if (h>=5 && h<12) { title='☀️ صباح الخير أيها المتداول'; msg='ابدأ يومك بصفاء ذهن'; }
-        else if (h>=12 && h<17) { title='🌤️ مساء الخير أيها المتداول'; msg='استمر بتركيزك'; }
-        else if (h>=17 && h<21) { title='🌆 مساء الخير أيها المتداول'; msg='وقت هادئ للتأمل'; }
-        else { title='🌙 مساء النور أيها المتداول'; msg='الأسواق تنام'; }
-        const w = $('#toasts');
-        const el = document.createElement('div');
-        el.className = 'toast greeting';
-        el.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
-        w.appendChild(el);
-        requestAnimationFrame(() => el.classList.add('show'));
-        setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 600); }, 8000);
-    }, 800);
+    if ('Notification' in window && Notification.permission === 'default') {
+        setTimeout(() => Notification.requestPermission().catch(()=>{}), 5000);
+    }
+
+    if (!localStorage.getItem('masar_welcomed')) {
+        setTimeout(() => {
+            toast('👋 أهلاً بك في مسار', 'دفتر المتداول الاحترافي — أداة تتبع فقط، بلا توصيات', 'greeting', 8000);
+            localStorage.setItem('masar_welcomed', '1');
+        }, 1000);
+    }
+    console.log('✅ مسار — جاهز');
 }
-
 document.addEventListener('DOMContentLoaded', init);
-
-/* ============ SERVICE WORKER ============ */
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-            .then(reg => {
-                console.log('✅ SW registered');
-                setInterval(() => reg.update().catch(() => {}), 60 * 1000);
-            })
-            .catch(err => console.log('❌ SW failed:', err));
-    });
-    let refreshing = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (refreshing) return;
-        refreshing = true;
-        window.location.reload();
-    });
-}
 </script>
 </body>
 </html>
