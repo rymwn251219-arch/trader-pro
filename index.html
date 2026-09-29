@@ -220,14 +220,34 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .chip-btn{padding:.35rem .75rem;background:var(--card2);border:1px solid var(--line);border-radius:15px;color:var(--soft);font-family:inherit;font-size:.7rem;cursor:pointer;transition:.2s}
 .chip-btn:hover{border-color:var(--calm);color:var(--calm)}
 
-.market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s}
+/* Market */
+.market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s;gap:.5rem}
 .market-price:hover{border-color:var(--line2)}
-.market-symbol{font-size:.9rem;font-weight:700}
+.market-symbol{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.3rem}
 .market-val{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--calm)}
-.market-change{font-size:.75rem;font-weight:700;padding:.2rem .5rem;border-radius:8px;margin-right:.5rem}
+.market-change{font-size:.72rem;font-weight:700;padding:.15rem .4rem;border-radius:6px;display:inline-block;margin-top:.15rem}
 .market-change.pos{color:var(--ok);background:var(--okS)}
 .market-change.neg{color:var(--bad);background:var(--badS)}
 
+/* Sparkline */
+.sparkline-wrap{width:80px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.sparkline-wrap svg{display:block}
+
+/* Alerts */
+.alert-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s}
+.alert-item.triggered{opacity:.55;border-color:var(--ok)}
+.alert-item.disabled{opacity:.4}
+.alert-info{flex:1;min-width:0}
+.alert-symbol{font-size:.88rem;font-weight:700;margin-bottom:.15rem}
+.alert-detail{font-size:.72rem;color:var(--mute)}
+.alert-detail strong{color:var(--calm)}
+.alert-actions{display:flex;gap:.35rem;align-items:center}
+.alert-toggle{width:36px;height:22px;border-radius:12px;background:var(--line2);border:none;cursor:pointer;position:relative;transition:.3s;padding:0;flex-shrink:0}
+.alert-toggle::after{content:'';position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.3s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.alert-toggle.on{background:var(--ok)}
+.alert-toggle.on::after{transform:translateX(-14px)}
+
+/* Settings */
 .setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem;transition:.3s}
 .setting-group:hover{border-color:var(--line2)}
 .setting-header{display:flex;align-items:center;gap:.9rem;padding:.9rem 1rem;cursor:pointer;user-select:none}
@@ -311,7 +331,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 @media(max-width:1100px){.clock-wrap{order:3;width:100%;max-width:100%}}
 @media(max-width:900px){.sessions{grid-template-columns:repeat(2,1fr)}.dash{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
-@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.1rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}.toast.greeting .toast-title{font-size:1.2rem}.toast.greeting .toast-msg{font-size:.85rem}}
+@media(max-width:600px){.main{padding:1rem}.brand h1{font-size:1.1rem}.brand p{display:none}.greeting-line{font-size:1.4rem}.greeting-line strong{font-size:1.6rem}.sessions{grid-template-columns:1fr 1fr;gap:.5rem}.session{padding:.8rem}.session-name{font-size:.82rem}.card{padding:1.1rem}.tab{font-size:.75rem;padding:.55rem .7rem;min-width:80px}.balance-value{font-size:1.9rem}.toast.greeting .toast-title{font-size:1.2rem}.toast.greeting .toast-msg{font-size:.85rem}.sparkline-wrap{width:60px;height:24px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -413,8 +433,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <section class="panel" id="p-market">
 <div class="card">
 <div class="card-head">
-<div><div class="card-title">💹 السوق المباشر</div><div class="card-sub">Twelve Data — يتحدث كل 60 ثانية</div></div>
+<div><div class="card-title">💹 السوق المباشر</div><div class="card-sub">Twelve Data — يتحدّث كل 60 ثانية</div></div>
+<div style="display:flex;gap:.4rem">
+<button class="btn btn-g btn-sm" onclick="openAlertsModal()">🔔 التنبيهات</button>
 <button class="btn btn-p btn-sm" onclick="refreshMarket()">🔄 تحديث</button>
+</div>
 </div>
 <div id="market-list"><div class="empty"><div class="empty-icon">📈</div><div>أضف مفتاح Twelve Data في الإعدادات لعرض الأسعار</div></div></div>
 </div>
@@ -538,6 +561,32 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="form-group"><label class="form-label">شروط الدخول</label><textarea class="form-input" id="s-entry"></textarea></div>
 <div class="form-group"><label class="form-label">شروط الخروج</label><textarea class="form-input" id="s-exit"></textarea></div>
 <div class="modal-actions"><button class="btn btn-g" onclick="closeModal('strat-modal')">إلغاء</button><button class="btn btn-p" onclick="saveStrategy()">حفظ</button></div>
+</div>
+</div>
+
+<div class="modal-bg" id="alerts-modal">
+<div class="modal" style="max-width:520px">
+<div class="modal-head"><div class="modal-title">🔔 تنبيهات الأسعار</div><button class="modal-close" onclick="closeModal('alerts-modal')">✕</button></div>
+
+<div class="form-row">
+<div class="form-group"><label class="form-label">الزوج</label><select class="form-input" id="alert-symbol"></select></div>
+<div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="alert-direction">
+<option value="above">⬆️ يصل إلى أو يتجاوز</option>
+<option value="below">⬇️ ينزل إلى أو أقل</option>
+</select></div>
+</div>
+<div class="form-group"><label class="form-label">السعر المستهدف</label><input type="number" class="form-input" id="alert-target" step="0.0001" placeholder="مثال: 4200"></div>
+<button class="btn btn-p" style="width:100%;justify-content:center" onclick="addPriceAlert()">+ إضافة تنبيه</button>
+
+<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)">
+<div style="font-size:.85rem;font-weight:700;margin-bottom:.7rem;color:var(--calm)">📋 التنبيهات النشطة</div>
+<div id="alerts-list"></div>
+</div>
+
+<div style="font-size:.7rem;color:var(--mute);margin-top:1rem;line-height:1.6;text-align:center">
+⚠️ التنبيهات تعمل فقط عندما يكون الموقع مفتوحاً<br>
+سيُفحص السعر تلقائياً كل 60 ثانية
+</div>
 </div>
 </div>
 
@@ -704,7 +753,10 @@ const state = {
     notified: JSON.parse(localStorage.getItem('tp_notified')||'{}'),
     img: null,
     equityChart: null,
-    marketData: null
+    marketData: null,
+    priceAlerts: JSON.parse(localStorage.getItem('tp_alerts')||'[]'),
+    priceHistory: JSON.parse(localStorage.getItem('tp_history')||'{}'),
+    historyCachedAt: 0
 };
 
 function save() {
@@ -713,6 +765,8 @@ function save() {
     localStorage.setItem('tp_strategies', JSON.stringify(state.strategies));
     localStorage.setItem('tp_sound', JSON.stringify(state.soundEnabled));
     localStorage.setItem('tp_notified', JSON.stringify(state.notified));
+    localStorage.setItem('tp_alerts', JSON.stringify(state.priceAlerts));
+    localStorage.setItem('tp_history', JSON.stringify(state.priceHistory));
 }
 
 function f12(h24, m) {
@@ -1295,6 +1349,147 @@ const MARKET_SYMBOLS = [
     {name:'BTC/USD', symbol:'BTC/USD'}
 ];
 
+function drawSparkline(prices, color) {
+    if (!prices || prices.length < 2) return '';
+    const w = 80, h = 30;
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const range = max - min || 1;
+    const step = w / (prices.length - 1);
+    const points = prices.map((p, i) => {
+        const x = i * step;
+        const y = h - ((p - min) / range) * (h - 6) - 3;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+        <polyline points="${points}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+}
+
+async function fetchPriceHistory() {
+    const key = state.settings.twelveDataKey;
+    if (!key) return;
+    if (Date.now() - state.historyCachedAt < 3600000 && Object.keys(state.priceHistory).length) return;
+
+    for (const m of MARKET_SYMBOLS) {
+        try {
+            const url = `https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(m.symbol)}&interval=1h&outputsize=24&apikey=${encodeURIComponent(key)}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.values && Array.isArray(data.values)) {
+                state.priceHistory[m.symbol] = data.values
+                    .slice()
+                    .reverse()
+                    .map(v => parseFloat(v.close))
+                    .filter(n => !isNaN(n));
+            }
+        } catch (e) {
+            console.warn('History failed for', m.symbol);
+        }
+    }
+    state.historyCachedAt = Date.now();
+    save();
+}
+
+function openAlertsModal() {
+    const sel = $('#alert-symbol');
+    sel.innerHTML = MARKET_SYMBOLS.map(m => `<option value="${m.symbol}">${esc(m.name)}</option>`).join('');
+    $('#alert-target').value = '';
+    renderAlertsList();
+    $('#alerts-modal').classList.add('show');
+}
+
+function renderAlertsList() {
+    const list = $('#alerts-list');
+    if (!state.priceAlerts.length) {
+        list.innerHTML = '<div class="empty" style="padding:1.5rem"><div class="empty-icon" style="font-size:2rem">🔔</div><div style="font-size:.8rem;color:var(--mute)">لا توجد تنبيهات بعد</div></div>';
+        return;
+    }
+    list.innerHTML = state.priceAlerts.map(a => {
+        const dirText = a.direction === 'above' ? '⬆️ يصل إلى' : '⬇️ ينزل إلى';
+        const statusText = a.triggered ? '✅ تم' : a.enabled ? '⏳ نشط' : '⏸️ متوقف';
+        return `<div class="alert-item ${a.triggered?'triggered':''} ${!a.enabled?'disabled':''}">
+            <div class="alert-info">
+                <div class="alert-symbol">${esc(a.symbol)}</div>
+                <div class="alert-detail">${dirText} <strong>${a.target}</strong> · ${statusText}</div>
+            </div>
+            <div class="alert-actions">
+                <button class="alert-toggle ${a.enabled?'on':''}" onclick="toggleAlertActive('${a.id}')" title="تفعيل/إيقاف"></button>
+                <button class="icon-mini del" onclick="deletePriceAlert('${a.id}')">🗑</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function addPriceAlert() {
+    const symbol = $('#alert-symbol').value;
+    const direction = $('#alert-direction').value;
+    const target = parseFloat($('#alert-target').value);
+    if (!symbol || !target || target <= 0) {
+        toast('خطأ', 'أدخل سعراً صحيحاً', 'warning');
+        return;
+    }
+    state.priceAlerts.push({
+        id: 'a-' + Date.now(),
+        symbol, direction, target,
+        enabled: true,
+        triggered: false,
+        createdAt: Date.now()
+    });
+    save();
+    $('#alert-target').value = '';
+    renderAlertsList();
+    toast('✅ تم إضافة التنبيه', `${symbol} → ${target}`, 'success');
+    beep(880, 100);
+}
+
+function deletePriceAlert(id) {
+    state.priceAlerts = state.priceAlerts.filter(a => a.id !== id);
+    save();
+    renderAlertsList();
+    toast('تم الحذف', '', 'info');
+}
+
+function toggleAlertActive(id) {
+    const a = state.priceAlerts.find(x => x.id === id);
+    if (a) {
+        a.enabled = !a.enabled;
+        if (a.enabled) a.triggered = false;
+        save();
+        renderAlertsList();
+    }
+}
+
+function checkPriceAlerts() {
+    if (!state.marketData) return;
+    let anyTriggered = false;
+    state.priceAlerts.forEach(a => {
+        if (!a.enabled || a.triggered) return;
+        const d = state.marketData[a.symbol] || state.marketData[a.symbol.replace('/','')];
+        if (!d || !d.close) return;
+        const price = parseFloat(d.close);
+        const hit = (a.direction === 'above' && price >= a.target) ||
+                    (a.direction === 'below' && price <= a.target);
+        if (hit) {
+            a.triggered = true;
+            anyTriggered = true;
+            beep(1200, 500);
+            setTimeout(() => beep(1000, 500), 250);
+            setTimeout(() => beep(1200, 500), 500);
+            toast(
+                `🔔 تنبيه: ${a.symbol}`,
+                `وصل السعر إلى ${price.toFixed(4)} (الهدف: ${a.target})`,
+                'success',
+                12000
+            );
+        }
+    });
+    if (anyTriggered) {
+        save();
+        renderAlertsList();
+    }
+}
+
 async function refreshMarket() {
     const key = state.settings.twelveDataKey;
     const list = $('#market-list');
@@ -1304,12 +1499,16 @@ async function refreshMarket() {
     }
     list.innerHTML = `<div class="empty"><div class="empty-icon">⏳</div><div>جاري التحميل...</div></div>`;
     try {
+        await fetchPriceHistory();
+
         const symbols = MARKET_SYMBOLS.map(s => s.symbol).join(',');
         const url = `https://api.twelvedata.com/quote?symbol=${encodeURIComponent(symbols)}&apikey=${encodeURIComponent(key)}`;
         const res = await fetch(url);
         const data = await res.json();
         state.marketData = data;
         renderMarket();
+
+        checkPriceAlerts();
     } catch(e) {
         list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div>فشل التحميل: ${esc(e.message)}</div></div>`;
     }
@@ -1333,11 +1532,22 @@ function renderMarket() {
         const close = parseFloat(d.close);
         const changePct = parseFloat(d.percent_change) || 0;
         const isPos = changePct >= 0;
+
+        const history = state.priceHistory[m.symbol] || [];
+        const sparkColor = isPos ? '#4a9d7e' : '#c96b6b';
+        const spark = history.length >= 2 ? drawSparkline(history, sparkColor) : '';
+
+        const hasAlert = state.priceAlerts.some(a => a.symbol === m.symbol && a.enabled && !a.triggered);
+        const triggeredAlert = state.priceAlerts.some(a => a.symbol === m.symbol && a.triggered);
+
         return `<div class="market-price">
-            <span class="market-symbol">${esc(m.name)}</span>
-            <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="market-val">${close.toFixed(close>100?2:4)}</span>
-                <span class="market-change ${isPos?'pos':'neg'}">${isPos?'+':''}${changePct.toFixed(2)}%</span>
+            <span class="market-symbol">${esc(m.name)} ${hasAlert ? '🔔' : triggeredAlert ? '✅' : ''}</span>
+            <div style="display:flex;align-items:center;gap:.7rem">
+                <div class="sparkline-wrap">${spark}</div>
+                <div style="text-align:left;min-width:80px">
+                    <div class="market-val">${close.toFixed(close>100?2:4)}</div>
+                    <div class="market-change ${isPos?'pos':'neg'}">${isPos?'+':''}${changePct.toFixed(2)}%</div>
+                </div>
             </div>
         </div>`;
     }).filter(Boolean).join('');
@@ -1450,7 +1660,7 @@ function saveSettings() {
 }
 
 function exportJSON() {
-    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, exportedAt:new Date().toISOString(), version:'1.0' };
+    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, priceAlerts:state.priceAlerts, exportedAt:new Date().toISOString(), version:'1.1' };
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1496,9 +1706,10 @@ function handleImport(e) {
             state.settings = {...DEFAULT_SETTINGS, ...data.settings};
             state.trades = data.trades || [];
             state.strategies = data.strategies || [];
+            state.priceAlerts = data.priceAlerts || [];
             save();
             applyAllSettings();
-            renderJournal(); renderStrats(); updateStratDropdown();
+            renderJournal(); renderStrats(); updateStratDropdown(); renderAlertsList();
             closeModal('settings-modal');
             toast('✅ تم الاستيراد','','success');
         } catch(err) { toast('❌ فشل','ملف غير صالح','danger'); }
@@ -1704,16 +1915,13 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
             .then(reg => {
                 console.log('✅ SW registered');
-                
-                // فحص تحديثات كل دقيقة
                 setInterval(() => {
                     reg.update().catch(() => {});
                 }, 60 * 1000);
             })
             .catch(err => console.log('❌ SW failed:', err));
     });
-    
-    // عند تفعيل SW جديد → حدّث الصفحة تلقائياً
+
     let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (refreshing) return;
