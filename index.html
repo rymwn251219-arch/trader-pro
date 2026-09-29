@@ -220,7 +220,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .chip-btn{padding:.35rem .75rem;background:var(--card2);border:1px solid var(--line);border-radius:15px;color:var(--soft);font-family:inherit;font-size:.7rem;cursor:pointer;transition:.2s}
 .chip-btn:hover{border-color:var(--calm);color:var(--calm)}
 
-/* Market */
 .market-price{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s;gap:.5rem}
 .market-price:hover{border-color:var(--line2)}
 .market-symbol{font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:.3rem}
@@ -229,11 +228,9 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .market-change.pos{color:var(--ok);background:var(--okS)}
 .market-change.neg{color:var(--bad);background:var(--badS)}
 
-/* Sparkline */
 .sparkline-wrap{width:80px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .sparkline-wrap svg{display:block}
 
-/* Alerts */
 .alert-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.8rem 1rem;background:var(--bg2);border:1px solid var(--line);border-radius:12px;margin-bottom:.5rem;transition:.3s}
 .alert-item.triggered{opacity:.55;border-color:var(--ok)}
 .alert-item.disabled{opacity:.4}
@@ -247,7 +244,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .alert-toggle.on{background:var(--ok)}
 .alert-toggle.on::after{transform:translateX(-14px)}
 
-/* Settings */
 .setting-group{background:var(--bg2);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:.6rem;transition:.3s}
 .setting-group:hover{border-color:var(--line2)}
 .setting-header{display:flex;align-items:center;gap:.9rem;padding:.9rem 1rem;cursor:pointer;user-select:none}
@@ -469,12 +465,72 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
 <section class="panel" id="p-calc">
 <div class="card">
-<div class="card-head"><div class="card-title">🧮 حاسبة حجم الصفقة</div></div>
+<div class="card-head"><div><div class="card-title">🔢 حاسبة اللوت</div><div class="card-sub">احسب حجم الصفقة المناسب</div></div></div>
 <div class="form-row">
 <div>
-<div class="form-group"><label class="form-label">رأس المال ($)</label><input type="number" class="form-input" id="calc-cap" value="1000"></div>
-<div class="form-group"><label class="form-label">المخاطرة (%)</label><input type="number" class="form-input" id="calc-risk" value="2" step="0.5"></div>
-<div class="form-group"><label class="form-label">عدد الصفقات المتزامنة</label><input type="number" class="form-input" id="calc-count" value="5"></div>
+<div class="form-group"><label class="form-label">💰 رأس المال ($)</label><input type="number" class="form-input" id="lot-capital" value="1000" step="1" oninput="calcLot()"></div>
+<div class="form-group"><label class="form-label">⚠️ نسبة المخاطرة (%)</label><input type="number" class="form-input" id="lot-risk" value="2" step="0.1" min="0.1" max="10" oninput="calcLot()"></div>
+<div class="form-group"><label class="form-label">🎯 نقطة الدخول</label><input type="number" class="form-input" id="lot-entry" value="1.1336" step="0.0001" oninput="calcLot()"></div>
+<div class="form-group"><label class="form-label">🛑 وقف الخسارة</label><input type="number" class="form-input" id="lot-stop" value="1.1300" step="0.0001" oninput="calcLot()"></div>
+</div>
+<div class="card" style="margin:0;background:linear-gradient(155deg,var(--calmS),transparent);display:flex;flex-direction:column;justify-content:center">
+<div style="text-align:center;padding:.7rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">💵 المبلغ المخاطر به</div>
+<div style="font-size:1.3rem;font-weight:800;color:var(--bad)" id="lot-risk-amount">$20.00</div>
+</div>
+<div style="text-align:center;padding:.8rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">📦 حجم الصفقة (لوت)</div>
+<div style="font-size:2rem;font-weight:800;color:var(--calm)" id="lot-size">0.000</div>
+</div>
+<div style="text-align:center;padding:.7rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">🔢 الوحدات</div>
+<div style="font-size:1.1rem;font-weight:800;color:var(--calm)" id="lot-units">0</div>
+</div>
+<div style="text-align:center;padding:.7rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">📏 المسافة (نقاط)</div>
+<div style="font-size:1.1rem;font-weight:800;color:var(--gold)" id="lot-pips">0</div>
+</div>
+<div style="text-align:center;padding:.7rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">💎 قيمة النقطة</div>
+<div style="font-size:1.1rem;font-weight:800;color:var(--ok)" id="lot-pip-value">0.0001</div>
+</div>
+<div id="lot-warning" style="text-align:center;font-size:.72rem;color:var(--warn);padding-top:.6rem;min-height:1em"></div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-head"><div><div class="card-title">📈 حاسبة الربح/الخسارة</div><div class="card-sub">احسب P&L المتوقع</div></div></div>
+<div class="form-row">
+<div>
+<div class="form-group"><label class="form-label">📦 حجم الصفقة (لوت)</label><input type="number" class="form-input" id="pl-lots" value="0.1" step="0.01" oninput="calcPL()"></div>
+<div class="form-group"><label class="form-label">🎯 نقطة الدخول</label><input type="number" class="form-input" id="pl-entry" value="1.1336" step="0.0001" oninput="calcPL()"></div>
+<div class="form-group"><label class="form-label">🎬 نقطة الخروج</label><input type="number" class="form-input" id="pl-exit" value="1.1380" step="0.0001" oninput="calcPL()"></div>
+</div>
+<div class="card" style="margin:0;background:linear-gradient(155deg,var(--calmS),transparent)">
+<div style="text-align:center;padding:.7rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">📏 عدد النقاط (PIP)</div>
+<div style="font-size:1.4rem;font-weight:800;color:var(--gold)" id="pl-pips">+44</div>
+</div>
+<div style="text-align:center;padding:.8rem 0;border-bottom:1px solid var(--line)">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">💎 قيمة النقطة</div>
+<div style="font-size:1.1rem;font-weight:800;color:var(--ok)" id="pl-pip-value">0.0001</div>
+</div>
+<div style="text-align:center;padding:.9rem 0">
+<div style="font-size:.72rem;color:var(--mute);margin-bottom:.3rem">💵 الربح / الخسارة</div>
+<div style="font-size:2rem;font-weight:800;color:var(--ok)" id="pl-amount">+$44.00</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-head"><div><div class="card-title">🛡️ إدارة المخاطر</div><div class="card-sub">توزيع رأس المال بين الصفقات</div></div></div>
+<div class="form-row">
+<div>
+<div class="form-group"><label class="form-label">💰 رأس المال ($)</label><input type="number" class="form-input" id="calc-cap" value="1000"></div>
+<div class="form-group"><label class="form-label">⚠️ المخاطرة (%)</label><input type="number" class="form-input" id="calc-risk" value="2" step="0.5"></div>
+<div class="form-group"><label class="form-label">🔢 عدد الصفقات المتزامنة</label><input type="number" class="form-input" id="calc-count" value="5"></div>
 <button class="btn btn-p" style="width:100%;justify-content:center" onclick="calcPos()">احسب</button>
 </div>
 <div class="card" style="margin:0;background:linear-gradient(155deg,var(--calmS),transparent)">
@@ -567,7 +623,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <div class="modal-bg" id="alerts-modal">
 <div class="modal" style="max-width:520px">
 <div class="modal-head"><div class="modal-title">🔔 تنبيهات الأسعار</div><button class="modal-close" onclick="closeModal('alerts-modal')">✕</button></div>
-
 <div class="form-row">
 <div class="form-group"><label class="form-label">الزوج</label><select class="form-input" id="alert-symbol"></select></div>
 <div class="form-group"><label class="form-label">الحالة</label><select class="form-input" id="alert-direction">
@@ -577,12 +632,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div>
 <div class="form-group"><label class="form-label">السعر المستهدف</label><input type="number" class="form-input" id="alert-target" step="0.0001" placeholder="مثال: 4200"></div>
 <button class="btn btn-p" style="width:100%;justify-content:center" onclick="addPriceAlert()">+ إضافة تنبيه</button>
-
 <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--line)">
 <div style="font-size:.85rem;font-weight:700;margin-bottom:.7rem;color:var(--calm)">📋 التنبيهات النشطة</div>
 <div id="alerts-list"></div>
 </div>
-
 <div style="font-size:.7rem;color:var(--mute);margin-top:1rem;line-height:1.6;text-align:center">
 ⚠️ التنبيهات تعمل فقط عندما يكون الموقع مفتوحاً<br>
 سيُفحص السعر تلقائياً كل 60 ثانية
@@ -906,6 +959,7 @@ function switchTab(name, btn) {
     if (name === 'analysis') renderAnalysis();
     if (name === 'strategies') renderStrats();
     if (name === 'market') renderMarket();
+    if (name === 'calc') { calcLot(); calcPL(); calcPos(); }
 }
 
 function tradePnL(t) {
@@ -1401,6 +1455,7 @@ function openAlertsModal() {
 
 function renderAlertsList() {
     const list = $('#alerts-list');
+    if (!list) return;
     if (!state.priceAlerts.length) {
         list.innerHTML = '<div class="empty" style="padding:1.5rem"><div class="empty-icon" style="font-size:2rem">🔔</div><div style="font-size:.8rem;color:var(--mute)">لا توجد تنبيهات بعد</div></div>';
         return;
@@ -1660,7 +1715,7 @@ function saveSettings() {
 }
 
 function exportJSON() {
-    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, priceAlerts:state.priceAlerts, exportedAt:new Date().toISOString(), version:'1.1' };
+    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, priceAlerts:state.priceAlerts, exportedAt:new Date().toISOString(), version:'1.2' };
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1744,6 +1799,61 @@ function toggleSound() {
     if (state.soundEnabled) beep(880, 100);
 }
 
+/* ===== حاسبة اللوت ===== */
+function calcLot() {
+    const capital = parseFloat($('#lot-capital').value) || 0;
+    const riskPct = parseFloat($('#lot-risk').value) || 0;
+    const entry = parseFloat($('#lot-entry').value) || 0;
+    const stop = parseFloat($('#lot-stop').value) || 0;
+
+    if (!capital || !riskPct || !entry || !stop) return;
+
+    const riskAmount = capital * (riskPct / 100);
+    const stopDistance = Math.abs(entry - stop);
+
+    let pipValue = 0.0001;
+    if (entry > 10) pipValue = 0.01;
+
+    const pips = stopDistance / pipValue;
+    const lotSize = pips > 0 ? riskAmount / (pips * 10) : 0;
+    const units = Math.round(lotSize * 100000);
+
+    $('#lot-risk-amount').textContent = `$${riskAmount.toFixed(2)}`;
+    $('#lot-size').textContent = lotSize < 0.01 ? lotSize.toFixed(4) : lotSize.toFixed(3);
+    $('#lot-units').textContent = units.toLocaleString('en-US');
+    $('#lot-pips').textContent = pips.toFixed(1);
+    $('#lot-pip-value').textContent = pipValue;
+
+    let warn = '';
+    if (pips <= 0) warn = '⚠️ الدخول والوقف متطابقان';
+    else if (lotSize < 0.01) warn = '⚠️ أقل من الحد الأدنى (0.01 لوت)';
+    else if (lotSize > 100) warn = '⚠️ حجم كبير جداً';
+    $('#lot-warning').textContent = warn;
+}
+
+/* ===== حاسبة P&L ===== */
+function calcPL() {
+    const lots = parseFloat($('#pl-lots').value) || 0;
+    const entry = parseFloat($('#pl-entry').value) || 0;
+    const exit = parseFloat($('#pl-exit').value) || 0;
+
+    if (!lots || !entry || !exit) return;
+
+    let pipValue = 0.0001;
+    if (entry > 10) pipValue = 0.01;
+
+    const pips = (exit - entry) / pipValue;
+    const profit = pips * 10 * lots;
+
+    const amountEl = $('#pl-amount');
+    amountEl.textContent = `${profit >= 0 ? '+' : '-'}$${Math.abs(profit).toFixed(2)}`;
+    amountEl.style.color = profit >= 0 ? 'var(--ok)' : 'var(--bad)';
+
+    $('#pl-pips').textContent = `${pips >= 0 ? '+' : ''}${pips.toFixed(1)}`;
+    $('#pl-pip-value').textContent = pipValue;
+}
+
+/* ===== إدارة المخاطر ===== */
 function calcPos() {
     const cap = parseFloat($('#calc-cap').value) || 0;
     const risk = parseFloat($('#calc-risk').value) || 0;
@@ -1880,6 +1990,8 @@ function init() {
     renderStrats();
     updateStratDropdown();
     calcPos();
+    calcLot();
+    calcPL();
 
     if (state.settings.twelveDataKey) {
         refreshMarket();
