@@ -116,7 +116,6 @@ body{font-family:'Tajawal',system-ui,sans-serif;font-size:var(--fs);background:r
 .card-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
 .card-sub{font-size:.72rem;color:var(--mute);margin-top:.15rem}
 
-/* MT5 Account Summary */
 .account-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:1.2rem}
 .acc-box{background:linear-gradient(155deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:1rem;position:relative;overflow:hidden}
 .acc-box::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%}
@@ -150,14 +149,12 @@ textarea.form-input{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 
-/* Position Type Toggle */
 .type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem}
 .type-btn{padding:.85rem;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--soft);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:8px}
 .type-btn:hover{border-color:var(--line2)}
 .type-btn.buy.active{border-color:var(--buy);background:var(--okS);color:var(--ok)}
 .type-btn.sell.active{border-color:var(--sell);background:var(--badS);color:var(--bad)}
 
-/* MT5 Table */
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:12px;border:1px solid var(--line)}
 .mt5-table{width:100%;border-collapse:collapse;font-size:.78rem;min-width:880px}
 .mt5-table thead{background:var(--card2);position:sticky;top:0;z-index:2}
@@ -182,7 +179,6 @@ input[list]::-webkit-calendar-picker-indicator{filter:invert(.7);cursor:pointer}
 .mt5-table .sl-price{color:var(--bad)}
 .mt5-table .tp-price{color:var(--ok)}
 
-/* mini tabs inside journal */
 .mini-tabs{display:flex;gap:.4rem;margin-bottom:1rem}
 .mini-tab{padding:.5rem 1rem;background:var(--card2);border:1px solid var(--line);border-radius:10px;color:var(--soft);font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:.25s;display:flex;align-items:center;gap:6px}
 .mini-tab:hover{border-color:var(--calm);color:var(--calm)}
@@ -433,7 +429,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 <!-- JOURNAL / ACCOUNT PAGE -->
 <section class="panel active" id="p-journal">
 
-<!-- Account Summary -->
 <div class="account-summary">
 <div class="acc-box balance">
 <div class="acc-label">الرصيد</div>
@@ -919,29 +914,35 @@ function toast(title, msg='', type='info', dur=3500) {
     setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 500); }, dur);
 }
 
-/* ============ SYMBOL SPECIFICATIONS (MT5) ============ */
+/* ============ SYMBOL SPECIFICATIONS (MT5 — محدّثة) ============ */
 const SYMBOL_SPECS = {
-    'EUR/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
-    'GBP/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
-    'AUD/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
-    'NZD/USD': { pipSize: 0.0001, pipValuePerLot: 10, decimals: 5, contractSize: 100000 },
-    'EUR/GBP': { pipSize: 0.0001, pipValuePerLot: 12.7, decimals: 5, contractSize: 100000 },
-    'EUR/AUD': { pipSize: 0.0001, pipValuePerLot: 6.6, decimals: 5, contractSize: 100000 },
-    'EUR/CAD': { pipSize: 0.0001, pipValuePerLot: 7.4, decimals: 5, contractSize: 100000 },
-    'GBP/AUD': { pipSize: 0.0001, pipValuePerLot: 6.6, decimals: 5, contractSize: 100000 },
-    'USD/JPY': { pipSize: 0.01, pipValuePerLot: 6.67, decimals: 3, contractSize: 100000 },
-    'USD/CHF': { pipSize: 0.0001, pipValuePerLot: 11.3, decimals: 5, contractSize: 100000 },
-    'USD/CAD': { pipSize: 0.0001, pipValuePerLot: 7.4, decimals: 5, contractSize: 100000 },
-    'EUR/JPY': { pipSize: 0.01, pipValuePerLot: 6.67, decimals: 3, contractSize: 100000 },
-    'GBP/JPY': { pipSize: 0.01, pipValuePerLot: 6.67, decimals: 3, contractSize: 100000 },
-    'AUD/JPY': { pipSize: 0.01, pipValuePerLot: 6.67, decimals: 3, contractSize: 100000 },
-    'XAU/USD': { pipSize: 0.01, pipValuePerLot: 1, decimals: 2, contractSize: 100 },
-    'XAG/USD': { pipSize: 0.001, pipValuePerLot: 5, decimals: 3, contractSize: 5000 },
-    'BTC/USD': { pipSize: 0.01, pipValuePerLot: 0.01, decimals: 2, contractSize: 1 },
-    'ETH/USD': { pipSize: 0.01, pipValuePerLot: 0.01, decimals: 2, contractSize: 1 },
-    'US30': { pipSize: 0.1, pipValuePerLot: 0.1, decimals: 1, contractSize: 1 },
-    'NAS100': { pipSize: 0.1, pipValuePerLot: 0.1, decimals: 1, contractSize: 1 },
-    'SP500': { pipSize: 0.1, pipValuePerLot: 0.1, decimals: 1, contractSize: 1 }
+    // Majors
+    'EUR/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'GBP/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'AUD/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'NZD/USD': { pipSize:0.0001, pipValuePerLot:10,    decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'USD/CHF': { pipSize:0.0001, pipValuePerLot:11.3,  decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'USD/CAD': { pipSize:0.0001, pipValuePerLot:7.4,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    // Crosses
+    'EUR/GBP': { pipSize:0.0001, pipValuePerLot:12.7,  decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'EUR/AUD': { pipSize:0.0001, pipValuePerLot:6.6,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'EUR/CAD': { pipSize:0.0001, pipValuePerLot:7.4,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'GBP/AUD': { pipSize:0.0001, pipValuePerLot:6.6,   decimals:5, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    // JPY pairs
+    'USD/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'EUR/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'GBP/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    'AUD/JPY': { pipSize:0.01,   pipValuePerLot:6.67,  decimals:3, contractSize:100000, minLot:0.01, maxLot:100, lotStep:0.01 },
+    // Metals
+    'XAU/USD': { pipSize:0.01,   pipValuePerLot:1,     decimals:2, contractSize:100,    minLot:0.01, maxLot:50,  lotStep:0.01 },
+    'XAG/USD': { pipSize:0.001,  pipValuePerLot:5,     decimals:3, contractSize:5000,   minLot:0.01, maxLot:100, lotStep:0.01 },
+    // Crypto (1 lot = 1 coin عند معظم الوسطاء)
+    'BTC/USD': { pipSize:1,      pipValuePerLot:1,     decimals:2, contractSize:1,      minLot:0.01, maxLot:10,  lotStep:0.01 },
+    'ETH/USD': { pipSize:0.1,    pipValuePerLot:0.1,   decimals:2, contractSize:1,      minLot:0.01, maxLot:50,  lotStep:0.01 },
+    // Indices (CFD — 1 lot = 1 contract)
+    'US30':    { pipSize:1,      pipValuePerLot:1,     decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 },
+    'NAS100':  { pipSize:1,      pipValuePerLot:1,     decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 },
+    'SP500':   { pipSize:0.1,    pipValuePerLot:0.1,   decimals:1, contractSize:1,      minLot:0.1,  maxLot:50,  lotStep:0.1 }
 };
 
 function getSymbolSpec(symbol) {
@@ -952,7 +953,6 @@ function calcPnL(symbol, type, volume, openPrice, closePrice) {
     const spec = getSymbolSpec(symbol);
     const direction = type === 'buy' ? 1 : -1;
     const priceDiff = (closePrice - openPrice) * direction;
-    // P&L = (Close - Open) × Direction × Volume × ContractSize
     const pnl = priceDiff * volume * spec.contractSize;
     return pnl;
 }
@@ -1308,7 +1308,6 @@ function getUsedMargin() {
     let margin = 0;
     getOpenTrades().forEach(t => {
         const spec = getSymbolSpec(t.symbol);
-        // Margin = (Volume × ContractSize × OpenPrice) / Leverage
         const notional = t.volume * spec.contractSize * t.openPrice;
         margin += notional / (state.settings.leverage || 100);
     });
@@ -1374,7 +1373,6 @@ function renderTradeList() {
     $('#open-count').textContent = getOpenTrades().length;
     $('#history-count').textContent = getClosedTrades().length;
 
-    // Update table header based on view
     const colHeader = $('#col-close-or-current');
     colHeader.textContent = view === 'open' ? 'الحالي' : 'الإغلاق';
 
@@ -1498,7 +1496,12 @@ function openTradeModal() {
     updateStratDropdown();
 }
 
-let ticketCounter = parseInt(localStorage.getItem('tp_ticket_counter') || '100000');
+/* ✅ FIX #1: Ticket generator — unique per device & session (no more conflicts) */
+function newTicket() {
+    const ts = Date.now().toString().slice(-7);
+    const rnd = Math.floor(Math.random() * 900) + 100;
+    return parseInt(ts + rnd, 10);
+}
 
 function saveTrade() {
     const symbol = $('#t-symbol').value.trim().toUpperCase();
@@ -1513,8 +1516,7 @@ function saveTrade() {
     if (!volume || volume <= 0) { toast('خطأ','أدخل حجم صحيح','warning'); return; }
     if (!openPrice || openPrice <= 0) { toast('خطأ','أدخل سعر فتح صحيح','warning'); return; }
 
-    ticketCounter++;
-    localStorage.setItem('tp_ticket_counter', String(ticketCounter));
+    const ticket = newTicket();
 
     const now = new Date();
     const offset = state.settings.tzOffset ?? 3;
@@ -1531,7 +1533,7 @@ function saveTrade() {
 
     state.trades.push({
         id: 't-' + Date.now() + '-' + Math.floor(Math.random()*1000),
-        ticket: ticketCounter,
+        ticket: ticket,
         symbol,
         type: state.tradeType,
         volume,
@@ -1846,7 +1848,7 @@ async function refreshMarket() {
         const data = await res.json();
         state.marketData = data;
         renderMarket();
-        renderAccount(); // Update floating P&L
+        renderAccount();
     } catch(e) { list.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><div class="empty-text">فشل التحميل: ${esc(e.message)}</div></div>`; }
 }
 
@@ -1983,7 +1985,7 @@ function saveSettings() {
     toast('✅ تم الحفظ','الإعدادات محدّثة','success');
 }
 function exportJSON() {
-    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, exportedAt:new Date().toISOString(), version:'2.0' };
+    const data = { settings:state.settings, trades:state.trades, strategies:state.strategies, exportedAt:new Date().toISOString(), version:'2.1' };
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -2040,27 +2042,52 @@ function toggleSound() {
 }
 
 /* ============ CALCULATORS ============ */
+/* ✅ FIX #3: حاسبة اللوت — مع تقييد الحدود وتحذيرات */
 function calcPositionSize() {
-    const cap = parseFloat($('#calc-cap').value) || 0;
-    const risk = parseFloat($('#calc-risk').value) || 0;
+    const cap    = parseFloat($('#calc-cap').value) || 0;
+    const risk   = parseFloat($('#calc-risk').value) || 0;
     const symbol = $('#calc-symbol').value;
-    const entry = parseFloat($('#calc-entry').value);
-    const stop = parseFloat($('#calc-stop').value);
-    const cur = state.settings.currency;
-    const spec = getSymbolSpec(symbol);
+    const entry  = parseFloat($('#calc-entry').value);
+    const stop   = parseFloat($('#calc-stop').value);
+    const cur    = state.settings.currency;
+    const spec   = getSymbolSpec(symbol);
 
-    if (!entry || !stop || entry === stop) {
+    if (!entry || !stop || entry === stop || !cap || !risk) {
         $('#r-lot').textContent = '—';
+        $('#r-risk').textContent = '—';
+        $('#r-pips').textContent = '—';
+        $('#r-pipval').textContent = '—';
         return;
     }
-    const riskAmt = cap * (risk/100);
-    const pips = Math.abs(entry - stop) / spec.pipSize;
-    const lotSize = pips > 0 ? riskAmt / (pips * spec.pipValuePerLot) : 0;
 
-    $('#r-risk').textContent = `${cur}${riskAmt.toFixed(2)}`;
-    $('#r-pips').textContent = pips.toFixed(1) + ' pips';
-    $('#r-pipval').textContent = `${cur}${spec.pipValuePerLot.toFixed(2)}`;
-    $('#r-lot').textContent = lotSize.toFixed(2) + ' لوت';
+    const riskAmt = cap * (risk / 100);
+    const pips    = Math.abs(entry - stop) / spec.pipSize;
+
+    if (pips <= 0) { $('#r-lot').textContent = '—'; return; }
+
+    const rawLot = riskAmt / (pips * spec.pipValuePerLot);
+
+    let lot = Math.max(spec.minLot, Math.min(spec.maxLot, rawLot));
+    lot = Math.round(lot / spec.lotStep) * spec.lotStep;
+    lot = parseFloat(lot.toFixed(2));
+
+    const isClamped = (lot !== parseFloat(rawLot.toFixed(2)));
+    const warn = isClamped
+        ? ` <span style="color:var(--warn);font-size:.7rem">(مُقيَّد — الحد ${lot === spec.minLot ? 'الأدنى' : 'الأعلى'})</span>`
+        : '';
+
+    $('#r-risk').textContent   = `${cur}${riskAmt.toFixed(2)}`;
+    $('#r-pips').textContent   = pips.toFixed(1) + ' pips';
+    $('#r-pipval').textContent = `${cur}${(spec.pipValuePerLot * lot).toFixed(2)}`;
+    $('#r-lot').innerHTML      = lot.toFixed(2) + ' لوت' + warn;
+
+    const notional = lot * spec.contractSize * entry;
+    const margin   = notional / (state.settings.leverage || 100);
+    if (margin > cap) {
+        $('#r-lot').innerHTML += `<div style="color:var(--bad);font-size:.7rem;margin-top:.3rem">
+            ⚠️ الهامش المطلوب ${cur}${margin.toFixed(0)} يتجاوز رأس المال ${cur}${cap}
+        </div>`;
+    }
 }
 
 function calcPL() {
@@ -2221,7 +2248,6 @@ function init() {
     calcPositionSize();
     calcPL();
 
-    // Listen to close price input
     const closePriceInput = $('#close-price');
     if (closePriceInput) closePriceInput.addEventListener('input', updateClosePreview);
 
@@ -2230,7 +2256,6 @@ function init() {
         setInterval(refreshMarket, 60000);
     }
 
-    // Refresh floating P&L every 30s
     setInterval(() => {
         if ($('#p-journal').classList.contains('active')) {
             const floating = getFloatingPnL();
