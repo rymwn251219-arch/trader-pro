@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#131b2e"/>
+      <stop offset="100%" stop-color="#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5fc19e"/>
+      <stop offset="100%" stop-color="#4a9d7e"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e08585"/>
+      <stop offset="100%" stop-color="#c96b6b"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
+  
+  <!-- Subtle border glow -->
+  <rect x="8" y="8" width="496" height="496" rx="107" fill="none" 
+        stroke="#6b9bd1" stroke-opacity="0.15" stroke-width="3"/>
+  
+  <!-- Gold trend line -->
+  <path d="M 80 340 L 160 280 L 240 300 L 340 200 L 420 160" 
+        stroke="#e0b876" stroke-width="8" stroke-linecap="round" 
+        fill="none" opacity="0.35" filter="url(#glow)"/>
+  
+  <!-- Green candle (bullish - longer) -->
+  <line x1="170" y1="150" x2="170" y2="400" 
+        stroke="#5fc19e" stroke-width="10" stroke-linecap="round"/>
+  <rect x="140" y="200" width="60" height="150" rx="8" 
+        fill="url(#green)" filter="url(#glow)"/>
+  
+  <!-- Red candle (bearish - shorter) -->
+  <line x1="340" y1="180" x2="340" y2="380" 
+        stroke="#e08585" stroke-width="10" stroke-linecap="round"/>
+  <rect x="310" y="230" width="60" height="110" rx="8" 
+        fill="url(#red)" filter="url(#glow)"/>
+  
+  <!-- Small wicks highlights -->
+  <circle cx="170" cy="150" r="8" fill="#5fc19e"/>
+  <circle cx="340" cy="180" r="8" fill="#e08585"/>
+</svg>
